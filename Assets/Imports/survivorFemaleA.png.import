@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/PolygonPrototype_Texture_01.png-7573336af9d7f581ab25af7e839b073a.s3tc.stex"
-path.etc2="res://.import/PolygonPrototype_Texture_01.png-7573336af9d7f581ab25af7e839b073a.etc2.stex"
+path.s3tc="res://.import/survivorFemaleA.png-a50b957962c288af57116ca4b1cc2818.s3tc.stex"
+path.etc2="res://.import/survivorFemaleA.png-a50b957962c288af57116ca4b1cc2818.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Assets/Models/Textures/PolygonPrototype_Texture_01.png"
-dest_files=[ "res://.import/PolygonPrototype_Texture_01.png-7573336af9d7f581ab25af7e839b073a.s3tc.stex", "res://.import/PolygonPrototype_Texture_01.png-7573336af9d7f581ab25af7e839b073a.etc2.stex" ]
+source_file="res://Assets/Imports/survivorFemaleA.png"
+dest_files=[ "res://.import/survivorFemaleA.png-a50b957962c288af57116ca4b1cc2818.s3tc.stex", "res://.import/survivorFemaleA.png-a50b957962c288af57116ca4b1cc2818.etc2.stex" ]
 
 [params]
 

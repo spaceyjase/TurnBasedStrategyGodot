@@ -1,8 +1,8 @@
 using Godot;
 
-namespace TurnBasedStrategyCourse_godot.Unit.Model
+namespace TurnBasedStrategyCourse_godot.Unit
 {
-  public class BaseUnit : Spatial
+  public class Unit : Spatial
   {
     [Export] private float movementSpeed = 4f;
     [Export] private float stoppingDistance = .1f;

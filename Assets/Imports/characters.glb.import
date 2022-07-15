@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/Characters.fbx-3e5ef2362da271dc14c919fb22088a97.scn"
+path="res://.import/characters.glb-ac3727d16a9530dd982a92dc8999f2ca.scn"
 
 [deps]
 
-source_file="res://Assets/Models/Characters.fbx"
-dest_files=[ "res://.import/Characters.fbx-3e5ef2362da271dc14c919fb22088a97.scn" ]
+source_file="res://Assets/Imports/characters.glb"
+dest_files=[ "res://.import/characters.glb-ac3727d16a9530dd982a92dc8999f2ca.scn" ]
 
 [params]
 
@@ -28,7 +28,7 @@ meshes/light_baking=0
 meshes/lightmap_texel_size=0.1
 skins/use_named_skins=true
 external_files/store_in_subdir=false
-animation/import=false
+animation/import=true
 animation/fps=15
 animation/filter_script=""
 animation/storage=false
