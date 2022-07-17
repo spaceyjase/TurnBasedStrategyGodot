@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Unit/Unit.cs" type="Script" id=1]
 [ext_resource path="res://Assets/Imports/survivorFemaleA.png" type="Texture" id=2]
@@ -209,12 +209,14 @@ animation = "rifle run"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=14]
 
+[sub_resource type="AnimationNodeStateMachineTransition" id=17]
+
 [sub_resource type="AnimationNodeStateMachine" id=15]
 "states/rifle aiming idle/node" = SubResource( 12 )
 "states/rifle aiming idle/position" = Vector2( 110, 22.74 )
 "states/rifle run/node" = SubResource( 13 )
 "states/rifle run/position" = Vector2( 416.2, 22.98 )
-transitions = [ "rifle aiming idle", "rifle run", SubResource( 14 ) ]
+transitions = [ "rifle aiming idle", "rifle run", SubResource( 14 ), "rifle run", "rifle aiming idle", SubResource( 17 ) ]
 start_node = "rifle aiming idle"
 graph_offset = Vector2( -57.3, -24.54 )
 
@@ -1890,6 +1892,18 @@ tracks/58/loop_wrap = true
 tracks/58/imported = false
 tracks/58/enabled = true
 tracks/58/keys = PoolRealArray( 0, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1, 3.13333, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1 )
+tracks/59/type = "value"
+tracks/59/path = NodePath("Armature/Skeleton:bones/18/enabled")
+tracks/59/interp = 1
+tracks/59/loop_wrap = true
+tracks/59/imported = false
+tracks/59/enabled = true
+tracks/59/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
 [sub_resource type="Animation" id=7]
 resource_name = "rifle run"
@@ -2308,6 +2322,18 @@ tracks/58/loop_wrap = true
 tracks/58/imported = false
 tracks/58/enabled = true
 tracks/58/keys = PoolRealArray( 0, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1, 0.766667, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1 )
+tracks/59/type = "value"
+tracks/59/path = NodePath("Armature/Skeleton:bones/18/enabled")
+tracks/59/interp = 1
+tracks/59/loop_wrap = true
+tracks/59/imported = false
+tracks/59/enabled = true
+tracks/59/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
 
 [sub_resource type="Animation" id=8]
 resource_name = "strafe"
@@ -3774,7 +3800,7 @@ bones/40/name = "RightHand"
 bones/40/parent = 39
 bones/40/rest = Transform( 0.997817, 0.0660423, 0.000124726, -0.0660313, 0.997682, -0.0164227, -0.00120903, 0.0163786, 0.999865, 2.42144e-07, 0.527228, 3.21073e-06 )
 bones/40/enabled = true
-bones/40/bound_children = [ NodePath("BoneAttachment") ]
+bones/40/bound_children = [  ]
 bones/41/name = "RightHandIndex1"
 bones/41/parent = 40
 bones/41/rest = Transform( 0.987998, 0.00908436, -0.154196, 0.008493, 0.993564, 0.112953, 0.15423, -0.112907, 0.981563, -3.63216e-08, 0.1386, -9.0804e-08 )
@@ -3867,7 +3893,7 @@ skin = SubResource( 2 )
 material/0 = SubResource( 11 )
 
 [node name="BoneAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( 0.239559, 0.0166833, -0.970738, -0.950711, 0.206779, -0.231062, 0.196873, 0.978245, 0.0653965, -0.172589, 2.30318, 0.267302 )
+transform = Transform( 0.240205, 0.0197327, -0.970521, -0.952416, 0.198039, -0.231697, 0.187629, 0.979995, 0.0663634, -0.171411, 2.30069, 0.256576 )
 bone_name = "RightHand"
 
 [node name="machinegun" parent="Armature/Skeleton/BoneAttachment" instance=ExtResource( 4 )]
