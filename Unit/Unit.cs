@@ -1,10 +1,12 @@
 using Godot;
+using TurnBasedStrategyCourse_godot.Extensions;
 
 namespace TurnBasedStrategyCourse_godot.Unit
 {
   public class Unit : Spatial
   {
     [Export] private float movementSpeed = 4f;
+    [Export] private float rotateSpeed = 15f;
     [Export] private float stoppingDistance = .1f;
 
     private Vector3 targetPosition = Vector3.Zero;
@@ -31,6 +33,9 @@ namespace TurnBasedStrategyCourse_godot.Unit
         var moveDirection = (targetPosition - Translation).Normalized();
         Translation += moveDirection * (movementSpeed * delta);
         
+        // TODO: lerp look at rotation
+        LookAt(GlobalTransform.origin - moveDirection, Vector3.Up);
+
         animationStateMachine.Travel(UnitAnimations.Running);
       }
       else
@@ -53,5 +58,6 @@ namespace TurnBasedStrategyCourse_godot.Unit
         SetMovementDirection(position);
       }
     }
+
   }
 }

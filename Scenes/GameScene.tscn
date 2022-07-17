@@ -29,7 +29,7 @@ shape = SubResource( 3 )
 [node name="Unit" parent="." instance=ExtResource( 1 )]
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.892428, 0.451189, 0, -0.451189, 0.892428, -8.32677e-05, 5.17298, 8.66836 )
+transform = Transform( 0.571502, 0.370246, -0.732328, 0, 0.892428, 0.451189, 0.820601, -0.257855, 0.510024, -10.8759, 5.17298, 8.66836 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource( 3 )
