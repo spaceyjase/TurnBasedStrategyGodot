@@ -37,8 +37,8 @@ namespace TurnBasedStrategyCourse_godot.Unit
         var moveDirection = (targetPosition - Translation).Normalized();
         Translation += moveDirection * (movementSpeed * delta);
         
-        // TODO: lerp look at rotation
-        LookAt(GlobalTransform.origin - moveDirection, Vector3.Up);
+        var newTransform = Transform.LookingAt(GlobalTransform.origin - moveDirection, Vector3.Up);
+        Transform = Transform.InterpolateWith(newTransform, rotateSpeed * delta);
 
         animationStateMachine.Travel(UnitAnimations.Running);
       }
