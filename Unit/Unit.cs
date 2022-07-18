@@ -1,10 +1,12 @@
 using Godot;
-using TurnBasedStrategyCourse_godot.Extensions;
 
 namespace TurnBasedStrategyCourse_godot.Unit
 {
   public class Unit : Spatial
   {
+    [Signal]
+    public delegate void OnUnitSelected(Unit selectedUnit);
+    
     [Export] private float movementSpeed = 4f;
     [Export] private float rotateSpeed = 15f;
     [Export] private float stoppingDistance = .1f;
@@ -17,6 +19,8 @@ namespace TurnBasedStrategyCourse_godot.Unit
     {
       animationTree = GetNode<AnimationTree>("AnimationTree");
       animationStateMachine = animationTree.Get("parameters/playback") as AnimationNodeStateMachinePlayback;
+
+      targetPosition = Translation;
     }
 
     public override void _Process(float delta)
@@ -44,18 +48,19 @@ namespace TurnBasedStrategyCourse_godot.Unit
       }
     }
 
-    private void SetMovementDirection(Vector3 direction)
+    public void SetMovementDirection(Vector3 direction)
     {
       targetPosition = direction;
     }
-
+    
     // ReSharper disable once UnusedMember.Local
-    private void _on_Ground_input_event(Node camera, InputEvent @event, Vector3 position, Vector3 normal, int shape_idx)
+    private void _on_SelectorArea_input_event(Node camera, InputEvent @event, Vector3 position, Vector3 normal,
+      int shape_idx)
     {
       if (@event is InputEventMouseButton eventMouseButton && eventMouseButton.Pressed &&
           eventMouseButton.ButtonIndex == 1)
       {
-        SetMovementDirection(position);
+        EmitSignal(nameof(OnUnitSelected), this);
       }
     }
 
