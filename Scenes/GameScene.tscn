@@ -1,10 +1,15 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Unit/Unit.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Models/Textures/PolygonPrototype_Texture_Grid_01.png" type="Texture" id=2]
 [ext_resource path="res://default_env.tres" type="Environment" id=3]
 [ext_resource path="res://Unit/UnitManager.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Assets/Imports/survivorMaleB.png" type="Texture" id=5]
+
+[sub_resource type="BoxShape" id=15]
+
+[sub_resource type="BoxShape" id=14]
+extents = Vector3( 1, 2, 1 )
 
 [sub_resource type="PlaneMesh" id=1]
 size = Vector2( 1, 1 )
@@ -3391,25 +3396,35 @@ tracks/58/keys = PoolRealArray( 0, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1, 1
 
 [node name="UnitManager" parent="." instance=ExtResource( 4 )]
 
-[node name="Ground" type="StaticBody" parent="."]
+[node name="Level" type="Node" parent="."]
+
+[node name="StaticBody2" type="StaticBody" parent="Level"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0798607, 1.06094, -3.9159 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Level/StaticBody2"]
+shape = SubResource( 15 )
+
+[node name="CSGBox" type="CSGBox" parent="Level/StaticBody2"]
+
+[node name="StaticBody" type="StaticBody" parent="Level"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.82649, 1.06094, -6.30649 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Level/StaticBody"]
+shape = SubResource( 14 )
+
+[node name="CSGBox2" type="CSGBox" parent="Level/StaticBody"]
+height = 4.0
+
+[node name="Ground" type="StaticBody" parent="Level"]
 transform = Transform( 20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0 )
 
-[node name="Plane" type="CSGMesh" parent="Ground"]
+[node name="Plane" type="CSGMesh" parent="Level/Ground"]
 mesh = SubResource( 1 )
 material = SubResource( 2 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Ground"]
+[node name="CollisionShape" type="CollisionShape" parent="Level/Ground"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.203242, 0 )
 shape = SubResource( 3 )
-
-[node name="Level" type="Node" parent="."]
-
-[node name="CSGBox" type="CSGBox" parent="Level"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0798607, 1.06094, -3.9159 )
-
-[node name="CSGBox2" type="CSGBox" parent="Level"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.82649, 1.06094, -6.30649 )
-height = 4.0
 
 [node name="Unit" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.38952, 0, -2.18757 )
@@ -3417,16 +3432,13 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.38952, 0, -2.18757 )
 [node name="Unit2" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.90434, 0, 2.22115 )
 
-[node name="Skeleton" parent="Unit2/Armature" index="0"]
-bones/40/bound_children = [ NodePath("BoneAttachment") ]
-
 [node name="characterMedium001" parent="Unit2/Armature/Skeleton" index="0"]
 material/0 = SubResource( 4 )
 
 [node name="BoneAttachment" parent="Unit2/Armature/Skeleton" index="1"]
-transform = Transform( 0.240128, 0.0197171, -0.970541, -0.952264, 0.198925, -0.231565, 0.188498, 0.979816, 0.066543, -0.170823, 2.30107, 0.255141 )
+transform = Transform( 0.239832, 0.0205843, -0.970596, -0.952555, 0.197981, -0.231175, 0.187401, 0.979989, 0.0670896, -0.175763, 2.30068, 0.271572 )
 
-[node name="AnimationTree" parent="Unit2" index="2"]
+[node name="AnimationTree" parent="Unit2" index="3"]
 parameters/playback = SubResource( 5 )
 
 [node name="AnimationPlayer" parent="Unit2/AnimationTree" index="0"]
@@ -3450,6 +3462,6 @@ transform = Transform( 0.769255, 0.467772, -0.435244, -0.0314127, 0.708058, 0.70
 shadow_enabled = true
 shadow_color = Color( 0.258824, 0.258824, 0.258824, 1 )
 
-[connection signal="input_event" from="Ground" to="UnitManager" method="_on_Ground_input_event"]
+[connection signal="input_event" from="Level/Ground" to="UnitManager" method="_on_Ground_input_event"]
 
 [editable path="Unit2"]

@@ -1,9 +1,10 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Unit/Unit.cs" type="Script" id=1]
 [ext_resource path="res://Assets/Imports/survivorFemaleA.png" type="Texture" id=2]
 [ext_resource path="res://Assets/Imports/skin_002.material" type="Material" id=3]
 [ext_resource path="res://Gun/machinegun.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Assets/Circle_Outlined.png" type="Texture" id=5]
 
 [sub_resource type="CylinderShape" id=18]
 radius = 0.720316
@@ -204,6 +205,15 @@ bind/57/pose = Transform( -0.992786, 0.009578, -0.119374, -0.119648, -0.0395774,
 
 [sub_resource type="SpatialMaterial" id=11]
 albedo_texture = ExtResource( 2 )
+
+[sub_resource type="QuadMesh" id=21]
+size = Vector2( 2, 2 )
+
+[sub_resource type="SpatialMaterial" id=20]
+flags_transparent = true
+flags_unshaded = true
+albedo_color = Color( 0.172549, 0.788235, 0.180392, 1 )
+albedo_texture = ExtResource( 5 )
 
 [sub_resource type="AnimationNodeAnimation" id=12]
 animation = "rifle aiming idle"
@@ -3903,11 +3913,17 @@ skin = SubResource( 2 )
 material/0 = SubResource( 11 )
 
 [node name="BoneAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( 0.239892, 0.0187263, -0.970618, -0.952042, 0.200129, -0.23144, 0.189914, 0.979591, 0.0658373, -0.171375, 2.30191, 0.255064 )
+transform = Transform( 0.239724, 0.0180483, -0.970673, -0.951534, 0.202772, -0.231227, 0.192652, 0.979059, 0.0657825, -0.177808, 2.30146, 0.281336 )
 bone_name = "RightHand"
 
 [node name="machinegun" parent="Armature/Skeleton/BoneAttachment" instance=ExtResource( 4 )]
 transform = Transform( 0.474009, -1.88422, 0.47439, 0.00601088, 0.489722, 1.93911, -1.94301, -0.45815, 0.121729, 0.258081, 0.366157, -0.03047 )
+
+[node name="SelectedVisual" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.01, 0 )
+mesh = SubResource( 21 )
+skeleton = NodePath("")
+material/0 = SubResource( 20 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 15 )

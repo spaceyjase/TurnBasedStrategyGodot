@@ -14,11 +14,14 @@ namespace TurnBasedStrategyCourse_godot.Unit
     private Vector3 targetPosition = Vector3.Zero;
     private AnimationTree animationTree;
     private AnimationNodeStateMachinePlayback animationStateMachine;
+    private Spatial selectedVisual;
     
     public override void _Ready()
     {
       animationTree = GetNode<AnimationTree>("AnimationTree");
       animationStateMachine = animationTree.Get("parameters/playback") as AnimationNodeStateMachinePlayback;
+      selectedVisual = GetNode<Spatial>("SelectedVisual");
+      selectedVisual.Hide();
 
       targetPosition = Translation;
     }
@@ -64,5 +67,14 @@ namespace TurnBasedStrategyCourse_godot.Unit
       }
     }
 
+    public void Select()
+    {
+      selectedVisual.Show();
+    }
+
+    public void Deselect()
+    {
+      selectedVisual.Hide();
+    }
   }
 }

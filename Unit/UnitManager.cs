@@ -4,7 +4,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
 {
   public class UnitManager : Node
   {
-    private Unit _selectedUnit;
+    private Unit selectedUnit;
 
     public override void _Ready()
     {
@@ -14,9 +14,11 @@ namespace TurnBasedStrategyCourse_godot.Unit
       }
     }
 
-    private void OnUnitSelected(Unit selectedUnit)
+    private void OnUnitSelected(Unit unit)
     {
-      _selectedUnit = selectedUnit;
+      this.selectedUnit?.Deselect();
+      this.selectedUnit = unit;
+      this.selectedUnit.Select();
     }
     
     // ReSharper disable once UnusedMember.Local
@@ -24,11 +26,8 @@ namespace TurnBasedStrategyCourse_godot.Unit
     {
       if (!(@event is InputEventMouseButton eventMouseButton) || !eventMouseButton.Pressed ||
           eventMouseButton.ButtonIndex != 1) return;
-      
-      if (_selectedUnit != null)
-      {
-        _selectedUnit.SetMovementDirection(position);
-      }
+
+      selectedUnit?.SetMovementDirection(position);
     }
   }
 }
