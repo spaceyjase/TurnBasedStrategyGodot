@@ -6,7 +6,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
   {
     [Signal]
     public delegate void OnUnitSelected(Unit selectedUnit);
-    
+
     [Export] private float movementSpeed = 4f;
     [Export] private float rotateSpeed = 15f;
     [Export] private float stoppingDistance = .1f;
@@ -15,7 +15,25 @@ namespace TurnBasedStrategyCourse_godot.Unit
     private AnimationTree animationTree;
     private AnimationNodeStateMachinePlayback animationStateMachine;
     private Spatial selectedVisual;
-    
+    private bool selected;
+
+    public bool Selected
+    {
+      get => selected;
+      set
+      {
+        selected = value;
+        if (selected)
+        {
+          selectedVisual.Show();
+        }
+        else
+        {
+          selectedVisual.Hide();
+        }
+      }
+    }
+
     public override void _Ready()
     {
       animationTree = GetNode<AnimationTree>("AnimationTree");
@@ -39,7 +57,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
       {
         var moveDirection = (targetPosition - Translation).Normalized();
         Translation += moveDirection * (movementSpeed * delta);
-        
+
         var newTransform = Transform.LookingAt(GlobalTransform.origin - moveDirection, Vector3.Up);
         Transform = Transform.InterpolateWith(newTransform, rotateSpeed * delta);
 
@@ -55,7 +73,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
     {
       targetPosition = direction;
     }
-    
+
     // ReSharper disable once UnusedMember.Local
     private void _on_SelectorArea_input_event(Node camera, InputEvent @event, Vector3 position, Vector3 normal,
       int shape_idx)
@@ -65,16 +83,6 @@ namespace TurnBasedStrategyCourse_godot.Unit
       {
         EmitSignal(nameof(OnUnitSelected), this);
       }
-    }
-
-    public void Select()
-    {
-      selectedVisual.Show();
-    }
-
-    public void Deselect()
-    {
-      selectedVisual.Hide();
     }
   }
 }

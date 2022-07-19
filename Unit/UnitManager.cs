@@ -16,9 +16,9 @@ namespace TurnBasedStrategyCourse_godot.Unit
 
     private void OnUnitSelected(Unit unit)
     {
-      this.selectedUnit?.Deselect();
-      this.selectedUnit = unit;
-      this.selectedUnit.Select();
+      if (selectedUnit != null) selectedUnit.Selected = false;
+      selectedUnit = unit;
+      selectedUnit.Selected = true;
     }
     
     // ReSharper disable once UnusedMember.Local
