@@ -1,21 +1,26 @@
 using Godot;
+using TurnBasedStrategyCourse_godot.Grid;
+using TurnBasedStrategyCourse_godot.Level;
 
 namespace TurnBasedStrategyCourse_godot.Unit
 {
   public class Unit : Spatial
   {
-    [Signal]
-    public delegate void OnUnitSelected(Unit selectedUnit);
+    [Signal] public delegate void OnUnitSelected(Unit selectedUnit);
+    [Signal] public delegate void OnUnitMoving(Unit selectedUnit, GridPosition oldPosition, GridPosition newPosition);
 
     [Export] private float movementSpeed = 4f;
     [Export] private float rotateSpeed = 15f;
     [Export] private float stoppingDistance = .1f;
+    [Export] private NodePath levelGridNodePath;
 
     private Vector3 targetPosition = Vector3.Zero;
     private AnimationTree animationTree;
     private AnimationNodeStateMachinePlayback animationStateMachine;
     private Spatial selectedVisual;
     private bool selected;
+    private LevelGrid levelGrid;
+    private GridPosition gridPosition;
 
     public bool Selected
     {
@@ -42,6 +47,9 @@ namespace TurnBasedStrategyCourse_godot.Unit
       selectedVisual.Hide();
 
       targetPosition = Translation;
+      
+      levelGrid = GetNode<LevelGrid>(levelGridNodePath);
+      gridPosition = levelGrid.GetGridPosition(Translation);
     }
 
     public override void _Process(float delta)
@@ -67,6 +75,12 @@ namespace TurnBasedStrategyCourse_godot.Unit
       {
         animationStateMachine.Travel(UnitAnimations.Idle);
       }
+      
+      var newGridPosition = levelGrid.GetGridPosition(Translation);
+      if (newGridPosition == gridPosition) return;
+      
+      EmitSignal(nameof(OnUnitMoving), this, gridPosition, newGridPosition);
+      gridPosition = newGridPosition;
     }
 
     public void SetMovementDirection(Vector3 direction)
