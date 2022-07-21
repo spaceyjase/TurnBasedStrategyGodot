@@ -7,12 +7,16 @@ namespace TurnBasedStrategyCourse_godot.Level
   public class LevelGrid : Node
   {
     [Export] private PackedScene debugScene;
+    [Export] private bool showDebug;
+    [Export] private int width = 10;
+    [Export] private int height = 10;
+    [Export] private float cellSize = 2f;
     
     private GridSystem gridSystem;
 
     public override void _Ready()
     {
-      gridSystem = new GridSystem(10, 10);
+      gridSystem = new GridSystem(width, height, cellSize);
       
       foreach (Unit.Unit unit in GetTree().GetNodesInGroup("Units"))
       {
@@ -20,6 +24,8 @@ namespace TurnBasedStrategyCourse_godot.Level
         AddUnitAtGridPosition(GetGridPosition(unit.GlobalTransform.origin), unit);
       }
 
+      if (!showDebug) return;
+      
       gridSystem.CreateDebugObjects(this, debugScene);
     }
 

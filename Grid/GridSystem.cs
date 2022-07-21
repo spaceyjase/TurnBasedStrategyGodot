@@ -4,11 +4,11 @@ namespace TurnBasedStrategyCourse_godot.Grid
 {
   public class GridSystem
   {
-    private int width;
-    private int height;
-    private float cellSize;
+    private readonly int width;
+    private readonly int height;
+    private readonly float cellSize;
 
-    private GridObject[,] grid;
+    private readonly GridObject[,] grid;
 
     public GridSystem(int width, int height, float cellSize = 2f)
     {
@@ -51,10 +51,11 @@ namespace TurnBasedStrategyCourse_godot.Grid
         {
           var gridPosition = new GridPosition(x, z);
 
-          if (!(scene.Instance() is Spatial box)) continue;
-
-          parent.AddChild(box);
-          box.Translation = GetWorldPosition(gridPosition);
+          if (!(scene.Instance() is Spatial debug)) continue;
+          
+          debug.Name = $"{gridPosition.X}_{gridPosition.Z}";
+          parent.AddChild(debug);
+          debug.Translation = GetWorldPosition(gridPosition);
         }
       }
     }

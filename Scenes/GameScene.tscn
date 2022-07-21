@@ -3385,6 +3385,7 @@ tracks/58/keys = PoolRealArray( 0, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1, 1
 
 [node name="LevelGrid" parent="." instance=ExtResource( 2 )]
 debugScene = ExtResource( 6 )
+showDebug = true
 
 [node name="Unit" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.39016, 0, 2.91495 )
@@ -3394,6 +3395,9 @@ levelGridNodePath = NodePath("../LevelGrid")
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.3475, 0, 11.905 )
 levelGridNodePath = NodePath("../LevelGrid")
 
+[node name="Armature" parent="Unit2" index="1"]
+transform = Transform( 1, 0, 0, 0, 1, 4.37114e-08, 0, -4.37114e-08, 1, 0, 0, 0 )
+
 [node name="Skeleton" parent="Unit2/Armature" index="0"]
 bones/40/bound_children = [ NodePath("BoneAttachment") ]
 
@@ -3401,7 +3405,7 @@ bones/40/bound_children = [ NodePath("BoneAttachment") ]
 material/0 = SubResource( 4 )
 
 [node name="BoneAttachment" parent="Unit2/Armature/Skeleton" index="1"]
-transform = Transform( 0.239823, 0.019292, -0.970625, -0.952155, 0.199763, -0.231288, 0.189433, 0.979654, 0.0662764, -0.170746, 2.30153, 0.254353 )
+transform = Transform( 0.240291, 0.0198738, -0.970497, -0.95231, 0.198519, -0.231723, 0.188057, 0.979895, 0.0666283, -0.170921, 2.30087, 0.255586 )
 
 [node name="AnimationTree" parent="Unit2" index="3"]
 parameters/playback = SubResource( 5 )
