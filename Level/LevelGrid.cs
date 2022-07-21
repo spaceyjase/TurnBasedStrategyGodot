@@ -6,6 +6,8 @@ namespace TurnBasedStrategyCourse_godot.Level
 {
   public class LevelGrid : Node
   {
+    [Export] private PackedScene debugScene;
+    
     private GridSystem gridSystem;
 
     public override void _Ready()
@@ -17,6 +19,8 @@ namespace TurnBasedStrategyCourse_godot.Level
         unit.Connect(nameof(Unit.Unit.OnUnitMoving), this, nameof(Unit.Unit.OnUnitMoving));
         AddUnitAtGridPosition(GetGridPosition(unit.GlobalTransform.origin), unit);
       }
+
+      gridSystem.CreateDebugObjects(this, debugScene);
     }
 
     public void AddUnitAtGridPosition(GridPosition gridPosition, Unit.Unit unit)

@@ -7,7 +7,7 @@ namespace TurnBasedStrategyCourse_godot.Grid
     private int width;
     private int height;
     private float cellSize;
-    
+
     private GridObject[,] grid;
 
     public GridSystem(int width, int height, float cellSize = 2f)
@@ -15,7 +15,7 @@ namespace TurnBasedStrategyCourse_godot.Grid
       this.width = width;
       this.height = height;
       this.cellSize = cellSize;
-      
+
       grid = new GridObject[width, height];
 
       for (var x = 0; x < width; ++x)
@@ -41,6 +41,22 @@ namespace TurnBasedStrategyCourse_godot.Grid
     public GridObject GetGridObject(GridPosition position)
     {
       return grid[position.X, position.Z];
+    }
+
+    public void CreateDebugObjects(Node parent, PackedScene scene)
+    {
+      for (var x = 0; x < width; ++x)
+      {
+        for (var z = 0; z < height; ++z)
+        {
+          var gridPosition = new GridPosition(x, z);
+
+          if (!(scene.Instance() is Spatial box)) continue;
+
+          parent.AddChild(box);
+          box.Translation = GetWorldPosition(gridPosition);
+        }
+      }
     }
   }
 }
