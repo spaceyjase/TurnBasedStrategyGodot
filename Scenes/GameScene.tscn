@@ -3403,7 +3403,7 @@ bones/40/bound_children = [ NodePath("BoneAttachment") ]
 material/0 = SubResource( 4 )
 
 [node name="BoneAttachment" parent="Unit2/Armature/Skeleton" index="1"]
-transform = Transform( 0.239836, 0.0192154, -0.970623, -0.952133, 0.199847, -0.23131, 0.189531, 0.979639, 0.0662258, -0.170784, 2.30159, 0.254315 )
+transform = Transform( 0.239748, 0.0182636, -0.970663, -0.951612, 0.202396, -0.231234, 0.192235, 0.979133, 0.0659039, -0.177646, 2.30132, 0.281116 )
 
 [node name="AnimationTree" parent="Unit2" index="3"]
 parameters/playback = SubResource( 5 )
