@@ -3396,14 +3396,11 @@ levelGridNodePath = NodePath("../LevelGrid")
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.3475, 0, 11.905 )
 levelGridNodePath = NodePath("../LevelGrid")
 
-[node name="Skeleton" parent="Unit2/Armature" index="0"]
-bones/40/bound_children = [ NodePath("BoneAttachment") ]
-
 [node name="characterMedium001" parent="Unit2/Armature/Skeleton" index="0"]
 material/0 = SubResource( 4 )
 
 [node name="BoneAttachment" parent="Unit2/Armature/Skeleton" index="1"]
-transform = Transform( 0.240159, 0.0198297, -0.970531, -0.952523, 0.197561, -0.231666, 0.187145, 0.98009, 0.0663339, -0.171784, 2.30055, 0.257558 )
+transform = Transform( 0.23955, 0.016795, -0.970738, -0.950634, 0.207198, -0.231003, 0.197255, 0.978154, 0.0655997, -0.173557, 2.30307, 0.269996 )
 
 [node name="AnimationTree" parent="Unit2" index="3"]
 parameters/playback = SubResource( 5 )
