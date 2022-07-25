@@ -29,11 +29,10 @@ namespace TurnBasedStrategyCourse_godot.Level
       gridSystem.CreateDebugObjects(this, debugScene);
     }
 
-    public void AddUnitAtGridPosition(GridPosition gridPosition, Unit.Unit unit)
+    private void AddUnitAtGridPosition(GridPosition gridPosition, Unit.Unit unit)
     {
       var gridObject = gridSystem.GetGridObject(gridPosition);
       gridObject.AddUnit(unit);
-      GD.Print($"{unit.Name} added at {gridPosition}");
     }
 
     public IEnumerable<Unit.Unit> GetUnitListAtGridPosition(GridPosition gridPosition)

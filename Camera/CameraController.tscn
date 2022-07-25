@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Camera/CameraController.cs" type="Script" id=2]
+
+[node name="CameraController" type="Spatial"]
+script = ExtResource( 2 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.933593, 0.358335, 0, -0.358335, 0.933593, 0, 6.5, 8 )
+current = true

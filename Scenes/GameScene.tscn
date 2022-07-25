@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Unit/Unit.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Level/LevelGrid.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Unit/UnitManager.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Assets/Imports/survivorMaleB.png" type="Texture" id=5]
 [ext_resource path="res://Grid/DebugGrid.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Camera/CameraController.tscn" type="PackedScene" id=7]
 
 [sub_resource type="SpatialMaterial" id=4]
 albedo_texture = ExtResource( 5 )
@@ -3395,9 +3396,6 @@ levelGridNodePath = NodePath("../LevelGrid")
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.3475, 0, 11.905 )
 levelGridNodePath = NodePath("../LevelGrid")
 
-[node name="Armature" parent="Unit2" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 4.37114e-08, 0, -4.37114e-08, 1, 0, 0, 0 )
-
 [node name="Skeleton" parent="Unit2/Armature" index="0"]
 bones/40/bound_children = [ NodePath("BoneAttachment") ]
 
@@ -3405,7 +3403,7 @@ bones/40/bound_children = [ NodePath("BoneAttachment") ]
 material/0 = SubResource( 4 )
 
 [node name="BoneAttachment" parent="Unit2/Armature/Skeleton" index="1"]
-transform = Transform( 0.240291, 0.0198738, -0.970497, -0.95231, 0.198519, -0.231723, 0.188057, 0.979895, 0.0666283, -0.170921, 2.30087, 0.255586 )
+transform = Transform( 0.239836, 0.0192154, -0.970623, -0.952133, 0.199847, -0.23131, 0.189531, 0.979639, 0.0662258, -0.170784, 2.30159, 0.254315 )
 
 [node name="AnimationTree" parent="Unit2" index="3"]
 parameters/playback = SubResource( 5 )
@@ -3420,8 +3418,8 @@ anims/strafe = SubResource( 11 )
 "anims/strafe (2)" = SubResource( 12 )
 anims/walking = SubResource( 13 )
 
-[node name="Camera" type="Camera" parent="."]
-transform = Transform( 0.856339, 0.233, -0.460862, 0, 0.892428, 0.451189, 0.516414, -0.386371, 0.764222, 0.358141, 6.88287, 20.1359 )
+[node name="CameraController" parent="." instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 3.03201, 15.717 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource( 3 )

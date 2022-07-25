@@ -6,7 +6,7 @@ namespace TurnBasedStrategyCourse_godot.Grid
   public class GridObject
   {
     private GridSystem gridSystem;
-    private GridPosition gridPosition;
+    private readonly GridPosition gridPosition;
 
     private readonly List<Unit.Unit> units = new List<Unit.Unit>();
 
