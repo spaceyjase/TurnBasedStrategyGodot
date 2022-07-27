@@ -28,9 +28,8 @@ namespace TurnBasedStrategyCourse_godot.Grid
       gridPosition = position;
     }
 
-    public override string ToString()
-    {
-      return $"{gridPosition.ToString()}\n{string.Join("\n", units.Select(u => u.Name))}";
-    }
+    public override string ToString() => $"{gridPosition}\n{string.Join("\n", units.Select(u => u.Name))}";
+
+    public bool IsEmpty() => units.Count == 0;
   }
 }

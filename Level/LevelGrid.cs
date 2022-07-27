@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Godot;
 using TurnBasedStrategyCourse_godot.Grid;
 
@@ -35,12 +34,6 @@ namespace TurnBasedStrategyCourse_godot.Level
       gridObject.AddUnit(unit);
     }
 
-    public IEnumerable<Unit.Unit> GetUnitListAtGridPosition(GridPosition gridPosition)
-    {
-      var gridObject = gridSystem.GetGridObject(gridPosition);
-      return gridObject.GetUnitList();
-    }
-
     private void RemoveUnitAsGridPosition(GridPosition gridPosition, Unit.Unit unit)
     {
       var gridObject = gridSystem.GetGridObject(gridPosition);
@@ -54,5 +47,9 @@ namespace TurnBasedStrategyCourse_godot.Level
       RemoveUnitAsGridPosition(oldPosition, unit);
       AddUnitAtGridPosition(newPosition, unit);
     }
+
+    public bool IsValidPosition(GridPosition position) => gridSystem.IsValidPosition(position);
+
+    public bool IsOccupied(GridPosition position) => !gridSystem.GetGridObject(position).IsEmpty();
   }
 }

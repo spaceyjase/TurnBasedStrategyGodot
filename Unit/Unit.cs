@@ -1,3 +1,6 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Godot;
 using TurnBasedStrategyCourse_godot.Grid;
 using TurnBasedStrategyCourse_godot.Level;
@@ -13,6 +16,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
     [Export] private float rotateSpeed = 15f;
     [Export] private float stoppingDistance = .1f;
     [Export] private NodePath levelGridNodePath;
+    [Export] private int maxMoveDistance = 4;
 
     private Vector3 targetPosition = Vector3.Zero;
     private AnimationTree animationTree;
@@ -85,7 +89,32 @@ namespace TurnBasedStrategyCourse_godot.Unit
 
     public void SetMovementDirection(Vector3 direction)
     {
+      if (!IsValidGridPosition(levelGrid.GetGridPosition(direction))) return;
+      
       targetPosition = direction;
+    }
+
+    private bool IsValidGridPosition(GridPosition position)
+    {
+      return GetValidGridPosition().Contains(position);
+    }
+
+    private IEnumerable<GridPosition> GetValidGridPosition()
+    {
+      for (var x = -maxMoveDistance; x <= maxMoveDistance; ++x)
+      {
+        for (var z = -maxMoveDistance; z <= maxMoveDistance; ++z)
+        {
+          var offset = new GridPosition(x, z);
+          var testPosition = gridPosition + offset;
+          
+          if (!levelGrid.IsValidPosition(testPosition)) continue;
+          if (gridPosition == testPosition) continue;
+          if (levelGrid.IsOccupied(testPosition)) continue;
+
+          yield return testPosition;
+        }
+      }
     }
 
     // ReSharper disable once UnusedMember.Local

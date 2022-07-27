@@ -27,21 +27,13 @@ namespace TurnBasedStrategyCourse_godot.Grid
       }
     }
 
-    private Vector3 GetWorldPosition(GridPosition position)
-    {
-      return new Vector3(position.X, 0, position.Z) * cellSize;
-    }
+    private Vector3 GetWorldPosition(GridPosition position) => new Vector3(position.X, 0, position.Z) * cellSize;
 
-    public GridPosition GetGridPosition(Vector3 worldPosition)
-    {
-      return new GridPosition(Mathf.RoundToInt(worldPosition.x / cellSize),
+    public GridPosition GetGridPosition(Vector3 worldPosition) =>
+      new GridPosition(Mathf.RoundToInt(worldPosition.x / cellSize),
         Mathf.RoundToInt(worldPosition.z / cellSize));
-    }
 
-    public GridObject GetGridObject(GridPosition position)
-    {
-      return grid[position.X, position.Z];
-    }
+    public GridObject GetGridObject(GridPosition position) => grid[position.X, position.Z];
 
     public void CreateDebugObjects(Node parent, PackedScene scene)
     {
@@ -59,5 +51,8 @@ namespace TurnBasedStrategyCourse_godot.Grid
         }
       }
     }
+
+    public bool IsValidPosition(GridPosition position) =>
+      position.X >= 0 && position.X < width && position.Z >= 0 && position.Z < height;
   }
 }
