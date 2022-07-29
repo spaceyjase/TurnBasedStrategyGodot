@@ -3394,14 +3394,8 @@ showDebug = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.39016, 0, 2.91495 )
 levelGridNodePath = NodePath("../LevelGrid")
 
-[node name="MoveAction" parent="Unit" index="0"]
-maxMoveDistance = 1
-
-[node name="Skeleton" parent="Unit/Armature" index="0"]
-bones/40/bound_children = [ NodePath("BoneAttachment") ]
-
 [node name="BoneAttachment" parent="Unit/Armature/Skeleton" index="1"]
-transform = Transform( 0.239505, 0.0173452, -0.970739, -0.951062, 0.205249, -0.230983, 0.195237, 0.978555, 0.0656537, -0.170943, 2.30355, 0.260381 )
+transform = Transform( 0.239959, 0.0203495, -0.970569, -0.952806, 0.196449, -0.231449, 0.185957, 0.980303, 0.0665288, -0.174708, 2.3003, 0.266953 )
 
 [node name="AnimationTree" parent="Unit" index="4"]
 parameters/playback = SubResource( 14 )
@@ -3410,17 +3404,11 @@ parameters/playback = SubResource( 14 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.3475, 0, 11.905 )
 levelGridNodePath = NodePath("../LevelGrid")
 
-[node name="MoveAction" parent="Unit2" index="0"]
-maxMoveDistance = 1
-
-[node name="Skeleton" parent="Unit2/Armature" index="0"]
-bones/40/bound_children = [ NodePath("BoneAttachment") ]
-
 [node name="characterMedium001" parent="Unit2/Armature/Skeleton" index="0"]
 material/0 = SubResource( 4 )
 
 [node name="BoneAttachment" parent="Unit2/Armature/Skeleton" index="1"]
-transform = Transform( 0.239505, 0.0173452, -0.970739, -0.951062, 0.205249, -0.230983, 0.195237, 0.978555, 0.0656537, -0.170943, 2.30355, 0.260381 )
+transform = Transform( 0.239959, 0.0203495, -0.970569, -0.952806, 0.196449, -0.231449, 0.185957, 0.980303, 0.0665288, -0.174708, 2.3003, 0.266953 )
 
 [node name="AnimationTree" parent="Unit2" index="4"]
 parameters/playback = SubResource( 5 )

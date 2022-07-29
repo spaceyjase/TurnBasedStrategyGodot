@@ -7,12 +7,6 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
 {
   public class MoveAction : UnitAction
   {
-    // TODO: could use a resource here, perhaps belongs to the parent unit
-    [Export] private float movementSpeed = 4f;
-    [Export] private float rotateSpeed = 15f;
-    [Export] private float stoppingDistance = .1f;
-    [Export] private int maxMoveDistance = 4;
-
     private Vector3 targetPosition = Vector3.Zero;
 
     public override void _Ready()
@@ -24,13 +18,13 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
 
     public void Move(float delta)
     {
-      if (unit.Translation.DistanceTo(targetPosition) > stoppingDistance)
+      if (unit.Translation.DistanceTo(targetPosition) > unit.StoppingDistance)
       {
         var moveDirection = (targetPosition - unit.Translation).Normalized();
-        unit.Translation += moveDirection * (movementSpeed * delta);
+        unit.Translation += moveDirection * (unit.MovementSpeed * delta);
 
         var newTransform = unit.Transform.LookingAt(unit.GlobalTransform.origin - moveDirection, Vector3.Up);
-        unit.Transform = unit.Transform.InterpolateWith(newTransform, rotateSpeed * delta);
+        unit.Transform = unit.Transform.InterpolateWith(newTransform, unit.RotateSpeed * delta);
 
         unit.SetAnimation(UnitAnimations.Running);
       }
@@ -54,9 +48,9 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
 
     private IEnumerable<GridPosition> GetValidGridPosition()
     {
-      for (var x = -maxMoveDistance; x <= maxMoveDistance; ++x)
+      for (var x = -unit.MaxMoveDistance; x <= unit.MaxMoveDistance; ++x)
       {
-        for (var z = -maxMoveDistance; z <= maxMoveDistance; ++z)
+        for (var z = -unit.MaxMoveDistance; z <= unit.MaxMoveDistance; ++z)
         {
           var offset = new GridPosition(x, z);
           var testPosition = unit.GridPosition + offset;

@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Unit/Unit.cs" type="Script" id=1]
 [ext_resource path="res://Assets/Imports/survivorFemaleA.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Gun/machinegun.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Assets/Circle_Outlined.png" type="Texture" id=5]
 [ext_resource path="res://Unit/Actions/MoveAction.cs" type="Script" id=6]
+[ext_resource path="res://Unit/Resources/UnitStats.tres" type="Resource" id=7]
 
 [sub_resource type="CylinderShape" id=18]
 radius = 0.720316
@@ -3606,6 +3607,7 @@ tracks/58/keys = PoolRealArray( 0, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1, 1
 
 [node name="Unit" type="Spatial" groups=["Units"]]
 script = ExtResource( 1 )
+unitStats = ExtResource( 7 )
 
 [node name="MoveAction" type="Node" parent="."]
 script = ExtResource( 6 )
@@ -3917,7 +3919,7 @@ skin = SubResource( 2 )
 material/0 = SubResource( 11 )
 
 [node name="BoneAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( 0.239519, 0.017523, -0.970733, -0.951108, 0.205046, -0.230975, 0.194998, 0.978595, 0.0657785, -0.171004, 2.30367, 0.259778 )
+transform = Transform( 0.239845, 0.0191458, -0.970622, -0.952117, 0.199896, -0.23133, 0.189594, 0.97963, 0.066173, -0.170845, 2.30163, 0.254359 )
 bone_name = "RightHand"
 
 [node name="machinegun" parent="Armature/Skeleton/BoneAttachment" instance=ExtResource( 4 )]

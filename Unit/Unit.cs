@@ -4,6 +4,7 @@ using Godot;
 using TurnBasedStrategyCourse_godot.Grid;
 using TurnBasedStrategyCourse_godot.Level;
 using TurnBasedStrategyCourse_godot.Unit.Actions;
+using TurnBasedStrategyCourse_godot.Unit.Stats;
 
 namespace TurnBasedStrategyCourse_godot.Unit
 {
@@ -15,6 +16,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
     [Signal]
     public delegate void OnUnitMoving(Unit selectedUnit, GridPosition oldPosition, GridPosition newPosition);
 
+    [Export] private UnitStats unitStats;
     [Export] private NodePath levelGridNodePath;
 
     private AnimationTree animationTree;
@@ -46,6 +48,11 @@ namespace TurnBasedStrategyCourse_godot.Unit
       }
     }
 
+    public float MovementSpeed => unitStats.MovementSpeed;
+    public double StoppingDistance => unitStats.StoppingDistance;
+    public float RotateSpeed => unitStats.RotateSpeed;
+    public int MaxMoveDistance => unitStats.MaxMoveDistance;
+
     public void SetAnimation(string animationName)
     {
       animationStateMachine.Travel(animationName);
@@ -62,6 +69,8 @@ namespace TurnBasedStrategyCourse_godot.Unit
       gridPosition = levelGrid.GetGridPosition(Translation);
 
       moveAction = GetNode<MoveAction>(nameof(MoveAction));
+
+      unitStats.Initialise();
     }
 
     public override void _Process(float delta)
