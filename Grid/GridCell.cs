@@ -13,12 +13,12 @@ namespace TurnBasedStrategyCourse_godot.Grid
       meshInstance = GetNode<MeshInstance>(nameof(MeshInstance));
     }
 
-    public void Hide()
+    public void HideCell()
     {
       meshInstance.Visible = false;
     }
     
-    public void Show()
+    public void ShowCell()
     {
       meshInstance.Visible = true;
     }

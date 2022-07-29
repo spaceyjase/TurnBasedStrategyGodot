@@ -1,5 +1,5 @@
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Godot;
 using TurnBasedStrategyCourse_godot.Grid;
 using TurnBasedStrategyCourse_godot.Level;
@@ -17,17 +17,15 @@ namespace TurnBasedStrategyCourse_godot.Unit
     public delegate void OnUnitMoving(Unit selectedUnit, GridPosition oldPosition, GridPosition newPosition);
 
     [Export] private UnitStats unitStats;
-    [Export] private NodePath levelGridNodePath;
 
     private AnimationTree animationTree;
     private AnimationNodeStateMachinePlayback animationStateMachine;
     private Spatial selectedVisual;
     private bool selected;
-    private LevelGrid levelGrid;
-    private GridPosition gridPosition;
 
-    public LevelGrid LevelGrid => levelGrid;
-    public GridPosition GridPosition => gridPosition;
+    public LevelGrid LevelGrid { get; private set; }
+
+    public GridPosition GridPosition { get; private set; }
 
     private MoveAction moveAction;
 
@@ -65,11 +63,14 @@ namespace TurnBasedStrategyCourse_godot.Unit
       selectedVisual = GetNode<Spatial>("SelectedVisual");
       selectedVisual.Hide();
 
-      levelGrid = GetNode<LevelGrid>(levelGridNodePath);
-      gridPosition = levelGrid.GetGridPosition(Translation);
-
       moveAction = GetNode<MoveAction>(nameof(MoveAction));
+    }
 
+    public void Initialise(LevelGrid levelGrid)
+    {
+      LevelGrid = levelGrid;
+      GridPosition = LevelGrid.GetGridPosition(Translation);
+      
       unitStats.Initialise();
     }
 
@@ -84,11 +85,11 @@ namespace TurnBasedStrategyCourse_godot.Unit
     {
       moveAction.Move(delta);
 
-      var newGridPosition = levelGrid.GetGridPosition(Translation);
-      if (newGridPosition == gridPosition) return;
+      var newGridPosition = LevelGrid.GetGridPosition(Translation);
+      if (newGridPosition == GridPosition) return;
 
-      EmitSignal(nameof(OnUnitMoving), this, gridPosition, newGridPosition);
-      gridPosition = newGridPosition;
+      EmitSignal(nameof(OnUnitMoving), this, GridPosition, newGridPosition);
+      GridPosition = newGridPosition;
     }
 
     public void SetMovementDirection(Vector3 direction)
@@ -106,5 +107,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
         EmitSignal(nameof(OnUnitSelected), this);
       }
     }
+    
+    public IEnumerable<GridPosition> ValidPositions => moveAction.GetValidGridPosition();
   }
 }

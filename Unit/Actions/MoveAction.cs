@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
@@ -46,7 +47,7 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
       return GetValidGridPosition().Contains(position);
     }
 
-    private IEnumerable<GridPosition> GetValidGridPosition()
+    public IEnumerable<GridPosition> GetValidGridPosition()
     {
       for (var x = -unit.MaxMoveDistance; x <= unit.MaxMoveDistance; ++x)
       {
