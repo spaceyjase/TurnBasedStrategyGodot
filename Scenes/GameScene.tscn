@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Unit/Unit.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Level/LevelGrid.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Assets/Imports/survivorMaleB.png" type="Texture" id=5]
 [ext_resource path="res://Grid/DebugGrid.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Camera/CameraController.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Grid/GridCell.tscn" type="PackedScene" id=8]
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=14]
 
@@ -3384,31 +3385,42 @@ tracks/58/keys = PoolRealArray( 0, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1, 1
 
 [node name="GameScene" type="Spatial"]
 
-[node name="UnitManager" parent="." instance=ExtResource( 4 )]
-
 [node name="LevelGrid" parent="." instance=ExtResource( 2 )]
 debugScene = ExtResource( 6 )
-showDebug = true
+cellScene = ExtResource( 8 )
+
+[node name="UnitManager" parent="." instance=ExtResource( 4 )]
+levelGridNodePath = NodePath("../LevelGrid")
 
 [node name="Unit" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.39016, 0, 2.91495 )
-levelGridNodePath = NodePath("../LevelGrid")
+
+[node name="Armature" parent="Unit" index="2"]
+transform = Transform( 1, 0, 0, 0, 1, 4.37114e-08, 0, -4.37114e-08, 1, 0, 0, 0 )
+
+[node name="Skeleton" parent="Unit/Armature" index="0"]
+bones/40/bound_children = [ NodePath("BoneAttachment") ]
 
 [node name="BoneAttachment" parent="Unit/Armature/Skeleton" index="1"]
-transform = Transform( 0.239959, 0.0203495, -0.970569, -0.952806, 0.196449, -0.231449, 0.185957, 0.980303, 0.0665288, -0.174708, 2.3003, 0.266953 )
+transform = Transform( 0.240279, 0.0198656, -0.9705, -0.952299, 0.198587, -0.231708, 0.188126, 0.979882, 0.0666343, -0.170884, 2.3009, 0.255485 )
 
 [node name="AnimationTree" parent="Unit" index="4"]
 parameters/playback = SubResource( 14 )
 
 [node name="Unit2" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.3475, 0, 11.905 )
-levelGridNodePath = NodePath("../LevelGrid")
+
+[node name="Armature" parent="Unit2" index="2"]
+transform = Transform( 1, 0, 0, 0, 1, 4.37114e-08, 0, -4.37114e-08, 1, 0, 0, 0 )
+
+[node name="Skeleton" parent="Unit2/Armature" index="0"]
+bones/40/bound_children = [ NodePath("BoneAttachment") ]
 
 [node name="characterMedium001" parent="Unit2/Armature/Skeleton" index="0"]
 material/0 = SubResource( 4 )
 
 [node name="BoneAttachment" parent="Unit2/Armature/Skeleton" index="1"]
-transform = Transform( 0.239959, 0.0203495, -0.970569, -0.952806, 0.196449, -0.231449, 0.185957, 0.980303, 0.0665288, -0.174708, 2.3003, 0.266953 )
+transform = Transform( 0.240279, 0.0198656, -0.9705, -0.952299, 0.198587, -0.231708, 0.188126, 0.979882, 0.0666343, -0.170884, 2.3009, 0.255485 )
 
 [node name="AnimationTree" parent="Unit2" index="4"]
 parameters/playback = SubResource( 5 )

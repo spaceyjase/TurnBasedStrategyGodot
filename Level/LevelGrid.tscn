@@ -7,6 +7,7 @@
 size = Vector2( 1, 1 )
 
 [sub_resource type="SpatialMaterial" id=2]
+albedo_color = Color( 0.384314, 0.384314, 0.384314, 1 )
 albedo_texture = ExtResource( 1 )
 
 [sub_resource type="BoxShape" id=3]
@@ -16,7 +17,7 @@ extents = Vector3( 0.492706, 0.214698, 0.486548 )
 script = ExtResource( 2 )
 
 [node name="Ground" type="StaticBody" parent="."]
-transform = Transform( 20, 0, 0, 0, 20, 0, 0, 0, 20, 10, 0, 10 )
+transform = Transform( 20, 0, 0, 0, 20, 0, 0, 0, 20, 9, 0, 9 )
 
 [node name="Plane" type="CSGMesh" parent="Ground"]
 mesh = SubResource( 1 )

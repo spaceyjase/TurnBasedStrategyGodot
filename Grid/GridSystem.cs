@@ -27,7 +27,7 @@ namespace TurnBasedStrategyCourse_godot.Grid
       }
     }
 
-    private Vector3 GetWorldPosition(GridPosition position) => new Vector3(position.X, 0, position.Z) * cellSize;
+    public Vector3 GetWorldPosition(GridPosition position) => new Vector3(position.X, 0, position.Z) * cellSize;
 
     public GridPosition GetGridPosition(Vector3 worldPosition) =>
       new GridPosition(Mathf.RoundToInt(worldPosition.x / cellSize),
