@@ -1,5 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 using TurnBasedStrategyCourse_godot.Grid;
 using TurnBasedStrategyCourse_godot.Level;
@@ -22,12 +22,13 @@ namespace TurnBasedStrategyCourse_godot.Unit
     private AnimationNodeStateMachinePlayback animationStateMachine;
     private Spatial selectedVisual;
     private bool selected;
+    
+    public UnitAction CurrentAction { get; set; }
+    private UnitAction InitialAction { get; set; }
 
     public LevelGrid LevelGrid { get; private set; }
 
     public GridPosition GridPosition { get; private set; }
-
-    private MoveAction moveAction;
 
     public bool Selected
     {
@@ -51,6 +52,8 @@ namespace TurnBasedStrategyCourse_godot.Unit
     public float RotateSpeed => unitStats.RotateSpeed;
     public int MaxMoveDistance => unitStats.MaxMoveDistance;
 
+    private readonly Dictionary<string, UnitAction> actions = new Dictionary<string, UnitAction>();
+
     public void SetAnimation(string animationName)
     {
       animationStateMachine.Travel(animationName);
@@ -63,7 +66,21 @@ namespace TurnBasedStrategyCourse_godot.Unit
       selectedVisual = GetNode<Spatial>("SelectedVisual");
       selectedVisual.Hide();
 
-      moveAction = GetNode<MoveAction>(nameof(MoveAction));
+      foreach (var child in GetChildren())
+      {
+        if (!(child is UnitAction action)) continue;
+
+        if (actions.Count == 0)
+        {
+          InitialAction = action;
+        }
+
+        actions[action.Name] = action;
+      }
+      
+      CurrentAction = InitialAction;
+
+      TargetPosition = Translation;
     }
 
     public void Initialise(LevelGrid levelGrid)
@@ -77,13 +94,13 @@ namespace TurnBasedStrategyCourse_godot.Unit
     public override void _Process(float delta)
     {
       base._Process(delta);
-
-      Move(delta);
+      
+      ProcessAction(delta);
     }
 
-    private void Move(float delta)
+    private void ProcessAction(float delta)
     {
-      moveAction.Move(delta);
+      CurrentAction.Execute(delta);
 
       var newGridPosition = LevelGrid.GetGridPosition(Translation);
       if (newGridPosition == GridPosition) return;
@@ -92,9 +109,23 @@ namespace TurnBasedStrategyCourse_godot.Unit
       GridPosition = newGridPosition;
     }
 
-    public void SetMovementDirection(Vector3 direction)
+    public void MoveTo(Vector3 direction)
     {
-      moveAction.SetMovementTarget(direction);
+      if (CurrentAction.Name != nameof(IdleAction)) return;
+      
+      var gridPosition = LevelGrid.GetGridPosition(direction);
+      if (!IsValidGridPosition(gridPosition)) return;
+
+      TargetPosition = LevelGrid.GetWorldPosition(gridPosition);
+      
+      ChangeAction(nameof(MoveAction));
+    }
+
+    public void Spin()
+    {
+      if (CurrentAction.Name != nameof(IdleAction)) return;
+      
+      ChangeAction(nameof(SpinAction));
     }
 
     // ReSharper disable once UnusedMember.Local
@@ -108,6 +139,56 @@ namespace TurnBasedStrategyCourse_godot.Unit
       }
     }
     
-    public IEnumerable<GridPosition> ValidPositions => moveAction.GetValidGridPosition();
+    public IEnumerable<GridPosition> ValidPositions => GetValidGridPosition();
+    public Vector3 TargetPosition { get; private set; } = Vector3.Zero;
+
+    public void ChangeAction(string name)
+    {
+      if (actions.ContainsKey(name) == false)
+      {
+        GD.PrintErr($"State {name} does not exist!");
+        return;
+      }
+      
+      ChangeAction(actions[name]);
+    }
+
+    private void ChangeAction(UnitAction newAction)
+    {
+      if (newAction == null)
+      {
+        GD.PrintErr("Cannot transition to a null state!");
+        return;
+      }
+
+      CurrentAction?.OnExit?.Invoke();
+
+      CurrentAction = newAction;
+      
+      newAction.OnEnter?.Invoke();
+    }
+    
+    private bool IsValidGridPosition(GridPosition position)
+    {
+      return GetValidGridPosition().Contains(position);
+    }
+
+    private IEnumerable<GridPosition> GetValidGridPosition()
+    {
+      for (var x = -MaxMoveDistance; x <= MaxMoveDistance; ++x)
+      {
+        for (var z = -MaxMoveDistance; z <= MaxMoveDistance; ++z)
+        {
+          var offset = new GridPosition(x, z);
+          var testPosition = GridPosition + offset;
+
+          if (!LevelGrid.IsValidPosition(testPosition)) continue;
+          if (GridPosition == testPosition) continue;
+          if (LevelGrid.IsOccupied(testPosition)) continue;
+
+          yield return testPosition;
+        }
+      }
+    }
   }
 }

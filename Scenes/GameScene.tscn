@@ -3393,19 +3393,25 @@ cellScene = ExtResource( 8 )
 levelGridNodePath = NodePath("../LevelGrid")
 
 [node name="Unit" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.39016, 0, 2.91495 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 4 )
+
+[node name="Armature" parent="Unit" index="4"]
+transform = Transform( 1, 0, 0, 0, 1, 4.37114e-08, 0, -4.37114e-08, 1, 0, 0, 0 )
 
 [node name="Skeleton" parent="Unit/Armature" index="0"]
 bones/40/bound_children = [ NodePath("BoneAttachment") ]
 
 [node name="BoneAttachment" parent="Unit/Armature/Skeleton" index="1"]
-transform = Transform( 0.239619, 0.0176289, -0.970706, -0.951145, 0.204762, -0.231072, 0.194691, 0.978653, 0.0658323, -0.177162, 2.30207, 0.28004 )
+transform = Transform( 0.239595, 0.0175233, -0.970714, -0.951057, 0.205208, -0.231039, 0.19515, 0.978561, 0.0658324, -0.176913, 2.30219, 0.279502 )
 
-[node name="AnimationTree" parent="Unit" index="4"]
+[node name="AnimationTree" parent="Unit" index="6"]
 parameters/playback = SubResource( 14 )
 
 [node name="Unit2" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.3475, 0, 11.905 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 12 )
+
+[node name="Armature" parent="Unit2" index="4"]
+transform = Transform( 1, 0, 0, 0, 1, 4.37114e-08, 0, -4.37114e-08, 1, 0, 0, 0 )
 
 [node name="Skeleton" parent="Unit2/Armature" index="0"]
 bones/40/bound_children = [ NodePath("BoneAttachment") ]
@@ -3414,9 +3420,9 @@ bones/40/bound_children = [ NodePath("BoneAttachment") ]
 material/0 = SubResource( 4 )
 
 [node name="BoneAttachment" parent="Unit2/Armature/Skeleton" index="1"]
-transform = Transform( 0.239619, 0.0176289, -0.970706, -0.951145, 0.204762, -0.231072, 0.194691, 0.978653, 0.0658323, -0.177162, 2.30207, 0.28004 )
+transform = Transform( 0.239595, 0.0175233, -0.970714, -0.951057, 0.205208, -0.231039, 0.19515, 0.978561, 0.0658324, -0.176913, 2.30219, 0.279502 )
 
-[node name="AnimationTree" parent="Unit2" index="4"]
+[node name="AnimationTree" parent="Unit2" index="6"]
 parameters/playback = SubResource( 5 )
 
 [node name="AnimationPlayer" parent="Unit2/AnimationTree" index="0"]

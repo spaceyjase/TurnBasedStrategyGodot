@@ -33,10 +33,17 @@ namespace TurnBasedStrategyCourse_godot.Unit
     // ReSharper disable once UnusedMember.Local
     private void _on_Ground_input_event(Node camera, InputEvent @event, Vector3 position, Vector3 normal, int shape_idx)
     {
-      if (!(@event is InputEventMouseButton eventMouseButton) || !eventMouseButton.Pressed ||
-          eventMouseButton.ButtonIndex != 1) return;
+      if (!(@event is InputEventMouseButton eventMouseButton) || !eventMouseButton.Pressed) return;
 
-      selectedUnit?.SetMovementDirection(position);
+      switch (eventMouseButton.ButtonIndex)
+      {
+        case 1:
+          selectedUnit?.MoveTo(position);
+          break;
+        case 2:
+          selectedUnit?.Spin();
+          break;
+      }
     }
   }
 }

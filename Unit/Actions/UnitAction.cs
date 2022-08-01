@@ -1,10 +1,14 @@
+using System;
 using Godot;
 
 namespace TurnBasedStrategyCourse_godot.Unit.Actions
 {
-  public class UnitAction : Node
+  public abstract class UnitAction : Node
   {
     protected Unit unit;
+    
+    public Action OnEnter { get; set; }
+    public Action OnExit { get; set; }
 
     public override void _Ready()
     {
@@ -12,5 +16,7 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
 
       unit = Owner as Unit;
     }
+
+    public abstract void Execute(float delta);
   }
 }

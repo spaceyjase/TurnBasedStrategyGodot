@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://Unit/Unit.cs" type="Script" id=1]
 [ext_resource path="res://Assets/Imports/survivorFemaleA.png" type="Texture" id=2]
@@ -7,6 +7,8 @@
 [ext_resource path="res://Assets/Circle_Outlined.png" type="Texture" id=5]
 [ext_resource path="res://Unit/Actions/MoveAction.cs" type="Script" id=6]
 [ext_resource path="res://Unit/Resources/UnitStats.tres" type="Resource" id=7]
+[ext_resource path="res://Unit/Actions/SpinAction.cs" type="Script" id=8]
+[ext_resource path="res://Unit/Actions/IdleAction.cs" type="Script" id=9]
 
 [sub_resource type="CylinderShape" id=18]
 radius = 0.720316
@@ -3609,8 +3611,14 @@ tracks/58/keys = PoolRealArray( 0, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1, 1
 script = ExtResource( 1 )
 unitStats = ExtResource( 7 )
 
+[node name="IdleAction" type="Node" parent="."]
+script = ExtResource( 9 )
+
 [node name="MoveAction" type="Node" parent="."]
 script = ExtResource( 6 )
+
+[node name="SpinAction" type="Node" parent="."]
+script = ExtResource( 8 )
 
 [node name="SelectorArea" type="Area" parent="."]
 
@@ -3919,7 +3927,7 @@ skin = SubResource( 2 )
 material/0 = SubResource( 11 )
 
 [node name="BoneAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( 0.239594, 0.0173211, -0.970718, -0.950956, 0.205671, -0.231046, 0.195646, 0.978468, 0.0657487, -0.176606, 2.30228, 0.27873 )
+transform = Transform( 0.239959, 0.0203051, -0.97057, -0.952742, 0.196777, -0.231434, 0.186286, 0.980238, 0.0665638, -0.175264, 2.30038, 0.268855 )
 bone_name = "RightHand"
 
 [node name="machinegun" parent="Armature/Skeleton/BoneAttachment" instance=ExtResource( 4 )]

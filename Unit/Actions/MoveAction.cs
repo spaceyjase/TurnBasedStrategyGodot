@@ -7,62 +7,36 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
 {
   public class MoveAction : UnitAction
   {
-    private Vector3 targetPosition = Vector3.Zero;
-
     public override void _Ready()
     {
       base._Ready();
 
-      targetPosition = unit.Translation;
+      OnEnter += () =>
+      {
+        unit.SetAnimation(UnitAnimations.Running);
+      };
     }
 
-    public void Move(float delta)
+    public override void Execute(float delta)
     {
-      if (unit.Translation.DistanceTo(targetPosition) > unit.StoppingDistance)
+      Move(delta);
+    }
+
+    private void Move(float delta)
+    {
+      if (unit.Translation.DistanceTo(unit.TargetPosition) > unit.StoppingDistance)
       {
-        var moveDirection = (targetPosition - unit.Translation).Normalized();
+        var moveDirection = (unit.TargetPosition - unit.Translation).Normalized();
         unit.Translation += moveDirection * (unit.MovementSpeed * delta);
 
         var newTransform = unit.Transform.LookingAt(unit.GlobalTransform.origin - moveDirection, Vector3.Up);
         unit.Transform = unit.Transform.InterpolateWith(newTransform, unit.RotateSpeed * delta);
-
-        unit.SetAnimation(UnitAnimations.Running);
       }
       else
       {
-        unit.SetAnimation(UnitAnimations.Idle);
+        unit.ChangeAction(nameof(IdleAction));
       }
     }
-
-    public void SetMovementTarget(Vector3 direction)
-    {
-      var gridPosition = unit.LevelGrid.GetGridPosition(direction);
-      if (!IsValidGridPosition(gridPosition)) return;
-
-      targetPosition = unit.LevelGrid.GetWorldPosition(gridPosition);
-    }
-
-    private bool IsValidGridPosition(GridPosition position)
-    {
-      return GetValidGridPosition().Contains(position);
-    }
-
-    public IEnumerable<GridPosition> GetValidGridPosition()
-    {
-      for (var x = -unit.MaxMoveDistance; x <= unit.MaxMoveDistance; ++x)
-      {
-        for (var z = -unit.MaxMoveDistance; z <= unit.MaxMoveDistance; ++z)
-        {
-          var offset = new GridPosition(x, z);
-          var testPosition = unit.GridPosition + offset;
-
-          if (!unit.LevelGrid.IsValidPosition(testPosition)) continue;
-          if (unit.GridPosition == testPosition) continue;
-          if (unit.LevelGrid.IsOccupied(testPosition)) continue;
-
-          yield return testPosition;
-        }
-      }
-    }
+    
   }
 }
