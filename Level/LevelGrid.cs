@@ -23,8 +23,8 @@ namespace TurnBasedStrategyCourse_godot.Level
 
       foreach (Unit.Unit unit in GetTree().GetNodesInGroup("Units"))
       {
-        unit.Connect(nameof(Unit.Unit.OnUnitMoving), this, nameof(Unit.Unit.OnUnitMoving));
-        unit.Connect(nameof(Unit.Unit.OnUnitSelected), this, nameof(Unit.Unit.OnUnitSelected));
+        unit.Connect(nameof(Unit.Unit.OnUnitMoving), this, nameof(OnUnitMoving));
+        unit.Connect(nameof(Unit.Unit.OnUnitSelected), this, nameof(OnUnitSelected));
         AddUnitAtGridPosition(GetGridPosition(unit.GlobalTransform.origin), unit);
       }
 
@@ -63,6 +63,7 @@ namespace TurnBasedStrategyCourse_godot.Level
     }
 
     public GridPosition GetGridPosition(Vector3 worldPosition) => gridSystem.GetGridPosition(worldPosition);
+    public Vector3 GetWorldPosition(GridPosition gridPosition) => gridSystem.GetWorldPosition(gridPosition);
 
     private void OnUnitMoving(Unit.Unit unit, GridPosition oldPosition, GridPosition newPosition)
     {

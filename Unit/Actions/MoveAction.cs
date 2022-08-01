@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
@@ -37,9 +36,10 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
 
     public void SetMovementTarget(Vector3 direction)
     {
-      if (!IsValidGridPosition(unit.LevelGrid.GetGridPosition(direction))) return;
+      var gridPosition = unit.LevelGrid.GetGridPosition(direction);
+      if (!IsValidGridPosition(gridPosition)) return;
 
-      targetPosition = direction;
+      targetPosition = unit.LevelGrid.GetWorldPosition(gridPosition);
     }
 
     private bool IsValidGridPosition(GridPosition position)
