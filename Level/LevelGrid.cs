@@ -6,8 +6,6 @@ namespace TurnBasedStrategyCourse_godot.Level
 {
   public class LevelGrid : Node
   {
-    [Export] private PackedScene debugScene;
-    [Export] private bool showDebug;
     [Export] private int width = 10;
     [Export] private int height = 10;
     [Export] private float cellSize = 2f;
@@ -29,10 +27,6 @@ namespace TurnBasedStrategyCourse_godot.Level
       }
 
       CreateVisualElements();
-
-      if (!showDebug) return;
-
-      gridSystem.CreateDebugObjects(this, debugScene);
     }
 
     private void CreateVisualElements()

@@ -35,23 +35,6 @@ namespace TurnBasedStrategyCourse_godot.Grid
 
     public GridObject GetGridObject(GridPosition position) => grid[position.X, position.Z];
 
-    public void CreateDebugObjects(Node parent, PackedScene scene)
-    {
-      for (var x = 0; x < width; ++x)
-      {
-        for (var z = 0; z < height; ++z)
-        {
-          var gridPosition = new GridPosition(x, z);
-
-          if (!(scene.Instance() is Spatial debug)) continue;
-          
-          debug.Name = $"{gridPosition.X}_{gridPosition.Z}";
-          parent.AddChild(debug);
-          debug.Translation = GetWorldPosition(gridPosition);
-        }
-      }
-    }
-
     public bool IsValidPosition(GridPosition position) =>
       position.X >= 0 && position.X < width && position.Z >= 0 && position.Z < height;
   }

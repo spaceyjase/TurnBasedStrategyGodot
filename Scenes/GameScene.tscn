@@ -1,11 +1,10 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Unit/Unit.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Level/LevelGrid.tscn" type="PackedScene" id=2]
 [ext_resource path="res://default_env.tres" type="Environment" id=3]
 [ext_resource path="res://Unit/UnitManager.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Assets/Imports/survivorMaleB.png" type="Texture" id=5]
-[ext_resource path="res://Grid/DebugGrid.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Camera/CameraController.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Grid/GridCell.tscn" type="PackedScene" id=8]
 
@@ -3386,7 +3385,6 @@ tracks/58/keys = PoolRealArray( 0, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1, 1
 [node name="GameScene" type="Spatial"]
 
 [node name="LevelGrid" parent="." instance=ExtResource( 2 )]
-debugScene = ExtResource( 6 )
 cellScene = ExtResource( 8 )
 
 [node name="UnitManager" parent="." instance=ExtResource( 4 )]
@@ -3395,23 +3393,17 @@ levelGridNodePath = NodePath("../LevelGrid")
 [node name="Unit" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 4 )
 
-[node name="Armature" parent="Unit" index="4"]
-transform = Transform( 1, 0, 0, 0, 1, 4.37114e-08, 0, -4.37114e-08, 1, 0, 0, 0 )
-
 [node name="Skeleton" parent="Unit/Armature" index="0"]
 bones/40/bound_children = [ NodePath("BoneAttachment") ]
 
 [node name="BoneAttachment" parent="Unit/Armature/Skeleton" index="1"]
-transform = Transform( 0.239595, 0.0175233, -0.970714, -0.951057, 0.205208, -0.231039, 0.19515, 0.978561, 0.0658324, -0.176913, 2.30219, 0.279502 )
+transform = Transform( 0.239839, 0.0191945, -0.970622, -0.952126, 0.19987, -0.231316, 0.189558, 0.979634, 0.0662121, -0.170794, 2.3016, 0.254305 )
 
 [node name="AnimationTree" parent="Unit" index="6"]
 parameters/playback = SubResource( 14 )
 
 [node name="Unit2" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 12 )
-
-[node name="Armature" parent="Unit2" index="4"]
-transform = Transform( 1, 0, 0, 0, 1, 4.37114e-08, 0, -4.37114e-08, 1, 0, 0, 0 )
 
 [node name="Skeleton" parent="Unit2/Armature" index="0"]
 bones/40/bound_children = [ NodePath("BoneAttachment") ]
@@ -3420,7 +3412,7 @@ bones/40/bound_children = [ NodePath("BoneAttachment") ]
 material/0 = SubResource( 4 )
 
 [node name="BoneAttachment" parent="Unit2/Armature/Skeleton" index="1"]
-transform = Transform( 0.239595, 0.0175233, -0.970714, -0.951057, 0.205208, -0.231039, 0.19515, 0.978561, 0.0658324, -0.176913, 2.30219, 0.279502 )
+transform = Transform( 0.239839, 0.0191945, -0.970622, -0.952126, 0.19987, -0.231316, 0.189558, 0.979634, 0.0662121, -0.170794, 2.3016, 0.254305 )
 
 [node name="AnimationTree" parent="Unit2" index="6"]
 parameters/playback = SubResource( 5 )
