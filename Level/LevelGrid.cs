@@ -40,6 +40,7 @@ namespace TurnBasedStrategyCourse_godot.Level
           cell.Translation = gridSystem.GetWorldPosition(gridPosition);
           cells[z * width + x] = cell;
           AddChild(cell);
+          cell.Visible = false;
         }
       }
     }
@@ -61,9 +62,9 @@ namespace TurnBasedStrategyCourse_godot.Level
 
     private void OnUnitMoving(Unit.Unit unit, GridPosition oldPosition, GridPosition newPosition)
     {
-      HideAllGridPositions();
       RemoveUnitAsGridPosition(oldPosition, unit);
       AddUnitAtGridPosition(newPosition, unit);
+      ShowUnitRange(unit);
     }
 
     private void OnUnitSelected(Unit.Unit unit)
@@ -75,7 +76,7 @@ namespace TurnBasedStrategyCourse_godot.Level
 
     public bool IsOccupied(GridPosition position) => !gridSystem.GetGridObject(position).IsEmpty();
 
-    public void ShowUnitRange(Unit.Unit unit)
+    private void ShowUnitRange(Unit.Unit unit)
     {
       HideAllGridPositions();
       ShowUnitGridPositions(unit.ValidPositions);

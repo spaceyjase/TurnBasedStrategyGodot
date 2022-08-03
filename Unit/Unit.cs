@@ -50,7 +50,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
     public float MovementSpeed => unitStats.MovementSpeed;
     public double StoppingDistance => unitStats.StoppingDistance;
     public float RotateSpeed => unitStats.RotateSpeed;
-    public int MaxMoveDistance => unitStats.MaxMoveDistance;
+    private int MaxMoveDistance => unitStats.MaxMoveDistance;
 
     private readonly Dictionary<string, UnitAction> actions = new Dictionary<string, UnitAction>();
 
@@ -105,8 +105,9 @@ namespace TurnBasedStrategyCourse_godot.Unit
       var newGridPosition = LevelGrid.GetGridPosition(Translation);
       if (newGridPosition == GridPosition) return;
 
-      EmitSignal(nameof(OnUnitMoving), this, GridPosition, newGridPosition);
+      var oldPosition = GridPosition;
       GridPosition = newGridPosition;
+      EmitSignal(nameof(OnUnitMoving), this, oldPosition, GridPosition);
     }
 
     public void MoveTo(Vector3 direction)

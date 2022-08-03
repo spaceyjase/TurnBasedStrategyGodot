@@ -26,8 +26,6 @@ namespace TurnBasedStrategyCourse_godot.Unit
       if (selectedUnit != null) selectedUnit.Selected = false;
       selectedUnit = unit;
       selectedUnit.Selected = true;
-      
-      levelGrid.ShowUnitRange(selectedUnit);
     }
     
     // ReSharper disable once UnusedMember.Local
