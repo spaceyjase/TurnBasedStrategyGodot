@@ -11,8 +11,8 @@
 [ext_resource path="res://Unit/Actions/IdleAction.cs" type="Script" id=9]
 
 [sub_resource type="CylinderShape" id=18]
-radius = 0.720316
 height = 3.35
+radius = 0.720316
 
 [sub_resource type="ArrayMesh" id=1]
 resource_name = "characters_characterMedium002"
@@ -3834,7 +3834,7 @@ bones/40/name = "RightHand"
 bones/40/parent = 39
 bones/40/rest = Transform( 0.997817, 0.0660423, 0.000124726, -0.0660313, 0.997682, -0.0164227, -0.00120903, 0.0163786, 0.999865, 2.42144e-07, 0.527228, 3.21073e-06 )
 bones/40/enabled = true
-bones/40/bound_children = [  ]
+bones/40/bound_children = [ NodePath("BoneAttachment") ]
 bones/41/name = "RightHandIndex1"
 bones/41/parent = 40
 bones/41/rest = Transform( 0.987998, 0.00908436, -0.154196, 0.008493, 0.993564, 0.112953, 0.15423, -0.112907, 0.981563, -3.63216e-08, 0.1386, -9.0804e-08 )
@@ -3927,7 +3927,7 @@ skin = SubResource( 2 )
 material/0 = SubResource( 11 )
 
 [node name="BoneAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( 0.239959, 0.0203051, -0.97057, -0.952742, 0.196777, -0.231434, 0.186286, 0.980238, 0.0665638, -0.175264, 2.30038, 0.268855 )
+transform = Transform( 0.239947, 0.0203058, -0.970573, -0.952808, 0.196445, -0.231445, 0.185964, 0.980304, 0.0664834, -0.17355, 2.30025, 0.2637 )
 bone_name = "RightHand"
 
 [node name="machinegun" parent="Armature/Skeleton/BoneAttachment" instance=ExtResource( 4 )]

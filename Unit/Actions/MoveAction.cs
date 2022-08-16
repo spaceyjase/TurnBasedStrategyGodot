@@ -22,6 +22,8 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
       Move(delta);
     }
 
+    public override string ActionName => "Move";
+
     private void Move(float delta)
     {
       if (unit.Translation.DistanceTo(unit.TargetPosition) > unit.StoppingDistance)

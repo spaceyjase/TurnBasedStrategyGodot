@@ -19,5 +19,7 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
       totalSpin = 0f;
       unit.ChangeAction(nameof(IdleAction));
     }
+
+    public override string ActionName => "Spin";
   }
 }

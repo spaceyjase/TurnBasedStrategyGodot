@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
@@ -142,6 +143,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
     
     public IEnumerable<GridPosition> ValidPositions => GetValidGridPosition();
     public Vector3 TargetPosition { get; private set; } = Vector3.Zero;
+    public IEnumerable<UnitAction> Actions => actions.Values.Where(x => x != InitialAction);
 
     public void ChangeAction(string name)
     {
@@ -190,6 +192,11 @@ namespace TurnBasedStrategyCourse_godot.Unit
           yield return testPosition;
         }
       }
+    }
+
+    public void DoAction(string actionName)
+    {
+      GD.Print(actionName);
     }
   }
 }

@@ -18,5 +18,7 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
     }
 
     public abstract void Execute(float delta);
+    
+    public abstract string ActionName { get; }
   }
 }

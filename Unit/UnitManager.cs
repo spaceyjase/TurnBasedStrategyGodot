@@ -5,15 +5,18 @@ namespace TurnBasedStrategyCourse_godot.Unit
 {
   public class UnitManager : Node
   {
+    [Signal]
+    public delegate void UnitSelected(Unit unit);
+
     [Export] private NodePath levelGridNodePath;
-    
+
     private Unit selectedUnit;
     private LevelGrid levelGrid;
 
     public override void _Ready()
     {
       levelGrid = GetNode<LevelGrid>(levelGridNodePath);
-      
+
       foreach (Unit unit in GetTree().GetNodesInGroup("Units"))
       {
         unit.Connect(nameof(Unit.OnUnitSelected), this, nameof(OnUnitSelected));
@@ -26,8 +29,10 @@ namespace TurnBasedStrategyCourse_godot.Unit
       if (selectedUnit != null) selectedUnit.Selected = false;
       selectedUnit = unit;
       selectedUnit.Selected = true;
+
+      if (selectedUnit != null) EmitSignal(nameof(UnitSelected), selectedUnit);
     }
-    
+
     // ReSharper disable once UnusedMember.Local
     private void _on_Ground_input_event(Node camera, InputEvent @event, Vector3 position, Vector3 normal, int shape_idx)
     {
@@ -42,6 +47,13 @@ namespace TurnBasedStrategyCourse_godot.Unit
           selectedUnit?.Spin();
           break;
       }
+    }
+
+    private void _on_UI_ActionSelected(string actionName)
+    {
+      if (selectedUnit == null) return;
+
+      selectedUnit.DoAction(actionName);
     }
   }
 }
