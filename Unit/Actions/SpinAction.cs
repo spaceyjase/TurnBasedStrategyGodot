@@ -17,7 +17,10 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
       if (!(totalSpin >= spinLimit)) return;
       
       totalSpin = 0f;
-      unit.ChangeAction(nameof(IdleAction));
+      
+      unit.ChangeAction(unit.IdleAction.ActionName);
     }
+
+    public override string ActionName => "Spin";
   }
 }

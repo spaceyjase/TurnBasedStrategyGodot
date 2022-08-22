@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
@@ -22,13 +23,11 @@ namespace TurnBasedStrategyCourse_godot.Unit
     private AnimationNodeStateMachinePlayback animationStateMachine;
     private Spatial selectedVisual;
     private bool selected;
-    
-    public UnitAction CurrentAction { get; set; }
-    private UnitAction InitialAction { get; set; }
 
-    public LevelGrid LevelGrid { get; private set; }
-
-    public GridPosition GridPosition { get; private set; }
+    private UnitAction CurrentAction { get; set; }
+    public UnitAction IdleAction { get; private set; }
+    private LevelGrid LevelGrid { get; set; }
+    private GridPosition GridPosition { get; set; }
 
     public bool Selected
     {
@@ -72,13 +71,13 @@ namespace TurnBasedStrategyCourse_godot.Unit
 
         if (actions.Count == 0)
         {
-          InitialAction = action;
+          IdleAction = action;
         }
 
         actions[action.Name] = action;
       }
       
-      CurrentAction = InitialAction;
+      CurrentAction = IdleAction;
 
       TargetPosition = Translation;
     }
@@ -110,25 +109,6 @@ namespace TurnBasedStrategyCourse_godot.Unit
       EmitSignal(nameof(OnUnitMoving), this, oldPosition, GridPosition);
     }
 
-    public void MoveTo(Vector3 direction)
-    {
-      if (CurrentAction.Name != nameof(IdleAction)) return;
-      
-      var gridPosition = LevelGrid.GetGridPosition(direction);
-      if (!IsValidGridPosition(gridPosition)) return;
-
-      TargetPosition = LevelGrid.GetWorldPosition(gridPosition);
-      
-      ChangeAction(nameof(MoveAction));
-    }
-
-    public void Spin()
-    {
-      if (CurrentAction.Name != nameof(IdleAction)) return;
-      
-      ChangeAction(nameof(SpinAction));
-    }
-
     // ReSharper disable once UnusedMember.Local
     private void _on_SelectorArea_input_event(Node camera, InputEvent @event, Vector3 position, Vector3 normal,
       int shape_idx)
@@ -141,7 +121,21 @@ namespace TurnBasedStrategyCourse_godot.Unit
     }
     
     public IEnumerable<GridPosition> ValidPositions => GetValidGridPosition();
-    public Vector3 TargetPosition { get; private set; } = Vector3.Zero;
+    private Vector3 targetPosition = Vector3.Zero;
+    
+    public Vector3 TargetPosition
+    { 
+      get => targetPosition;
+      set
+      {
+        var gridPosition = LevelGrid.GetGridPosition(value);
+        if (!IsValidGridPosition(gridPosition)) return;
+
+        targetPosition = LevelGrid.GetWorldPosition(gridPosition);
+      }
+    }
+    
+    public IEnumerable<UnitAction> Actions => actions.Values.Where(x => x != IdleAction);
 
     public void ChangeAction(string name)
     {
@@ -190,6 +184,13 @@ namespace TurnBasedStrategyCourse_godot.Unit
           yield return testPosition;
         }
       }
+    }
+
+    public void DoAction(string actionName)
+    {
+      if (CurrentAction.Name != IdleAction.ActionName) return;
+      
+      ChangeAction(actionName);
     }
   }
 }
