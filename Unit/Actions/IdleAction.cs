@@ -16,7 +16,5 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
     {
       // nothing!
     }
-
-    public override string ActionName => "Idle";
   }
 }
