@@ -1,5 +1,6 @@
 using System.Linq;
 using Godot;
+using TurnBasedStrategyCourse_godot.Unit.Actions;
 
 namespace TurnBasedStrategyCourse_godot.UI
 {
@@ -33,16 +34,16 @@ namespace TurnBasedStrategyCourse_godot.UI
         var button = (UnitActionButton)unitActionButtonScene.Instance();
         gridContainer.AddChild(button);
 
-        button.SetText(action.ActionName);
+        button.SetAction(action);
         button.Connect(nameof(UnitActionButton.ActionSelected), this, nameof(_on_UnitActionButton_ActionSelected));
       }
 
       gridContainer.Columns = unit.Actions.Count();
     }
 
-    private void _on_UnitActionButton_ActionSelected(string actionName)
+    private void _on_UnitActionButton_ActionSelected(UnitAction action)
     {
-      EmitSignal(nameof(ActionSelected), actionName);
+      EmitSignal(nameof(ActionSelected), action);
     }
   }
 }

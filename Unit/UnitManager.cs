@@ -1,5 +1,6 @@
 using Godot;
 using TurnBasedStrategyCourse_godot.Level;
+using TurnBasedStrategyCourse_godot.Unit.Actions;
 
 namespace TurnBasedStrategyCourse_godot.Unit
 {
@@ -12,6 +13,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
 
     private Unit selectedUnit;
     private LevelGrid levelGrid;
+    private UnitAction selectedAction;
 
     public override void _Ready()
     {
@@ -26,6 +28,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
 
     private void OnUnitSelected(Unit unit)
     {
+      if (selectedUnit == unit) return;
       if (selectedUnit != null) selectedUnit.Selected = false;
       selectedUnit = unit;
       selectedUnit.Selected = true;
@@ -37,23 +40,18 @@ namespace TurnBasedStrategyCourse_godot.Unit
     private void _on_Ground_input_event(Node camera, InputEvent @event, Vector3 position, Vector3 normal, int shape_idx)
     {
       if (!(@event is InputEventMouseButton eventMouseButton) || !eventMouseButton.Pressed) return;
+      if (selectedUnit == null) return;
+      
+      selectedUnit.TargetPosition = position;
 
-      switch (eventMouseButton.ButtonIndex)
-      {
-        case 1:
-          selectedUnit?.MoveTo(position);
-          break;
-        case 2:
-          selectedUnit?.Spin();
-          break;
-      }
+      if (selectedAction == null) return;
+      
+      selectedUnit.DoAction(selectedAction.ActionName);
     }
 
-    private void _on_UI_ActionSelected(string actionName)
+    private void _on_UI_ActionSelected(UnitAction action)
     {
-      if (selectedUnit == null) return;
-
-      selectedUnit.DoAction(actionName);
+      selectedAction = action;
     }
   }
 }
