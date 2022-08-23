@@ -16,6 +16,7 @@ namespace TurnBasedStrategyCourse_godot.UI
       label = GetNode<Label>("Button/Label");
     }
 
+    // ReSharper disable once UnusedMember.Local
     private void _on_Button_pressed()
     {
       EmitSignal(nameof(ActionSelected), action);

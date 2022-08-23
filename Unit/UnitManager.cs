@@ -21,7 +21,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
 
       foreach (Unit unit in GetTree().GetNodesInGroup("Units"))
       {
-        unit.Connect(nameof(Unit.OnUnitSelected), this, nameof(OnUnitSelected));
+        unit.Connect(nameof(Unit.UnitSelected), this, nameof(OnUnitSelected));
         unit.Initialise(levelGrid);
       }
     }

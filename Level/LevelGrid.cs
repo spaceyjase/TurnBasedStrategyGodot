@@ -22,7 +22,7 @@ namespace TurnBasedStrategyCourse_godot.Level
       foreach (Unit.Unit unit in GetTree().GetNodesInGroup("Units"))
       {
         unit.Connect(nameof(Unit.Unit.OnUnitMoving), this, nameof(OnUnitMoving));
-        unit.Connect(nameof(Unit.Unit.OnUnitSelected), this, nameof(OnUnitSelected));
+        unit.Connect(nameof(Unit.Unit.UnitSelected), this, nameof(OnUnitSelected));
         AddUnitAtGridPosition(GetGridPosition(unit.GlobalTransform.origin), unit);
       }
 

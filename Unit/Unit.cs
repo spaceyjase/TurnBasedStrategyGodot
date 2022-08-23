@@ -1,7 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using TurnBasedStrategyCourse_godot.Events;
 using TurnBasedStrategyCourse_godot.Grid;
 using TurnBasedStrategyCourse_godot.Level;
 using TurnBasedStrategyCourse_godot.Unit.Actions;
@@ -12,7 +12,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
   public class Unit : Spatial
   {
     [Signal]
-    public delegate void OnUnitSelected(Unit selectedUnit);
+    public delegate void UnitSelected(Unit selectedUnit);
 
     [Signal]
     public delegate void OnUnitMoving(Unit selectedUnit, GridPosition oldPosition, GridPosition newPosition);
@@ -116,7 +116,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
       if (@event is InputEventMouseButton eventMouseButton && eventMouseButton.Pressed &&
           eventMouseButton.ButtonIndex == 1)
       {
-        EmitSignal(nameof(OnUnitSelected), this);
+        EmitSignal(nameof(UnitSelected), this);
       }
     }
     
@@ -159,6 +159,8 @@ namespace TurnBasedStrategyCourse_godot.Unit
       CurrentAction?.OnExit?.Invoke();
 
       CurrentAction = newAction;
+      
+      EventBus.Instance.EmitSignal(CurrentAction == IdleAction ? nameof(EventBus.UnitIdle) : nameof(EventBus.UnitBusy), this);
       
       newAction.OnEnter?.Invoke();
     }

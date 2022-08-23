@@ -41,6 +41,7 @@ color = Color( 0.141176, 0.141176, 0.141176, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 80, 80 )
+focus_mode = 1
 custom_styles/focus = SubResource( 2 )
 
 [node name="Label" type="Label" parent="Button"]

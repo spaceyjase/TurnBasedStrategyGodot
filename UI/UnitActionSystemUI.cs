@@ -1,5 +1,6 @@
 using System.Linq;
 using Godot;
+using TurnBasedStrategyCourse_godot.Events;
 using TurnBasedStrategyCourse_godot.Unit.Actions;
 
 namespace TurnBasedStrategyCourse_godot.UI
@@ -9,15 +10,34 @@ namespace TurnBasedStrategyCourse_godot.UI
     [Signal]
     private delegate void ActionSelected(string actionName);
 
-    [Export] private PackedScene unitActionButtonScene = null;
+    [Export] private PackedScene unitActionButtonScene;
 
     private GridContainer gridContainer;
+    private Label busyLabel;
 
     public override void _Ready()
     {
       base._Ready();
 
       gridContainer = GetNode<GridContainer>(nameof(GridContainer));
+      
+      EventBus.Instance.Connect(nameof(EventBus.UnitBusy), this, nameof(OnUnitBusy));
+      EventBus.Instance.Connect(nameof(EventBus.UnitIdle), this, nameof(OnUnitIdle));
+
+      busyLabel = GetNode<Label>("BusyLabel");
+      busyLabel.Visible = false;
+    }
+
+    private void OnUnitBusy(Unit.Unit unit)
+    {
+      busyLabel.Text = $"{unit.Name} busy";
+      busyLabel.Visible = true;
+    }
+    
+    private void OnUnitIdle(Unit.Unit unit)
+    {
+      busyLabel.Text = $"{unit.Name} idle";
+      busyLabel.Visible = false;
     }
 
     private void _on_UnitManager_UnitSelected(Unit.Unit unit)

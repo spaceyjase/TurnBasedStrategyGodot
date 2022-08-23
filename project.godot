@@ -14,6 +14,10 @@ config/name="TurnBasedStrategyCourse_godot"
 run/main_scene="res://Scenes/GameScene.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+EventBus="*res://Events/EventBus.cs"
+
 [input]
 
 move_right={
