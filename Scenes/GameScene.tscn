@@ -3394,8 +3394,11 @@ levelGridNodePath = NodePath("../LevelGrid")
 [node name="Unit" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 4 )
 
+[node name="Skeleton" parent="Unit/Armature" index="0"]
+bones/40/bound_children = [ NodePath("BoneAttachment") ]
+
 [node name="BoneAttachment" parent="Unit/Armature/Skeleton" index="1"]
-transform = Transform( 0.239664, 0.0168485, -0.970709, -0.950831, 0.206097, -0.231178, 0.196166, 0.978386, 0.0654138, -0.171772, 2.30329, 0.264962 )
+transform = Transform( 0.239773, 0.0187758, -0.970647, -0.951604, 0.20253, -0.231152, 0.192245, 0.979096, 0.0664281, -0.171692, 2.30296, 0.257034 )
 
 [node name="AnimationTree" parent="Unit" index="6"]
 parameters/playback = SubResource( 14 )
@@ -3403,11 +3406,14 @@ parameters/playback = SubResource( 14 )
 [node name="Unit2" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 12 )
 
+[node name="Skeleton" parent="Unit2/Armature" index="0"]
+bones/40/bound_children = [ NodePath("BoneAttachment") ]
+
 [node name="characterMedium001" parent="Unit2/Armature/Skeleton" index="0"]
 material/0 = SubResource( 4 )
 
 [node name="BoneAttachment" parent="Unit2/Armature/Skeleton" index="1"]
-transform = Transform( 0.239664, 0.0168485, -0.970709, -0.950831, 0.206097, -0.231178, 0.196166, 0.978386, 0.0654138, -0.171772, 2.30329, 0.264962 )
+transform = Transform( 0.239773, 0.0187758, -0.970647, -0.951604, 0.20253, -0.231152, 0.192245, 0.979096, 0.0664281, -0.171692, 2.30296, 0.257034 )
 
 [node name="AnimationTree" parent="Unit2" index="6"]
 parameters/playback = SubResource( 5 )

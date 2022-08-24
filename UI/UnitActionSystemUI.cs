@@ -14,6 +14,7 @@ namespace TurnBasedStrategyCourse_godot.UI
 
     private GridContainer gridContainer;
     private Label busyLabel;
+    private Label actionPointLabel;
 
     public override void _Ready()
     {
@@ -26,16 +27,27 @@ namespace TurnBasedStrategyCourse_godot.UI
 
       busyLabel = GetNode<Label>("BusyLabel");
       busyLabel.Visible = false;
+      
+      actionPointLabel = GetNode<Label>("ActionPointLabel");
+      actionPointLabel.Visible = false;
     }
 
     private void OnUnitBusy(Unit.Unit unit)
     {
+      UpdateActionPoints(unit);
       busyLabel.Text = $"{unit.Name} busy";
       busyLabel.Visible = true;
     }
-    
+
+    private void UpdateActionPoints(Unit.Unit unit)
+    {
+      actionPointLabel.Text = $"Action Points: {unit.ActionPoints}";
+      actionPointLabel.Visible = true;
+    }
+
     private void OnUnitIdle(Unit.Unit unit)
     {
+      UpdateActionPoints(unit);
       busyLabel.Text = $"{unit.Name} idle";
       busyLabel.Visible = false;
     }
@@ -59,6 +71,8 @@ namespace TurnBasedStrategyCourse_godot.UI
       }
 
       gridContainer.Columns = unit.Actions.Count();
+      
+      UpdateActionPoints(unit);
     }
 
     private void _on_UnitActionButton_ActionSelected(UnitAction action)

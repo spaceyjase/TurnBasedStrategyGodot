@@ -50,6 +50,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
     public double StoppingDistance => unitStats.StoppingDistance;
     public float RotateSpeed => unitStats.RotateSpeed;
     private int MaxMoveDistance => unitStats.MaxMoveDistance;
+    private int TotalActionPoints => unitStats.TotalActionPoints;
 
     private readonly Dictionary<string, UnitAction> actions = new Dictionary<string, UnitAction>();
 
@@ -88,6 +89,8 @@ namespace TurnBasedStrategyCourse_godot.Unit
       GridPosition = LevelGrid.GetGridPosition(Translation);
       
       unitStats.Initialise();
+
+      ActionPoints = TotalActionPoints;
     }
 
     public override void _Process(float delta)
@@ -122,7 +125,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
     
     public IEnumerable<GridPosition> ValidPositions => GetValidGridPosition();
     private Vector3 targetPosition = Vector3.Zero;
-    
+
     public Vector3 TargetPosition
     { 
       get => targetPosition;
@@ -136,6 +139,23 @@ namespace TurnBasedStrategyCourse_godot.Unit
     }
     
     public IEnumerable<UnitAction> Actions => actions.Values.Where(x => x != IdleAction);
+    public int ActionPoints { get; private set; }
+
+    private void TryChangeAction(string name)
+    {
+      if (actions.ContainsKey(name) == false)
+      {
+        GD.PrintErr($"State {name} does not exist!");
+        return;
+      }
+
+      var action = actions[name];
+      if (!CanTakeAction(action)) return;
+
+      SpendActionPoints(action.ActionPointCost);
+      
+      ChangeAction(actions[name]);
+    }
 
     public void ChangeAction(string name)
     {
@@ -192,7 +212,17 @@ namespace TurnBasedStrategyCourse_godot.Unit
     {
       if (CurrentAction.Name != IdleAction.ActionName) return;
       
-      ChangeAction(actionName);
+      TryChangeAction(actionName);
+    }
+
+    private bool CanTakeAction(UnitAction action)
+    {
+      return ActionPoints >= action.ActionPointCost;
+    }
+
+    private void SpendActionPoints(int points)
+    {
+      ActionPoints -= points;
     }
   }
 }

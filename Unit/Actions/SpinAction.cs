@@ -20,5 +20,7 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
       
       unit.ChangeAction(unit.IdleAction.ActionName);
     }
+
+    public override int ActionPointCost => 2;
   }
 }
