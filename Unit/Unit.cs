@@ -79,8 +79,14 @@ namespace TurnBasedStrategyCourse_godot.Unit
       }
       
       CurrentAction = IdleAction;
-
       TargetPosition = Translation;
+      
+      EventBus.Instance.Connect(nameof(EventBus.TurnChanged), this, nameof(OnTurnChanged));
+    }
+
+    private void OnTurnChanged(int turn)
+    {
+      ResetActionPoints();
     }
 
     public void Initialise(LevelGrid levelGrid)
@@ -223,6 +229,11 @@ namespace TurnBasedStrategyCourse_godot.Unit
     private void SpendActionPoints(int points)
     {
       ActionPoints -= points;
+    }
+
+    private void ResetActionPoints()
+    {
+      ActionPoints = TotalActionPoints;
     }
   }
 }

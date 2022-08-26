@@ -9,12 +9,17 @@ namespace TurnBasedStrategyCourse_godot.UI
   {
     [Signal]
     private delegate void ActionSelected(string actionName);
+    [Signal]
+    private delegate void EndTurnPressed(string actionName);
 
     [Export] private PackedScene unitActionButtonScene;
 
     private GridContainer gridContainer;
     private Label busyLabel;
     private Label actionPointLabel;
+    private Label turnLabel;
+
+    private Unit.Unit currentUnit;
 
     public override void _Ready()
     {
@@ -24,12 +29,15 @@ namespace TurnBasedStrategyCourse_godot.UI
       
       EventBus.Instance.Connect(nameof(EventBus.UnitBusy), this, nameof(OnUnitBusy));
       EventBus.Instance.Connect(nameof(EventBus.UnitIdle), this, nameof(OnUnitIdle));
+      EventBus.Instance.Connect(nameof(EventBus.TurnChanged), this, nameof(OnTurnChanged));
 
       busyLabel = GetNode<Label>("BusyLabel");
       busyLabel.Visible = false;
       
       actionPointLabel = GetNode<Label>("ActionPointLabel");
       actionPointLabel.Visible = false;
+
+      turnLabel = GetNode<Label>("TurnLabel");
     }
 
     private void OnUnitBusy(Unit.Unit unit)
@@ -54,6 +62,8 @@ namespace TurnBasedStrategyCourse_godot.UI
 
     private void _on_UnitManager_UnitSelected(Unit.Unit unit)
     {
+      currentUnit = unit;
+      
       // Remove existing (could pool these given the same action)
       foreach (Node child in gridContainer.GetChildren())
       {
@@ -72,12 +82,27 @@ namespace TurnBasedStrategyCourse_godot.UI
 
       gridContainer.Columns = unit.Actions.Count();
       
-      UpdateActionPoints(unit);
+      UpdateActionPoints(currentUnit);
     }
 
     private void _on_UnitActionButton_ActionSelected(UnitAction action)
     {
       EmitSignal(nameof(ActionSelected), action);
+    }
+
+    private void _on_EndTurnButton_pressed()
+    {
+      EmitSignal(nameof(EndTurnPressed));
+    }
+    
+    private void OnTurnChanged(int turn)
+    {
+      if (currentUnit != null)
+      {
+        UpdateActionPoints(currentUnit);
+      }
+
+      turnLabel.Text = $"Turn: {turn}";
     }
   }
 }

@@ -30,10 +30,13 @@ namespace TurnBasedStrategyCourse_godot.Unit
     {
       if (selectedUnit == unit) return;
       if (selectedUnit != null) selectedUnit.Selected = false;
+      
       selectedUnit = unit;
       selectedUnit.Selected = true;
 
       if (selectedUnit != null) EmitSignal(nameof(UnitSelected), selectedUnit);
+      
+      selectedAction = null;
     }
 
     // ReSharper disable once UnusedMember.Local
@@ -49,6 +52,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
       selectedUnit.DoAction(selectedAction.ActionName);
     }
 
+    // ReSharper disable once UnusedMember.Local
     private void _on_UI_ActionSelected(UnitAction action)
     {
       selectedAction = action;

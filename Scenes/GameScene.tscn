@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Unit/Unit.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Level/LevelGrid.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://UI/UnitActionSystemUI.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Camera/CameraController.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Grid/GridCell.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Turn/TurnSystem.tscn" type="PackedScene" id=9]
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=14]
 
@@ -3391,6 +3392,8 @@ cellScene = ExtResource( 8 )
 [node name="UnitManager" parent="." instance=ExtResource( 4 )]
 levelGridNodePath = NodePath("../LevelGrid")
 
+[node name="TurnSystem" parent="." instance=ExtResource( 9 )]
+
 [node name="Unit" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 4 )
 
@@ -3398,7 +3401,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 4 )
 bones/40/bound_children = [ NodePath("BoneAttachment") ]
 
 [node name="BoneAttachment" parent="Unit/Armature/Skeleton" index="1"]
-transform = Transform( 0.239773, 0.0187758, -0.970647, -0.951604, 0.20253, -0.231152, 0.192245, 0.979096, 0.0664281, -0.171692, 2.30296, 0.257034 )
+transform = Transform( 0.240156, 0.0198575, -0.970531, -0.952574, 0.197306, -0.231676, 0.186891, 0.98014, 0.0662997, -0.171965, 2.30048, 0.25805 )
 
 [node name="AnimationTree" parent="Unit" index="6"]
 parameters/playback = SubResource( 14 )
@@ -3413,7 +3416,7 @@ bones/40/bound_children = [ NodePath("BoneAttachment") ]
 material/0 = SubResource( 4 )
 
 [node name="BoneAttachment" parent="Unit2/Armature/Skeleton" index="1"]
-transform = Transform( 0.239773, 0.0187758, -0.970647, -0.951604, 0.20253, -0.231152, 0.192245, 0.979096, 0.0664281, -0.171692, 2.30296, 0.257034 )
+transform = Transform( 0.240156, 0.0198575, -0.970531, -0.952574, 0.197306, -0.231676, 0.186891, 0.98014, 0.0662997, -0.171965, 2.30048, 0.25805 )
 
 [node name="AnimationTree" parent="Unit2" index="6"]
 parameters/playback = SubResource( 5 )
@@ -3444,6 +3447,7 @@ shadow_color = Color( 0.258824, 0.258824, 0.258824, 1 )
 [connection signal="input_event" from="LevelGrid/Ground" to="UnitManager" method="_on_Ground_input_event"]
 [connection signal="UnitSelected" from="UnitManager" to="UI" method="_on_UnitManager_UnitSelected"]
 [connection signal="ActionSelected" from="UI" to="UnitManager" method="_on_UI_ActionSelected"]
+[connection signal="EndTurnPressed" from="UI" to="TurnSystem" method="_on_UI_EndTurnPressed"]
 
 [editable path="LevelGrid"]
 [editable path="Unit"]
