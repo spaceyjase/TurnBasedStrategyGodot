@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Godot;
+using TurnBasedStrategyCourse_godot.Events;
 using TurnBasedStrategyCourse_godot.Grid;
 
 namespace TurnBasedStrategyCourse_godot.Level
@@ -22,9 +23,10 @@ namespace TurnBasedStrategyCourse_godot.Level
       foreach (Unit.Unit unit in GetTree().GetNodesInGroup("Units"))
       {
         unit.Connect(nameof(Unit.Unit.OnUnitMoving), this, nameof(OnUnitMoving));
-        unit.Connect(nameof(Unit.Unit.UnitSelected), this, nameof(OnUnitSelected));
         AddUnitAtGridPosition(GetGridPosition(unit.GlobalTransform.origin), unit);
       }
+      
+      EventBus.Instance.Connect(nameof(EventBus.TurnChanged), this, nameof(OnTurnChanged));
 
       CreateVisualElements();
     }
@@ -96,6 +98,11 @@ namespace TurnBasedStrategyCourse_godot.Level
       {
         cell.Visible = false;
       }
+    }
+    
+    private void OnTurnChanged(int turn, bool isPlayerTurn)
+    {
+      HideAllGridPositions();
     }
   }
 }

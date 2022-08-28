@@ -26,7 +26,7 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
     {
       if (unit.Translation.DistanceTo(unit.TargetPosition) > unit.StoppingDistance)
       {
-        var moveDirection = (unit.TargetPosition - unit.Translation).Normalized();
+        var moveDirection = unit.Translation.DirectionTo(unit.TargetPosition);
         unit.Translation += moveDirection * (unit.MovementSpeed * delta);
 
         var newTransform = unit.Transform.LookingAt(unit.GlobalTransform.origin - moveDirection, Vector3.Up);

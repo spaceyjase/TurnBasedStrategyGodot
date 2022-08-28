@@ -11,8 +11,9 @@ namespace TurnBasedStrategyCourse_godot.Events
   
     [Signal]
     public delegate void UnitIdle(Unit.Unit unit);
+    
     [Signal]
-    public delegate void TurnChanged(int turn);
+    public delegate void TurnChanged(int turn, bool isPlayerTurn);
     
     public static EventBus Instance { get; } = new EventBus();
   }

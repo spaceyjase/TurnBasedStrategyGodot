@@ -18,6 +18,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
     public delegate void OnUnitMoving(Unit selectedUnit, GridPosition oldPosition, GridPosition newPosition);
 
     [Export] private UnitStats unitStats;
+    [Export] private bool isEnemy;
 
     private AnimationTree animationTree;
     private AnimationNodeStateMachinePlayback animationStateMachine;
@@ -66,6 +67,11 @@ namespace TurnBasedStrategyCourse_godot.Unit
       selectedVisual = GetNode<Spatial>("SelectedVisual");
       selectedVisual.Hide();
 
+      if (isEnemy)
+      {
+        GetNode<Area>("SelectorArea").QueueFree();
+      }
+
       foreach (var child in GetChildren())
       {
         if (!(child is UnitAction action)) continue;
@@ -84,8 +90,11 @@ namespace TurnBasedStrategyCourse_godot.Unit
       EventBus.Instance.Connect(nameof(EventBus.TurnChanged), this, nameof(OnTurnChanged));
     }
 
-    private void OnTurnChanged(int turn)
+    private void OnTurnChanged(int turn, bool isPlayerTurn)
     {
+      if (!isEnemy) GetNode<CollisionShape>("SelectorArea/CollisionShape").Disabled = !isPlayerTurn;
+      if (isEnemy == isPlayerTurn) return;
+
       ResetActionPoints();
     }
 
@@ -122,11 +131,10 @@ namespace TurnBasedStrategyCourse_godot.Unit
     private void _on_SelectorArea_input_event(Node camera, InputEvent @event, Vector3 position, Vector3 normal,
       int shape_idx)
     {
-      if (@event is InputEventMouseButton eventMouseButton && eventMouseButton.Pressed &&
-          eventMouseButton.ButtonIndex == 1)
-      {
-        EmitSignal(nameof(UnitSelected), this);
-      }
+      if (!(@event is InputEventMouseButton eventMouseButton) || !eventMouseButton.Pressed ||
+          eventMouseButton.ButtonIndex != 1) return;
+      
+      EmitSignal(nameof(UnitSelected), this);
     }
     
     public IEnumerable<GridPosition> ValidPositions => GetValidGridPosition();
@@ -146,6 +154,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
     
     public IEnumerable<UnitAction> Actions => actions.Values.Where(x => x != IdleAction);
     public int ActionPoints { get; private set; }
+    public bool Busy => CurrentAction != IdleAction;
 
     private void TryChangeAction(string name)
     {
