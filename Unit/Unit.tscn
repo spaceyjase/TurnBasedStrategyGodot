@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://Unit/Unit.cs" type="Script" id=1]
 [ext_resource path="res://Assets/Imports/survivorFemaleA.png" type="Texture" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Unit/Resources/UnitStats.tres" type="Resource" id=7]
 [ext_resource path="res://Unit/Actions/Idle.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Unit/Actions/Spin.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Unit/Actions/Shoot.tscn" type="PackedScene" id=10]
 
 [sub_resource type="CylinderShape" id=18]
 height = 3.35
@@ -219,6 +220,9 @@ flags_unshaded = true
 albedo_color = Color( 0.172549, 0.788235, 0.180392, 1 )
 albedo_texture = ExtResource( 5 )
 
+[sub_resource type="AnimationNodeAnimation" id=22]
+animation = "firing rifle"
+
 [sub_resource type="AnimationNodeAnimation" id=12]
 animation = "rifle aiming idle"
 
@@ -229,12 +233,18 @@ animation = "rifle run"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=17]
 
+[sub_resource type="AnimationNodeStateMachineTransition" id=23]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=24]
+
 [sub_resource type="AnimationNodeStateMachine" id=15]
+"states/firing rifle/node" = SubResource( 22 )
+"states/firing rifle/position" = Vector2( 110, 155.46 )
 "states/rifle aiming idle/node" = SubResource( 12 )
 "states/rifle aiming idle/position" = Vector2( 110, 22.74 )
 "states/rifle run/node" = SubResource( 13 )
 "states/rifle run/position" = Vector2( 416.2, 22.98 )
-transitions = [ "rifle aiming idle", "rifle run", SubResource( 14 ), "rifle run", "rifle aiming idle", SubResource( 17 ) ]
+transitions = [ "rifle aiming idle", "rifle run", SubResource( 14 ), "rifle run", "rifle aiming idle", SubResource( 17 ), "rifle aiming idle", "firing rifle", SubResource( 23 ), "firing rifle", "rifle aiming idle", SubResource( 24 ) ]
 start_node = "rifle aiming idle"
 graph_offset = Vector2( -57.3, -24.54 )
 
@@ -3617,6 +3627,8 @@ unitStats = ExtResource( 7 )
 
 [node name="Spin" parent="." instance=ExtResource( 9 )]
 
+[node name="Shoot" parent="." instance=ExtResource( 10 )]
+
 [node name="SelectorArea" type="Area" parent="."]
 monitoring = false
 monitorable = false
@@ -3926,7 +3938,7 @@ skin = SubResource( 2 )
 material/0 = SubResource( 11 )
 
 [node name="BoneAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( 0.239543, 0.0170538, -0.970736, -0.950827, 0.206309, -0.231006, 0.196332, 0.978338, 0.0656351, -0.176097, 2.30248, 0.2771 )
+transform = Transform( 0.240143, 0.0191869, -0.970547, -0.95086, 0.20594, -0.2312, 0.195438, 0.978376, 0.0676988, -0.177829, 2.30034, 0.27099 )
 bone_name = "RightHand"
 
 [node name="machinegun" parent="Armature/Skeleton/BoneAttachment" instance=ExtResource( 4 )]

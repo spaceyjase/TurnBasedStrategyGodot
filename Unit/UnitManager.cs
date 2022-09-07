@@ -9,6 +9,8 @@ namespace TurnBasedStrategyCourse_godot.Unit
   {
     [Signal]
     public delegate void UnitSelected(Unit unit);
+    [Signal]
+    public delegate void UnitActionSelected(UnitAction action);
 
     [Export] private NodePath levelGridNodePath;
 
@@ -44,7 +46,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
       selectedUnit = unit;
       selectedUnit.Selected = true;
 
-      if (selectedUnit != null) EmitSignal(nameof(UnitSelected), selectedUnit);
+      EmitSignal(nameof(UnitSelected), selectedUnit);
       
       selectedAction = null;
     }
@@ -56,10 +58,9 @@ namespace TurnBasedStrategyCourse_godot.Unit
       if (!playerTurn) return;
       if (selectedUnit == null) return;
       if (selectedUnit.Busy) return;
-      
-      selectedUnit.TargetPosition = position;
 
       if (selectedAction == null) return;
+      if (!selectedUnit.TrySetTargetPositionForAction(selectedAction, position)) return;
       
       selectedUnit.DoAction(selectedAction.ActionName);
     }
@@ -68,6 +69,8 @@ namespace TurnBasedStrategyCourse_godot.Unit
     private void _on_UI_ActionSelected(UnitAction action)
     {
       selectedAction = action;
+      
+      EmitSignal(nameof(UnitActionSelected), selectedAction);
     }
     
     private void OnTurnChanged(int turn, bool isPlayerTurn)

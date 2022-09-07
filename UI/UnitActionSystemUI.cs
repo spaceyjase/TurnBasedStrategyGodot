@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Linq;
 using Godot;
 using TurnBasedStrategyCourse_godot.Events;
@@ -120,6 +119,7 @@ namespace TurnBasedStrategyCourse_godot.UI
       endTurnButton.Disabled = false;
     }
 
+    // ReSharper disable once UnusedMember.Local
     private void _on_UnitManager_UnitSelected(Unit.Unit unit)
     {
       CurrentUnit = unit;

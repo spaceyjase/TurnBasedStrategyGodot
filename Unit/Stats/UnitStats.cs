@@ -8,12 +8,14 @@ namespace TurnBasedStrategyCourse_godot.Unit.Stats
     [Export] private float rotateSpeed = 15f;
     [Export] private float stoppingDistance = .1f;
     [Export] private int maxMoveDistance = 4;
+    [Export] private int maxShootDistance = 7;
     [Export] private int totalActionPoints = 2;
 
     public float MovementSpeed { get; private set; }
     public float RotateSpeed { get; private set; }
     public float StoppingDistance { get; private set; }
     public int MaxMoveDistance { get; private set; }
+    public int MaxShootDistance { get; private set; }
     public int TotalActionPoints { get; private set; }
     
     public void Initialise()
@@ -22,6 +24,7 @@ namespace TurnBasedStrategyCourse_godot.Unit.Stats
       RotateSpeed = (float)Get(nameof(rotateSpeed));
       StoppingDistance = (float)Get(nameof(stoppingDistance));
       MaxMoveDistance = (int)Get(nameof(maxMoveDistance));
+      MaxShootDistance = (int)Get(nameof(maxShootDistance));
       TotalActionPoints = (int)Get(nameof(totalActionPoints));
     }
   }

@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 using TurnBasedStrategyCourse_godot.Events;
 using TurnBasedStrategyCourse_godot.Grid;
+using TurnBasedStrategyCourse_godot.Unit.Actions;
 
 namespace TurnBasedStrategyCourse_godot.Level
 {
@@ -25,7 +27,7 @@ namespace TurnBasedStrategyCourse_godot.Level
         unit.Connect(nameof(Unit.Unit.OnUnitMoving), this, nameof(OnUnitMoving));
         AddUnitAtGridPosition(GetGridPosition(unit.GlobalTransform.origin), unit);
       }
-      
+
       EventBus.Instance.Connect(nameof(EventBus.TurnChanged), this, nameof(OnTurnChanged));
 
       CreateVisualElements();
@@ -66,22 +68,26 @@ namespace TurnBasedStrategyCourse_godot.Level
     {
       RemoveUnitAsGridPosition(oldPosition, unit);
       AddUnitAtGridPosition(newPosition, unit);
-      ShowUnitRange(unit);
+      ShowUnitActionRange(unit.CurrentAction);
     }
 
-    private void OnUnitSelected(Unit.Unit unit)
-    {
-      ShowUnitRange(unit);
-    }
+    // ReSharper disable once UnusedMember.Local
+    private void OnUnitManagerActionSelected(UnitAction action) => ShowUnitActionRange(action);
+    
+    // ReSharper disable once UnusedMember.Local
+    private void OnUnitManagerUnitSelected(Unit.Unit unit) => HideAllGridPositions();
 
     public bool IsValidPosition(GridPosition position) => gridSystem.IsValidPosition(position);
 
     public bool IsOccupied(GridPosition position) => !gridSystem.GetGridObject(position).IsEmpty();
 
-    private void ShowUnitRange(Unit.Unit unit)
+    public Unit.Unit GetUnitAtPosition(GridPosition position) =>
+      gridSystem.GetGridObject(position).GetUnitList().First();
+
+    private void ShowUnitActionRange(UnitAction action)
     {
       HideAllGridPositions();
-      ShowUnitGridPositions(unit.ValidPositions);
+      ShowUnitGridPositions(action.ValidPositions);
     }
 
     private void ShowUnitGridPositions(IEnumerable<GridPosition> positions)
@@ -99,7 +105,7 @@ namespace TurnBasedStrategyCourse_godot.Level
         cell.Visible = false;
       }
     }
-    
+
     private void OnTurnChanged(int turn, bool isPlayerTurn)
     {
       HideAllGridPositions();

@@ -25,10 +25,11 @@ namespace TurnBasedStrategyCourse_godot.Unit
     private Spatial selectedVisual;
     private bool selected;
 
-    private UnitAction CurrentAction { get; set; }
+    public UnitAction CurrentAction { get; set; }
     public UnitAction IdleAction { get; private set; }
-    private LevelGrid LevelGrid { get; set; }
-    private GridPosition GridPosition { get; set; }
+    public LevelGrid LevelGrid { get; set; }
+    public GridPosition GridPosition { get; set; }
+    public bool IsEnemy => isEnemy;
 
     public bool Selected
     {
@@ -50,7 +51,8 @@ namespace TurnBasedStrategyCourse_godot.Unit
     public float MovementSpeed => unitStats.MovementSpeed;
     public double StoppingDistance => unitStats.StoppingDistance;
     public float RotateSpeed => unitStats.RotateSpeed;
-    private int MaxMoveDistance => unitStats.MaxMoveDistance;
+    public int MaxMoveDistance => unitStats.MaxMoveDistance;
+    public int MaxShootDistance => unitStats.MaxShootDistance;
     private int TotalActionPoints => unitStats.TotalActionPoints;
 
     private readonly Dictionary<string, UnitAction> actions = new Dictionary<string, UnitAction>();
@@ -136,22 +138,9 @@ namespace TurnBasedStrategyCourse_godot.Unit
       
       EmitSignal(nameof(UnitSelected), this);
     }
-    
-    public IEnumerable<GridPosition> ValidPositions => GetValidGridPosition();
-    private Vector3 targetPosition = Vector3.Zero;
 
-    public Vector3 TargetPosition
-    { 
-      get => targetPosition;
-      set
-      {
-        var gridPosition = LevelGrid.GetGridPosition(value);
-        if (!IsValidGridPosition(gridPosition)) return;
+    public Vector3 TargetPosition { get; private set; } = Vector3.Zero;
 
-        targetPosition = LevelGrid.GetWorldPosition(gridPosition);
-      }
-    }
-    
     public IEnumerable<UnitAction> Actions => actions.Values.Where(x => x != IdleAction);
     public int ActionPoints { get; private set; }
     public bool Busy => CurrentAction != IdleAction;
@@ -199,29 +188,6 @@ namespace TurnBasedStrategyCourse_godot.Unit
       
       newAction.OnEnter?.Invoke();
     }
-    
-    private bool IsValidGridPosition(GridPosition position)
-    {
-      return GetValidGridPosition().Contains(position);
-    }
-
-    private IEnumerable<GridPosition> GetValidGridPosition()
-    {
-      for (var x = -MaxMoveDistance; x <= MaxMoveDistance; ++x)
-      {
-        for (var z = -MaxMoveDistance; z <= MaxMoveDistance; ++z)
-        {
-          var offset = new GridPosition(x, z);
-          var testPosition = GridPosition + offset;
-
-          if (!LevelGrid.IsValidPosition(testPosition)) continue;
-          if (GridPosition == testPosition) continue;
-          if (LevelGrid.IsOccupied(testPosition)) continue;
-
-          yield return testPosition;
-        }
-      }
-    }
 
     public void DoAction(string actionName)
     {
@@ -243,6 +209,21 @@ namespace TurnBasedStrategyCourse_godot.Unit
     private void ResetActionPoints()
     {
       ActionPoints = TotalActionPoints;
+    }
+
+    public bool TrySetTargetPositionForAction(UnitAction action, Vector3 position)
+    {
+      var gridPosition = LevelGrid.GetGridPosition(position);
+      if (!action.IsValidGridPosition(gridPosition)) return false;
+
+      TargetPosition = LevelGrid.GetWorldPosition(gridPosition);
+      
+      return true;
+    }
+
+    public void Damage()
+    {
+      GD.Print($"Damaged {Name}");
     }
   }
 }

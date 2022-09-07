@@ -4,5 +4,6 @@ namespace TurnBasedStrategyCourse_godot.Unit
   {
     public const string Idle = "rifle aiming idle";
     public const string Running = "rifle run";
+    public const string Shooting = "firing rifle";
   }
 }

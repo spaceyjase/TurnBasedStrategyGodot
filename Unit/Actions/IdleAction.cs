@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using TurnBasedStrategyCourse_godot.Grid;
+
 namespace TurnBasedStrategyCourse_godot.Unit.Actions
 {
   public class IdleAction : UnitAction
@@ -16,5 +19,7 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
     {
       // nothing!
     }
+
+    protected override IEnumerable<GridPosition> GetValidActionGridPositions() => new List<GridPosition>();
   }
 }
