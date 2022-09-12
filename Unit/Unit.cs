@@ -25,10 +25,11 @@ namespace TurnBasedStrategyCourse_godot.Unit
     private Spatial selectedVisual;
     private bool selected;
 
-    public UnitAction CurrentAction { get; set; }
-    public UnitAction IdleAction { get; private set; }
-    public LevelGrid LevelGrid { get; set; }
-    public GridPosition GridPosition { get; set; }
+    public UnitAction CurrentAction { get; private set; }
+    public UnitAction DefaultAction => IdleAction;
+    private UnitAction IdleAction { get; set; }
+    public LevelGrid LevelGrid { get; private set; }
+    public GridPosition GridPosition { get; private set; }
     public bool IsEnemy => isEnemy;
 
     public bool Selected

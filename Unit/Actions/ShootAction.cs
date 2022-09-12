@@ -114,7 +114,7 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
           timer = coolOffTime;
           break;
         case State.CoolOff:
-          unit.ChangeAction(unit.IdleAction.ActionName);
+          unit.ChangeAction(unit.DefaultAction.ActionName);
           break;
         default:
           throw new ArgumentOutOfRangeException();

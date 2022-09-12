@@ -20,7 +20,7 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
 
       totalSpin = 0f;
 
-      unit.ChangeAction(unit.IdleAction.ActionName);
+      unit.ChangeAction(unit.DefaultAction.ActionName);
     }
 
     protected override IEnumerable<GridPosition> GetValidActionGridPositions() =>

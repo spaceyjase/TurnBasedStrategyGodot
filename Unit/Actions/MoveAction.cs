@@ -54,7 +54,7 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
       }
       else
       {
-        unit.ChangeAction(unit.IdleAction.ActionName);
+        unit.ChangeAction(unit.DefaultAction.ActionName);
       }
     }
   }
