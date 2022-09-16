@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Addons/MotionTrail/MotionTrail.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Bullet/Bullet.cs" type="Script" id=2]
+[ext_resource path="res://Bullet/BulletMaterial.tres" type="Material" id=3]
+[ext_resource path="res://Bullet/BulletParticles.tscn" type="PackedScene" id=4]
+
+[node name="Bullet" type="Spatial"]
+script = ExtResource( 2 )
+bulletParticlesScene = ExtResource( 4 )
+
+[node name="Trails" type="Spatial" parent="."]
+
+[node name="MotionTrail" parent="Trails" instance=ExtResource( 1 )]
+material_override = ExtResource( 3 )
+cast_shadow = 0
+generate_lightmap = false
+fromWidth = 0.2
+toWidth = 0.01
+scaleAcceleration = 0.5
+motionDelta = 0.0
+lifespan = 0.25
+endColor = Color( 0.909804, 0.654902, 0.0392157, 0.14902 )
+
+[node name="MotionTrail2" parent="Trails" instance=ExtResource( 1 )]
+transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0.01, 0, 0 )
+material_override = ExtResource( 3 )
+cast_shadow = 0
+generate_lightmap = false
+fromWidth = 0.2
+toWidth = 0.01
+scaleAcceleration = 0.5
+motionDelta = 0.0
+lifespan = 0.25
+endColor = Color( 0.909804, 0.654902, 0.0392157, 0.14902 )
+
+[node name="MotionTrail3" parent="Trails" instance=ExtResource( 1 )]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -0.01, 0, 0 )
+material_override = ExtResource( 3 )
+cast_shadow = 0
+generate_lightmap = false
+fromWidth = 0.2
+toWidth = 0.01
+scaleAcceleration = 0.5
+motionDelta = 0.0
+lifespan = 0.25
+endColor = Color( 0.909804, 0.654902, 0.0392157, 0.14902 )

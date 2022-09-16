@@ -19,6 +19,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
 
     [Export] private UnitStats unitStats;
     [Export] private bool isEnemy;
+    [Export] private NodePath bulletSpawnPositionPath;
 
     private AnimationTree animationTree;
     private AnimationNodeStateMachinePlayback animationStateMachine;
@@ -57,6 +58,8 @@ namespace TurnBasedStrategyCourse_godot.Unit
     private int TotalActionPoints => unitStats.TotalActionPoints;
 
     private readonly Dictionary<string, UnitAction> actions = new Dictionary<string, UnitAction>();
+
+    public Vector3 BulletSpawnPosition => GetNode<Position3D>(bulletSpawnPositionPath).GlobalTranslation;
 
     public void SetAnimation(string animationName)
     {

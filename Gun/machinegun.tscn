@@ -90,13 +90,7 @@ surfaces/1 = {
 [node name="machinegun" type="MeshInstance" parent="tmpParent"]
 transform = Transform( 0.3828, 0, 0, 0, 0.3828, 0, 0, 0, 0.3828, 0, 0, 0 )
 mesh = SubResource( 1 )
-material/0 = null
-material/1 = null
-material/2 = null
-material/3 = null
 
 [node name="Group" type="MeshInstance" parent="tmpParent/machinegun"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.075, -0.05, 0.28 )
 mesh = SubResource( 2 )
-material/0 = null
-material/1 = null
