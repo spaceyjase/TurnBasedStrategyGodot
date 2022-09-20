@@ -3632,6 +3632,7 @@ bulletSpawnPositionPath = NodePath("Armature/Skeleton/BoneAttachment/machinegun/
 
 [node name="Shoot" parent="." instance=ExtResource( 10 )]
 bulletScene = ExtResource( 11 )
+damage = 40
 
 [node name="SelectorArea" type="Area" parent="."]
 monitoring = false
@@ -3942,7 +3943,7 @@ skin = SubResource( 2 )
 material/0 = SubResource( 11 )
 
 [node name="BoneAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( 0.240225, 0.0197978, -0.970515, -0.952635, 0.196884, -0.231782, 0.18649, 0.980227, 0.0661561, -0.172212, 2.30033, 0.258759 )
+transform = Transform( 0.23951, 0.0173983, -0.970737, -0.951076, 0.205188, -0.230981, 0.195165, 0.978568, 0.0656911, -0.170961, 2.30359, 0.2602 )
 bone_name = "RightHand"
 
 [node name="machinegun" parent="Armature/Skeleton/BoneAttachment" instance=ExtResource( 4 )]

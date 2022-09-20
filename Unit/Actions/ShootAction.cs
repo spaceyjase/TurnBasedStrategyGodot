@@ -8,6 +8,7 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
   public class ShootAction : UnitAction
   {
     [Export] private PackedScene bulletScene;
+    [Export] private int damage;
     
     private readonly float aimTime = 1f;
     private readonly float shootTime = 0.5f;
@@ -105,7 +106,7 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
       
       GetTree().Root.AddChild(bullet);
       
-      target.Damage();
+      target.Damage(damage);
     }
 
     private void NextState()

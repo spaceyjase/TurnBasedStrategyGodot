@@ -6774,7 +6774,7 @@ levelGridNodePath = NodePath("../LevelGrid")
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 4 )
 
 [node name="BoneAttachment" parent="Unit/Armature/Skeleton" index="1"]
-transform = Transform( 0.239518, 0.0172084, -0.970739, -0.951046, 0.205284, -0.23102, 0.195302, 0.97855, 0.0655345, -0.170937, 2.3034, 0.261053 )
+transform = Transform( 0.239518, 0.017503, -0.970734, -0.951103, 0.205069, -0.230976, 0.195025, 0.978591, 0.0657645, -0.170997, 2.30366, 0.259846 )
 
 [node name="AnimationTree" parent="Unit" index="7"]
 parameters/playback = SubResource( 14 )
@@ -6786,7 +6786,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 12 )
 material/0 = SubResource( 4 )
 
 [node name="BoneAttachment" parent="Unit2/Armature/Skeleton" index="1"]
-transform = Transform( 0.239518, 0.0172084, -0.970739, -0.951046, 0.205284, -0.23102, 0.195302, 0.97855, 0.0655345, -0.170937, 2.3034, 0.261053 )
+transform = Transform( 0.239518, 0.017503, -0.970734, -0.951103, 0.205069, -0.230976, 0.195025, 0.978591, 0.0657645, -0.170997, 2.30366, 0.259846 )
 
 [node name="AnimationTree" parent="Unit2" index="7"]
 parameters/playback = SubResource( 5 )
@@ -6805,8 +6805,14 @@ anims/walking = SubResource( 13 )
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 4, 0, 18 )
 isEnemy = true
 
+[node name="Shoot" parent="UnitEnemy" index="3"]
+damage = 0
+
+[node name="Skeleton" parent="UnitEnemy/Armature" index="0"]
+bones/40/bound_children = [ NodePath("BoneAttachment") ]
+
 [node name="BoneAttachment" parent="UnitEnemy/Armature/Skeleton" index="1"]
-transform = Transform( 0.239518, 0.0172084, -0.970739, -0.951046, 0.205284, -0.23102, 0.195302, 0.97855, 0.0655345, -0.170937, 2.3034, 0.261053 )
+transform = Transform( 0.239518, 0.017503, -0.970734, -0.951103, 0.205069, -0.230976, 0.195025, 0.978591, 0.0657645, -0.170997, 2.30366, 0.259846 )
 
 [node name="AnimationTree" parent="UnitEnemy" index="7"]
 parameters/playback = SubResource( 25 )
@@ -6817,16 +6823,20 @@ isEnemy = true
 
 [node name="Shoot" parent="UnitEnemy2" index="3"]
 bulletScene = null
+damage = 0
 
 [node name="SelectorArea" parent="UnitEnemy2" index="4"]
 monitoring = true
 monitorable = true
 
+[node name="Skeleton" parent="UnitEnemy2/Armature" index="0"]
+bones/40/bound_children = [ NodePath("BoneAttachment") ]
+
 [node name="characterMedium001" parent="UnitEnemy2/Armature/Skeleton" index="0"]
 material/0 = SubResource( 15 )
 
 [node name="BoneAttachment" parent="UnitEnemy2/Armature/Skeleton" index="1"]
-transform = Transform( 0.239518, 0.0172084, -0.970739, -0.951046, 0.205284, -0.23102, 0.195302, 0.97855, 0.0655345, -0.170937, 2.3034, 0.261053 )
+transform = Transform( 0.239518, 0.017503, -0.970734, -0.951103, 0.205069, -0.230976, 0.195025, 0.978591, 0.0657645, -0.170997, 2.30366, 0.259846 )
 
 [node name="AnimationTree" parent="UnitEnemy2" index="7"]
 parameters/playback = SubResource( 16 )

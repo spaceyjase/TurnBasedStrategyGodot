@@ -32,6 +32,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
     public LevelGrid LevelGrid { get; private set; }
     public GridPosition GridPosition { get; private set; }
     public bool IsEnemy => isEnemy;
+    private bool IsUnitDead => unitStats.Health <= 0;
 
     public bool Selected
     {
@@ -56,6 +57,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
     public int MaxMoveDistance => unitStats.MaxMoveDistance;
     public int MaxShootDistance => unitStats.MaxShootDistance;
     private int TotalActionPoints => unitStats.TotalActionPoints;
+    private int CurrentHealth => unitStats.Health;
 
     private readonly Dictionary<string, UnitAction> actions = new Dictionary<string, UnitAction>();
 
@@ -108,7 +110,8 @@ namespace TurnBasedStrategyCourse_godot.Unit
     {
       LevelGrid = levelGrid;
       GridPosition = LevelGrid.GetGridPosition(Translation);
-      
+
+      unitStats = (UnitStats)unitStats.Duplicate();
       unitStats.Initialise();
 
       ActionPoints = TotalActionPoints;
@@ -225,9 +228,21 @@ namespace TurnBasedStrategyCourse_godot.Unit
       return true;
     }
 
-    public void Damage()
+    public void Damage(int damageAmount)
     {
-      GD.Print($"Damaged {Name}");
+      GD.Print($"{Name} took {damageAmount} damage.");
+      unitStats.TakeDamage(damageAmount);
+
+      if (IsUnitDead)
+      {
+        Die();
+      }
+    }
+
+    private void Die()
+    {
+      LevelGrid.RemoveUnitAtGridPosition(GridPosition, this);
+      QueueFree();
     }
   }
 }

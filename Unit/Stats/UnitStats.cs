@@ -1,4 +1,5 @@
 using Godot;
+using TurnBasedStrategyCourse_godot.Unit.Health;
 
 namespace TurnBasedStrategyCourse_godot.Unit.Stats
 {
@@ -11,13 +12,19 @@ namespace TurnBasedStrategyCourse_godot.Unit.Stats
     [Export] private int maxShootDistance = 7;
     [Export] private int totalActionPoints = 2;
 
+    [Export] private UnitHealth health;
+
     public float MovementSpeed { get; private set; }
     public float RotateSpeed { get; private set; }
     public float StoppingDistance { get; private set; }
     public int MaxMoveDistance { get; private set; }
     public int MaxShootDistance { get; private set; }
     public int TotalActionPoints { get; private set; }
+
+    public int Health => health.CurrentHealth;
     
+    public void TakeDamage(int damage) => health.TakeDamage(damage);
+
     public void Initialise()
     {
       MovementSpeed = (float)Get(nameof(movementSpeed));
@@ -26,6 +33,9 @@ namespace TurnBasedStrategyCourse_godot.Unit.Stats
       MaxMoveDistance = (int)Get(nameof(maxMoveDistance));
       MaxShootDistance = (int)Get(nameof(maxShootDistance));
       TotalActionPoints = (int)Get(nameof(totalActionPoints));
+
+      health = (UnitHealth)health.Duplicate();
+      health.Initialise();
     }
   }
 }

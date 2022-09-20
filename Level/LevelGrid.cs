@@ -55,10 +55,11 @@ namespace TurnBasedStrategyCourse_godot.Level
       gridObject.AddUnit(unit);
     }
 
-    private void RemoveUnitAsGridPosition(GridPosition gridPosition, Unit.Unit unit)
+    public void RemoveUnitAtGridPosition(GridPosition gridPosition, Unit.Unit unit)
     {
       var gridObject = gridSystem.GetGridObject(gridPosition);
       gridObject.RemoveUnit(unit);
+      HideGridPositions(new []{ gridPosition });
     }
 
     public GridPosition GetGridPosition(Vector3 worldPosition) => gridSystem.GetGridPosition(worldPosition);
@@ -66,7 +67,7 @@ namespace TurnBasedStrategyCourse_godot.Level
 
     private void OnUnitMoving(Unit.Unit unit, GridPosition oldPosition, GridPosition newPosition)
     {
-      RemoveUnitAsGridPosition(oldPosition, unit);
+      RemoveUnitAtGridPosition(oldPosition, unit);
       AddUnitAtGridPosition(newPosition, unit);
       ShowUnitActionRange(unit.CurrentAction);
     }
@@ -95,6 +96,14 @@ namespace TurnBasedStrategyCourse_godot.Level
       foreach (var gridPosition in positions)
       {
         cells[gridPosition.Z * width + gridPosition.X].Visible = true;
+      }
+    }
+    
+    private void HideGridPositions(IEnumerable<GridPosition> positions)
+    {
+      foreach (var gridPosition in positions)
+      {
+        cells[gridPosition.Z * width + gridPosition.X].Visible = false;
       }
     }
 

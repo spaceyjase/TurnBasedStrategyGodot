@@ -1,6 +1,7 @@
-[gd_resource type="Resource" load_steps=2 format=2]
+[gd_resource type="Resource" load_steps=3 format=2]
 
 [ext_resource path="res://Unit/Stats/UnitStats.cs" type="Script" id=1]
+[ext_resource path="res://Unit/Resources/BaseUnitHealth.tres" type="Resource" id=2]
 
 [resource]
 script = ExtResource( 1 )
@@ -10,3 +11,4 @@ stoppingDistance = 0.1
 maxMoveDistance = 4
 maxShootDistance = 7
 totalActionPoints = 2
+health = ExtResource( 2 )
