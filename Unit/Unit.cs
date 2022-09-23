@@ -20,6 +20,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
     [Export] private UnitStats unitStats;
     [Export] private bool isEnemy;
     [Export] private NodePath bulletSpawnPositionPath;
+    [Export] private PackedScene ragollScene;
 
     private AnimationTree animationTree;
     private AnimationNodeStateMachinePlayback animationStateMachine;
@@ -57,7 +58,6 @@ namespace TurnBasedStrategyCourse_godot.Unit
     public int MaxMoveDistance => unitStats.MaxMoveDistance;
     public int MaxShootDistance => unitStats.MaxShootDistance;
     private int TotalActionPoints => unitStats.TotalActionPoints;
-    private int CurrentHealth => unitStats.Health;
 
     private readonly Dictionary<string, UnitAction> actions = new Dictionary<string, UnitAction>();
 
@@ -96,6 +96,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
       TargetPosition = Translation;
       
       EventBus.Instance.Connect(nameof(EventBus.TurnChanged), this, nameof(OnTurnChanged));
+      
     }
 
     private void OnTurnChanged(int turn, bool isPlayerTurn)
@@ -230,7 +231,6 @@ namespace TurnBasedStrategyCourse_godot.Unit
 
     public void Damage(int damageAmount)
     {
-      GD.Print($"{Name} took {damageAmount} damage.");
       unitStats.TakeDamage(damageAmount);
 
       if (IsUnitDead)
@@ -242,7 +242,22 @@ namespace TurnBasedStrategyCourse_godot.Unit
     private void Die()
     {
       LevelGrid.RemoveUnitAtGridPosition(GridPosition, this);
+      SpawnRagdoll();
       QueueFree();
+    }
+
+    private void SpawnRagdoll()
+    {
+      var ragdoll = ragollScene.Instance<UnitRagdoll>();
+      
+      GetTree().Root.AddChild(ragdoll);
+      ragdoll.GlobalTranslation = GlobalTranslation;
+      ragdoll.GlobalRotation = GlobalRotation;
+      
+      var mesh = GetNode<MeshInstance>("Armature/Skeleton/characterMedium001");
+      ragdoll.Init(mesh.GetSurfaceMaterial(0));
+
+      ragdoll.StartRagdoll();
     }
   }
 }
