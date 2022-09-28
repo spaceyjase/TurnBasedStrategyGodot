@@ -63,6 +63,10 @@ zoom_out={
  ]
 }
 
+[mono]
+
+project/assembly_name="TurnBasedStrategyCourse_godot"
+
 [physics]
 
 common/enable_pause_aware_picking=true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://Unit/Unit.cs" type="Script" id=1]
 [ext_resource path="res://Assets/Imports/survivorFemaleA.png" type="Texture" id=2]
@@ -6,12 +6,13 @@
 [ext_resource path="res://Gun/machinegun.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Assets/Circle_Outlined.png" type="Texture" id=5]
 [ext_resource path="res://Unit/Actions/Move.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Unit/Resources/UnitStats.tres" type="Resource" id=7]
+[ext_resource path="res://Unit/Stats/Resources/UnitStats.tres" type="Resource" id=7]
 [ext_resource path="res://Unit/Actions/Idle.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Unit/Actions/Spin.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Unit/Actions/Shoot.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Bullet/Bullet.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Unit/UnitRagdoll.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Unit/UI/UnitWorldUI.tscn" type="PackedScene" id=13]
 
 [sub_resource type="CylinderShape" id=18]
 height = 3.35
@@ -3622,9 +3623,10 @@ tracks/58/keys = PoolRealArray( 0, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1, 1
 
 [node name="Unit" type="Spatial" groups=["Units"]]
 script = ExtResource( 1 )
-unitStats = ExtResource( 7 )
 bulletSpawnPositionPath = NodePath("Armature/Skeleton/BoneAttachment/machinegun/BulletSpawnPosition3D")
-ragollScene = ExtResource( 12 )
+ragdollScene = ExtResource( 12 )
+unitStats = ExtResource( 7 )
+unitWorldUiPath = NodePath("UnitWorldUI")
 
 [node name="Idle" parent="." instance=ExtResource( 8 )]
 
@@ -3852,7 +3854,7 @@ bones/40/name = "RightHand"
 bones/40/parent = 39
 bones/40/rest = Transform( 0.997817, 0.0660423, 0.000124726, -0.0660313, 0.997682, -0.0164227, -0.00120903, 0.0163786, 0.999865, 2.42144e-07, 0.527228, 3.21073e-06 )
 bones/40/enabled = true
-bones/40/bound_children = [ NodePath("BoneAttachment") ]
+bones/40/bound_children = [  ]
 bones/41/name = "RightHandIndex1"
 bones/41/parent = 40
 bones/41/rest = Transform( 0.987998, 0.00908436, -0.154196, 0.008493, 0.993564, 0.112953, 0.15423, -0.112907, 0.981563, -3.63216e-08, 0.1386, -9.0804e-08 )
@@ -3939,13 +3941,8 @@ bones/57/rest = Transform( 1, 6.72736e-08, 3.82983e-06, -6.72734e-08, 1, -5.9401
 bones/57/enabled = true
 bones/57/bound_children = [  ]
 
-[node name="characterMedium001" type="MeshInstance" parent="Armature/Skeleton"]
-mesh = SubResource( 1 )
-skin = SubResource( 2 )
-material/0 = SubResource( 11 )
-
 [node name="BoneAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( 0.23987, 0.0189381, -0.97062, -0.952087, 0.199972, -0.231388, 0.189715, 0.979618, 0.0659979, -0.171094, 2.30175, 0.254688 )
+transform = Transform( 0.239892, 0.0190085, -0.970613, -0.952026, 0.200275, -0.231375, 0.189992, 0.979555, 0.066141, -0.177271, 2.30057, 0.27876 )
 bone_name = "RightHand"
 
 [node name="machinegun" parent="Armature/Skeleton/BoneAttachment" instance=ExtResource( 4 )]
@@ -3954,11 +3951,19 @@ transform = Transform( 0.474009, -1.88422, 0.47439, 0.00601088, 0.489722, 1.9391
 [node name="BulletSpawnPosition3D" type="Position3D" parent="Armature/Skeleton/BoneAttachment/machinegun"]
 transform = Transform( 0.499998, 5.08791e-05, 0.000786135, -4.69729e-05, 0.499994, -0.00241099, -0.000786376, 0.00241091, 0.499993, 0.00177445, 0.171227, 0.312627 )
 
+[node name="characterMedium001" type="MeshInstance" parent="Armature/Skeleton"]
+transform = Transform( 1, 0, 0, 0, 1, 3.55271e-15, 0, -3.55271e-15, 1, 0, 0, 0 )
+mesh = SubResource( 1 )
+skin = SubResource( 2 )
+material/0 = SubResource( 11 )
+
 [node name="SelectedVisual" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.01, 0 )
 mesh = SubResource( 21 )
 skeleton = NodePath("")
 material/0 = SubResource( 20 )
+
+[node name="UnitWorldUI" parent="." instance=ExtResource( 13 )]
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 15 )

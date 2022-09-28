@@ -6,26 +6,30 @@ using TurnBasedStrategyCourse_godot.Grid;
 using TurnBasedStrategyCourse_godot.Level;
 using TurnBasedStrategyCourse_godot.Unit.Actions;
 using TurnBasedStrategyCourse_godot.Unit.Stats;
+using TurnBasedStrategyCourse_godot.Unit.UI;
 
 namespace TurnBasedStrategyCourse_godot.Unit
 {
   public class Unit : Spatial
   {
-    [Signal]
-    public delegate void UnitSelected(Unit selectedUnit);
-
-    [Signal]
-    public delegate void OnUnitMoving(Unit selectedUnit, GridPosition oldPosition, GridPosition newPosition);
-
-    [Export] private UnitStats unitStats;
-    [Export] private bool isEnemy;
     [Export] private NodePath bulletSpawnPositionPath;
-    [Export] private PackedScene ragollScene;
+    [Export] private bool isEnemy;
+    [Export] private PackedScene ragdollScene;
+    [Export] private UnitStats unitStats;
+    [Export] private NodePath unitWorldUiPath;
+    
+    [Signal] public delegate void OnUnitMoving(Unit selectedUnit, GridPosition oldPosition, GridPosition newPosition);
+    [Signal] public delegate void UnitSelected(Unit selectedUnit);
+
+    private readonly Dictionary<string, UnitAction> actions = new Dictionary<string, UnitAction>();
+    private AnimationNodeStateMachinePlayback animationStateMachine;
 
     private AnimationTree animationTree;
-    private AnimationNodeStateMachinePlayback animationStateMachine;
-    private Spatial selectedVisual;
     private bool selected;
+    private Spatial selectedVisual;
+    private UnitWorldUI unitWorldUi;
+
+    private bool IsUnitDead => unitStats.Health <= 0;
 
     public UnitAction CurrentAction { get; private set; }
     public UnitAction DefaultAction => IdleAction;
@@ -33,7 +37,8 @@ namespace TurnBasedStrategyCourse_godot.Unit
     public LevelGrid LevelGrid { get; private set; }
     public GridPosition GridPosition { get; private set; }
     public bool IsEnemy => isEnemy;
-    private bool IsUnitDead => unitStats.Health <= 0;
+    public int CurrentHealth => unitStats.Health;
+    public int MaxHealth => unitStats.MaxHealth;
 
     public bool Selected
     {
@@ -57,11 +62,15 @@ namespace TurnBasedStrategyCourse_godot.Unit
     public float RotateSpeed => unitStats.RotateSpeed;
     public int MaxMoveDistance => unitStats.MaxMoveDistance;
     public int MaxShootDistance => unitStats.MaxShootDistance;
-    private int TotalActionPoints => unitStats.TotalActionPoints;
-
-    private readonly Dictionary<string, UnitAction> actions = new Dictionary<string, UnitAction>();
+    public int TotalActionPoints => unitStats.TotalActionPoints;
 
     public Vector3 BulletSpawnPosition => GetNode<Position3D>(bulletSpawnPositionPath).GlobalTranslation;
+
+    public Vector3 TargetPosition { get; private set; } = Vector3.Zero;
+
+    public IEnumerable<UnitAction> Actions => actions.Values.Where(x => x != IdleAction);
+    public int ActionPoints { get; private set; }
+    public bool Busy => CurrentAction != IdleAction;
 
     public void SetAnimation(string animationName)
     {
@@ -96,7 +105,9 @@ namespace TurnBasedStrategyCourse_godot.Unit
       TargetPosition = Translation;
       
       EventBus.Instance.Connect(nameof(EventBus.TurnChanged), this, nameof(OnTurnChanged));
-      
+
+      unitWorldUi = GetNode<UnitWorldUI>(unitWorldUiPath);
+      unitWorldUi.UpdateUI(this);
     }
 
     private void OnTurnChanged(int turn, bool isPlayerTurn)
@@ -146,12 +157,6 @@ namespace TurnBasedStrategyCourse_godot.Unit
       
       EmitSignal(nameof(UnitSelected), this);
     }
-
-    public Vector3 TargetPosition { get; private set; } = Vector3.Zero;
-
-    public IEnumerable<UnitAction> Actions => actions.Values.Where(x => x != IdleAction);
-    public int ActionPoints { get; private set; }
-    public bool Busy => CurrentAction != IdleAction;
 
     private void TryChangeAction(string name)
     {
@@ -232,6 +237,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
     public void Damage(int damageAmount)
     {
       unitStats.TakeDamage(damageAmount);
+      unitWorldUi.UpdateUI(this);
 
       if (IsUnitDead)
       {
@@ -248,7 +254,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
 
     private void SpawnRagdoll()
     {
-      var ragdoll = ragollScene.Instance<UnitRagdoll>();
+      var ragdoll = ragdollScene.Instance<UnitRagdoll>();
       
       GetTree().Root.AddChild(ragdoll);
       ragdoll.GlobalTranslation = GlobalTranslation;

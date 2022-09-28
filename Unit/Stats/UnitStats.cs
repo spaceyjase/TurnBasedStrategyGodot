@@ -22,6 +22,7 @@ namespace TurnBasedStrategyCourse_godot.Unit.Stats
     public int TotalActionPoints { get; private set; }
 
     public int Health => health.CurrentHealth;
+    public int MaxHealth => health.MaxHealth;
     
     public void TakeDamage(int damage) => health.TakeDamage(damage);
 
