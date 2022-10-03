@@ -34,8 +34,8 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
       {
         state = State.Aiming;
         timer = aimTime;
-        target = unit.LevelGrid.GetUnitAtPosition(
-          unit.LevelGrid.GetGridPosition(unit.TargetPosition));
+        target = Unit.LevelGrid.GetUnitAtPosition(
+          Unit.LevelGrid.GetGridPosition(Unit.TargetPosition));
         canShoot = true;
       };
     }
@@ -47,21 +47,21 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
 
     protected override IEnumerable<GridPosition> GetValidActionGridPositions()
     {
-      for (var x = -unit.MaxShootDistance; x <= unit.MaxShootDistance; ++x)
+      for (var x = -Unit.MaxShootDistance; x <= Unit.MaxShootDistance; ++x)
       {
-        for (var z = -unit.MaxShootDistance; z <= unit.MaxShootDistance; ++z)
+        for (var z = -Unit.MaxShootDistance; z <= Unit.MaxShootDistance; ++z)
         {
           var offset = new GridPosition(x, z);
-          var testPosition = unit.GridPosition + offset;
+          var testPosition = Unit.GridPosition + offset;
 
           var testDistance = Mathf.Abs(x) + Mathf.Abs(z);
-          if (testDistance > unit.MaxShootDistance) continue;
+          if (testDistance > Unit.MaxShootDistance) continue;
 
-          if (!unit.LevelGrid.IsValidPosition(testPosition)) continue;
-          if (!unit.LevelGrid.IsOccupied(testPosition)) continue;
+          if (!Unit.LevelGrid.IsValidPosition(testPosition)) continue;
+          if (!Unit.LevelGrid.IsOccupied(testPosition)) continue;
 
-          var targetUnit = unit.LevelGrid.GetUnitAtPosition(testPosition);
-          if (targetUnit.IsEnemy == unit.IsEnemy) continue; // both units are on the same 'team'
+          var targetUnit = Unit.LevelGrid.GetUnitAtPosition(testPosition);
+          if (targetUnit.IsEnemy == Unit.IsEnemy) continue; // both Units are on the same 'team'
 
           yield return testPosition;
         }
@@ -75,9 +75,9 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
       switch (state)
       {
         case State.Aiming:
-          var aimDirection = unit.Translation.DirectionTo(unit.TargetPosition);
-          var newTransform = unit.Transform.LookingAt(unit.GlobalTransform.origin - aimDirection, Vector3.Up);
-          unit.Transform = unit.Transform.InterpolateWith(newTransform, unit.RotateSpeed * delta);
+          var aimDirection = Unit.Translation.DirectionTo(Unit.TargetPosition);
+          var newTransform = Unit.Transform.LookingAt(Unit.GlobalTransform.origin - aimDirection, Vector3.Up);
+          Unit.Transform = Unit.Transform.InterpolateWith(newTransform, Unit.RotateSpeed * delta);
           break;
         case State.Shooting:
           if (canShoot)
@@ -102,7 +102,7 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
     {
       var bullet = bulletScene.Instance<Bullet.Bullet>();
 
-      bullet.Init(unit.BulletSpawnPosition, target.GlobalTranslation);
+      bullet.Init(Unit.BulletSpawnPosition, target.GlobalTranslation);
       
       GetTree().Root.AddChild(bullet);
       
@@ -118,12 +118,12 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
           timer = shootTime;
           break;
         case State.Shooting:
-          unit.SetAnimation(UnitAnimations.Shooting); 
+          Unit.SetAnimation(UnitAnimations.Shooting); 
           state = State.CoolOff;
           timer = coolOffTime;
           break;
         case State.CoolOff:
-          unit.ChangeAction(unit.DefaultAction.ActionName);
+          Unit.ChangeAction(Unit.DefaultAction.ActionName);
           break;
         default:
           throw new ArgumentOutOfRangeException();

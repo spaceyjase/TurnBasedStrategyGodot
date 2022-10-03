@@ -11,7 +11,7 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
       
       OnEnter += () =>
       {
-        unit.SetAnimation(UnitAnimations.Idle);
+        Unit.SetAnimation(UnitAnimations.Idle);
       };
     }
 

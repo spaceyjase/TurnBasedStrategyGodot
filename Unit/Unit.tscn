@@ -3854,7 +3854,7 @@ bones/40/name = "RightHand"
 bones/40/parent = 39
 bones/40/rest = Transform( 0.997817, 0.0660423, 0.000124726, -0.0660313, 0.997682, -0.0164227, -0.00120903, 0.0163786, 0.999865, 2.42144e-07, 0.527228, 3.21073e-06 )
 bones/40/enabled = true
-bones/40/bound_children = [  ]
+bones/40/bound_children = [ NodePath("BoneAttachment") ]
 bones/41/name = "RightHandIndex1"
 bones/41/parent = 40
 bones/41/rest = Transform( 0.987998, 0.00908436, -0.154196, 0.008493, 0.993564, 0.112953, 0.15423, -0.112907, 0.981563, -3.63216e-08, 0.1386, -9.0804e-08 )
@@ -3942,7 +3942,7 @@ bones/57/enabled = true
 bones/57/bound_children = [  ]
 
 [node name="BoneAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( 0.239892, 0.0190085, -0.970613, -0.952026, 0.200275, -0.231375, 0.189992, 0.979555, 0.066141, -0.177271, 2.30057, 0.27876 )
+transform = Transform( 0.239588, 0.0177897, -0.970711, -0.951171, 0.204711, -0.231014, 0.194605, 0.978661, 0.0659671, -0.171097, 2.30365, 0.259392 )
 bone_name = "RightHand"
 
 [node name="machinegun" parent="Armature/Skeleton/BoneAttachment" instance=ExtResource( 4 )]
@@ -3964,6 +3964,9 @@ skeleton = NodePath("")
 material/0 = SubResource( 20 )
 
 [node name="UnitWorldUI" parent="." instance=ExtResource( 13 )]
+
+[node name="CameraPosition3D" type="Position3D" parent="."]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.08507, 2.84903, -1.76571 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 15 )

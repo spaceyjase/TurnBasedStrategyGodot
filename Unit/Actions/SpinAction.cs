@@ -14,17 +14,17 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
       var spinAmount = Mathf.Deg2Rad(360f * delta);
       totalSpin += spinAmount;
 
-      unit.RotateY(spinAmount);
+      Unit.RotateY(spinAmount);
 
       if (!(totalSpin >= spinLimit)) return;
 
       totalSpin = 0f;
 
-      unit.ChangeAction(unit.DefaultAction.ActionName);
+      Unit.ChangeAction(Unit.DefaultAction.ActionName);
     }
 
     protected override IEnumerable<GridPosition> GetValidActionGridPositions() =>
-      new List<GridPosition>() { unit.GridPosition };
+      new List<GridPosition>() { Unit.GridPosition };
 
     public override int ActionPointCost => 2;
   }

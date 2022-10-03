@@ -28,10 +28,20 @@ namespace TurnBasedStrategyCourse_godot.Unit
     private bool selected;
     private Spatial selectedVisual;
     private UnitWorldUI unitWorldUi;
-
+    private UnitAction currentAction;
+    
     private bool IsUnitDead => unitStats.Health <= 0;
 
-    public UnitAction CurrentAction { get; private set; }
+    public UnitAction CurrentAction
+    {
+      get => currentAction;
+      private set
+      {
+        currentAction?.Exit();
+        currentAction = value;
+        currentAction?.Enter();
+      }
+    }
     public UnitAction DefaultAction => IdleAction;
     private UnitAction IdleAction { get; set; }
     public LevelGrid LevelGrid { get; private set; }
@@ -71,6 +81,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
     public IEnumerable<UnitAction> Actions => actions.Values.Where(x => x != IdleAction);
     public int ActionPoints { get; private set; }
     public bool Busy => CurrentAction != IdleAction;
+    public Position3D CameraPosition { get; set; }
 
     public void SetAnimation(string animationName)
     {
@@ -103,6 +114,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
       
       CurrentAction = IdleAction;
       TargetPosition = Translation;
+      CameraPosition = GetNode<Position3D>("CameraPosition3D");
       
       EventBus.Instance.Connect(nameof(EventBus.TurnChanged), this, nameof(OnTurnChanged));
 
@@ -193,13 +205,9 @@ namespace TurnBasedStrategyCourse_godot.Unit
         return;
       }
 
-      CurrentAction?.OnExit?.Invoke();
-
       CurrentAction = newAction;
       
       EventBus.Instance.EmitSignal(CurrentAction == IdleAction ? nameof(EventBus.UnitIdle) : nameof(EventBus.UnitBusy), this);
-      
-      newAction.OnEnter?.Invoke();
     }
 
     public void DoAction(string actionName)

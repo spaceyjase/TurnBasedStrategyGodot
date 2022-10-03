@@ -12,7 +12,7 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
 
       OnEnter += () =>
       {
-        unit.SetAnimation(UnitAnimations.Running);
+        Unit.SetAnimation(UnitAnimations.Running);
       };
     }
 
@@ -23,19 +23,19 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
 
     protected override IEnumerable<GridPosition> GetValidActionGridPositions()
     {
-      for (var x = -unit.MaxMoveDistance; x <= unit.MaxMoveDistance; ++x)
+      for (var x = -Unit.MaxMoveDistance; x <= Unit.MaxMoveDistance; ++x)
       {
-        for (var z = -unit.MaxMoveDistance; z <= unit.MaxMoveDistance; ++z)
+        for (var z = -Unit.MaxMoveDistance; z <= Unit.MaxMoveDistance; ++z)
         {
           var offset = new GridPosition(x, z);
-          var testPosition = unit.GridPosition + offset;
+          var testPosition = Unit.GridPosition + offset;
           
           var testDistance = Mathf.Abs(x) + Mathf.Abs(z);
-          if (testDistance > unit.MaxMoveDistance) continue;
+          if (testDistance > Unit.MaxMoveDistance) continue;
 
-          if (!unit.LevelGrid.IsValidPosition(testPosition)) continue;
-          if (unit.GridPosition == testPosition) continue;
-          if (unit.LevelGrid.IsOccupied(testPosition)) continue;
+          if (!Unit.LevelGrid.IsValidPosition(testPosition)) continue;
+          if (Unit.GridPosition == testPosition) continue;
+          if (Unit.LevelGrid.IsOccupied(testPosition)) continue;
 
           yield return testPosition;
         }
@@ -44,17 +44,17 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
 
     private void Move(float delta)
     {
-      if (unit.Translation.DistanceTo(unit.TargetPosition) > unit.StoppingDistance)
+      if (Unit.Translation.DistanceTo(Unit.TargetPosition) > Unit.StoppingDistance)
       {
-        var moveDirection = unit.Translation.DirectionTo(unit.TargetPosition);
-        unit.Translation += moveDirection * (unit.MovementSpeed * delta);
+        var moveDirection = Unit.Translation.DirectionTo(Unit.TargetPosition);
+        Unit.Translation += moveDirection * (Unit.MovementSpeed * delta);
 
-        var newTransform = unit.Transform.LookingAt(unit.GlobalTransform.origin - moveDirection, Vector3.Up);
-        unit.Transform = unit.Transform.InterpolateWith(newTransform, unit.RotateSpeed * delta);
+        var newTransform = Unit.Transform.LookingAt(Unit.GlobalTransform.origin - moveDirection, Vector3.Up);
+        Unit.Transform = Unit.Transform.InterpolateWith(newTransform, Unit.RotateSpeed * delta);
       }
       else
       {
-        unit.ChangeAction(unit.DefaultAction.ActionName);
+        Unit.ChangeAction(Unit.DefaultAction.ActionName);
       }
     }
   }
