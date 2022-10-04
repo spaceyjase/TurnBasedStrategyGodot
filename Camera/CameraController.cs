@@ -45,6 +45,8 @@ namespace TurnBasedStrategyCourse_godot.Camera
         case CameraState.Action:
           ProcessAction(delta);
           break;
+        case CameraState.Idle:
+          break;
         default:
           throw new ArgumentOutOfRangeException();
       }
@@ -56,6 +58,7 @@ namespace TurnBasedStrategyCourse_godot.Camera
       {
         camera.Translation = unitMount.GlobalTransform.origin;
         camera.Rotation = unitMount.GlobalRotation;
+        state = CameraState.Idle;
       }
       else
       {
@@ -125,7 +128,8 @@ namespace TurnBasedStrategyCourse_godot.Camera
     private enum CameraState
     {
       World,
-      Action
+      Action,
+      Idle
     }
   }
 }
