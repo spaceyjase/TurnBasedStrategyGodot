@@ -4,9 +4,6 @@ namespace TurnBasedStrategyCourse_godot.Grid
 {
   public class GridPosition : Godot.Object, IEquatable<GridPosition>
   {
-    public int X { get; }
-    public int Z { get; }
-
     public GridPosition()
     {
       X = 0;
@@ -18,6 +15,11 @@ namespace TurnBasedStrategyCourse_godot.Grid
       X = x;
       Z = z;
     }
+
+    public int X { get; }
+    public int Z { get; }
+
+    public bool Equals(GridPosition other) => other != null && X == other.X && Z == other.Z;
 
     public static GridPosition operator +(GridPosition a, GridPosition b)
     {
@@ -48,8 +50,6 @@ namespace TurnBasedStrategyCourse_godot.Grid
     }
 
     public override string ToString() => $"{X}, {Z}";
-
-    public bool Equals(GridPosition other) => other != null && X == other.X && Z == other.Z;
 
     public override bool Equals(object obj) => obj is GridPosition other && Equals(other);
   }

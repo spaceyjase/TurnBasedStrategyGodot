@@ -4,11 +4,11 @@ namespace TurnBasedStrategyCourse_godot.Grid
 {
   public class GridSystem
   {
-    private readonly int width;
-    private readonly int height;
     private readonly float cellSize;
 
     private readonly GridObject[,] grid;
+    private readonly int height;
+    private readonly int width;
 
     public GridSystem(int width, int height, float cellSize = 2f)
     {

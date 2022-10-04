@@ -8,24 +8,20 @@ namespace TurnBasedStrategyCourse_godot.UI
 {
   public class UnitActionSystemUI : Node
   {
-    [Signal]
-    private delegate void ActionSelected(string actionName);
-    [Signal]
-    private delegate void EndTurnPressed(string actionName);
-
     [Export] private PackedScene unitActionButtonScene;
-
-    private GridContainer gridContainer;
-    private Label busyLabel;
+    
     private Label actionPointLabel;
-    private Label turnLabel;
-    private Control playerControls;
-    private Control enemyControls;
+    private Label busyLabel;
 
     private Unit.Unit currentUnit;
     private Button endTurnButton;
-    
-    private Timer enemyTimer = new Timer(2000);
+    private Control enemyControls;
+
+    private readonly Timer enemyTimer = new Timer(2000);
+
+    private GridContainer gridContainer;
+    private Control playerControls;
+    private Label turnLabel;
 
     private Unit.Unit CurrentUnit
     { 
@@ -134,7 +130,7 @@ namespace TurnBasedStrategyCourse_godot.UI
     {
       EmitSignal(nameof(EndTurnPressed));
     }
-    
+
     private void OnTurnChanged(int turn, bool isPlayerTurn)
     {
       UpdateControls(isPlayerTurn);
@@ -166,5 +162,11 @@ namespace TurnBasedStrategyCourse_godot.UI
       
       enemyTimer.Start();
     }
+
+    [Signal]
+    private delegate void ActionSelected(string actionName);
+
+    [Signal]
+    private delegate void EndTurnPressed(string actionName);
   }
 }

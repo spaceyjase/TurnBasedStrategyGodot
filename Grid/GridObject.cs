@@ -5,10 +5,16 @@ namespace TurnBasedStrategyCourse_godot.Grid
 {
   public class GridObject
   {
-    private GridSystem gridSystem;
     private readonly GridPosition gridPosition;
 
     private readonly List<Unit.Unit> units = new List<Unit.Unit>();
+    private GridSystem gridSystem;
+
+    public GridObject(GridSystem system, GridPosition position)
+    {
+      gridSystem = system;
+      gridPosition = position;
+    }
 
     public void AddUnit(Unit.Unit unit)
     {
@@ -21,12 +27,6 @@ namespace TurnBasedStrategyCourse_godot.Grid
     }
 
     public IEnumerable<Unit.Unit> GetUnitList() => units;
-
-    public GridObject(GridSystem system, GridPosition position)
-    {
-      gridSystem = system;
-      gridPosition = position;
-    }
 
     public override string ToString() => $"{gridPosition}\n{string.Join("\n", units.Select(u => u.Name))}";
 

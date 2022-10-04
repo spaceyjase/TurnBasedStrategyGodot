@@ -7,26 +7,17 @@ namespace TurnBasedStrategyCourse_godot.Camera
 {
   public class CameraController : Spatial
   {
-    [Export] private float movementSpeed = 10f;
-    [Export] private float rotationSpeed = 1f;
-
-    [Export] private float minZoom = -0.2f;
-    [Export] private float maxZoom = 2f;
-
     [Export] private float actionSpeed = 2.0f;
     [Export] private float actionStoppingDistance = 0.4f;
-
-
-    private enum CameraState
-    {
-      World,
-      Action
-    }
-
-    private Spatial gimbal;
+    [Export] private float maxZoom = 2f;
+    [Export] private float minZoom = -0.2f;
+    [Export] private float movementSpeed = 10f;
+    [Export] private float rotationSpeed = 1f;
+    
+    private const float cameraSpeed = Mathf.Pi / 2f;
     private Godot.Camera camera;
     private Position3D mount;
-    private const float cameraSpeed = Mathf.Pi / 2f;
+    private Spatial gimbal;
     private CameraState state;
     private Position3D unitMount;
 
@@ -129,6 +120,12 @@ namespace TurnBasedStrategyCourse_godot.Camera
       camera.GlobalTransform = mount.GlobalTransform;
       camera.GlobalRotation = mount.GlobalRotation;
       state = CameraState.World;
+    }
+
+    private enum CameraState
+    {
+      World,
+      Action
     }
   }
 }

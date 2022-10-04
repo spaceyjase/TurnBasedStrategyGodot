@@ -5,14 +5,13 @@ namespace TurnBasedStrategyCourse_godot.Unit.Stats
 {
   public class UnitStats : Resource
   {
+    [Export] private UnitHealth health;
+    [Export] private int maxMoveDistance = 4;
+    [Export] private int maxShootDistance = 7;
     [Export] private float movementSpeed = 4f;
     [Export] private float rotateSpeed = 15f;
     [Export] private float stoppingDistance = .1f;
-    [Export] private int maxMoveDistance = 4;
-    [Export] private int maxShootDistance = 7;
     [Export] private int totalActionPoints = 2;
-
-    [Export] private UnitHealth health;
 
     public float MovementSpeed { get; private set; }
     public float RotateSpeed { get; private set; }
@@ -23,7 +22,7 @@ namespace TurnBasedStrategyCourse_godot.Unit.Stats
 
     public int Health => health.CurrentHealth;
     public int MaxHealth => health.MaxHealth;
-    
+
     public void TakeDamage(int damage) => health.TakeDamage(damage);
 
     public void Initialise()

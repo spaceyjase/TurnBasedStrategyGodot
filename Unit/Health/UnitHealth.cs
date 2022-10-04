@@ -14,7 +14,7 @@ namespace TurnBasedStrategyCourse_godot.Unit.Health
       CurrentHealth = (int)Get(nameof(maxHealth));
       MaxHealth = (int)Get(nameof(maxHealth));
     }
-    
+
     public void TakeDamage(int damage)
     {
       CurrentHealth -= damage;

@@ -7,9 +7,10 @@ namespace TurnBasedStrategyCourse_godot.UI
   {
     [Signal]
     public delegate void ActionSelected(string actionName);
-    
-    private Label label;
+
     private UnitAction action;
+
+    private Label label;
 
     public override void _Ready()
     {

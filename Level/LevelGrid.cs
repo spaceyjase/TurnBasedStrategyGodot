@@ -9,14 +9,15 @@ namespace TurnBasedStrategyCourse_godot.Level
 {
   public class LevelGrid : Node
   {
-    [Export] private int width = 10;
-    [Export] private int height = 10;
-    [Export] private float cellSize = 2f;
     [Export] private PackedScene cellScene;
+    [Export] private float cellSize = 2f;
 
-    private GridSystem gridSystem;
+    [Export] private int height = 10;
+    [Export] private int width = 10;
+
     private GridCell[] cells;
-
+    private GridSystem gridSystem;
+    
     public override void _Ready()
     {
       gridSystem = new GridSystem(width, height, cellSize);
@@ -74,7 +75,7 @@ namespace TurnBasedStrategyCourse_godot.Level
 
     // ReSharper disable once UnusedMember.Local
     private void OnUnitManagerActionSelected(UnitAction action) => ShowUnitActionRange(action);
-    
+
     // ReSharper disable once UnusedMember.Local
     private void OnUnitManagerUnitSelected(Unit.Unit unit) => HideAllGridPositions();
 
@@ -98,7 +99,7 @@ namespace TurnBasedStrategyCourse_godot.Level
         cells[gridPosition.Z * width + gridPosition.X].Visible = true;
       }
     }
-    
+
     private void HideGridPositions(IEnumerable<GridPosition> positions)
     {
       foreach (var gridPosition in positions)

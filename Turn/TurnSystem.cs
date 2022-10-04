@@ -5,8 +5,8 @@ namespace TurnBasedStrategyCourse_godot.Turn
 {
   public class TurnSystem : Node
   {
-    private int turnNumber = 1;
     private bool isPlayerTurn = true;
+    private int turnNumber = 1;
 
     private void NextTurn()
     {
