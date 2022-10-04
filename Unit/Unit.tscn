@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://Unit/Unit.cs" type="Script" id=1]
 [ext_resource path="res://Assets/Imports/survivorFemaleA.png" type="Texture" id=2]
@@ -13,6 +13,9 @@
 [ext_resource path="res://Bullet/Bullet.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Unit/UnitRagdoll.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Unit/UI/UnitWorldUI.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Grid/Materials/GridCellWhite.material" type="Material" id=14]
+[ext_resource path="res://Grid/Materials/GridCellSoftRed.material" type="Material" id=15]
+[ext_resource path="res://Grid/Materials/GridCellRed.material" type="Material" id=16]
 
 [sub_resource type="CylinderShape" id=18]
 height = 3.35
@@ -3629,12 +3632,17 @@ unitStats = ExtResource( 7 )
 unitWorldUiPath = NodePath("UnitWorldUI")
 
 [node name="Idle" parent="." instance=ExtResource( 8 )]
+baseColorMaterial = ExtResource( 14 )
 
 [node name="Move" parent="." instance=ExtResource( 6 )]
+baseColorMaterial = ExtResource( 14 )
 
 [node name="Spin" parent="." instance=ExtResource( 9 )]
+baseColorMaterial = ExtResource( 14 )
 
 [node name="Shoot" parent="." instance=ExtResource( 10 )]
+baseRangeColorMaterial = ExtResource( 15 )
+baseColorMaterial = ExtResource( 16 )
 bulletScene = ExtResource( 11 )
 damage = 40
 
@@ -3942,7 +3950,7 @@ bones/57/enabled = true
 bones/57/bound_children = [  ]
 
 [node name="BoneAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( 0.239588, 0.0177897, -0.970711, -0.951171, 0.204711, -0.231014, 0.194605, 0.978661, 0.0659671, -0.171097, 2.30365, 0.259392 )
+transform = Transform( 0.239924, 0.0190969, -0.970603, -0.952061, 0.200079, -0.231403, 0.189779, 0.979593, 0.0661851, -0.177194, 2.30049, 0.278501 )
 bone_name = "RightHand"
 
 [node name="machinegun" parent="Armature/Skeleton/BoneAttachment" instance=ExtResource( 4 )]

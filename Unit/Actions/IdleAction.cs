@@ -14,7 +14,7 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
         Unit.SetAnimation(UnitAnimations.Idle);
       };
     }
-
+    
     public override void Execute(float delta)
     {
       // nothing!

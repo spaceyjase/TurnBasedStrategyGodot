@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 using TurnBasedStrategyCourse_godot.Grid;
 
@@ -9,11 +10,11 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
   {
     [Export] private PackedScene bulletScene;
     [Export] private int damage;
-    
-    private readonly float aimTime = 1f;
-    private readonly float shootTime = 0.5f;
-    private readonly float coolOffTime = 0.1f;
-    
+
+    private const float aimTime = 1f;
+    private const float shootTime = 0.5f;
+    private const float coolOffTime = 0.1f;
+
     private enum State
     {
       Aiming,
@@ -45,6 +46,31 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
       Shoot(delta);
     }
 
+    public override IEnumerable<GridPosition> ValidRangePositions => GetActionRangeGridPositions();
+
+    private IEnumerable<GridPosition> GetActionRangeGridPositions()
+    {
+      var actionPositions = GetValidActionGridPositions().ToArray();
+      for (var x = -Unit.MaxShootDistance; x <= Unit.MaxShootDistance; ++x)
+      {
+        for (var z = -Unit.MaxShootDistance; z <= Unit.MaxShootDistance; ++z)
+        {
+          var offset = new GridPosition(x, z);
+          var testPosition = Unit.GridPosition + offset;
+          
+          var testDistance = Mathf.Abs(x) + Mathf.Abs(z);
+          if (testDistance > Unit.MaxShootDistance) continue;
+
+          if (actionPositions.Contains(testPosition)) continue;
+          if (!Unit.LevelGrid.IsValidPosition(testPosition)) continue;
+          if (Unit.GridPosition == testPosition) continue;
+          if (Unit.LevelGrid.IsOccupied(testPosition)) continue;
+
+          yield return testPosition;
+        }
+      }
+    }
+
     protected override IEnumerable<GridPosition> GetValidActionGridPositions()
     {
       for (var x = -Unit.MaxShootDistance; x <= Unit.MaxShootDistance; ++x)
@@ -67,7 +93,7 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
         }
       }
     }
-
+    
     private void Shoot(float delta)
     {
       timer -= delta;

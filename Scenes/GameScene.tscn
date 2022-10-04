@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=2]
+[gd_scene load_steps=60 format=2]
 
 [ext_resource path="res://Unit/Unit.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Level/LevelGrid.tscn" type="PackedScene" id=2]
@@ -14,6 +14,8 @@
 [ext_resource path="res://Unit/Stats/Resources/ZombieUnitStats.tres" type="Resource" id=12]
 [ext_resource path="res://Assets/Circle_Outlined.png" type="Texture" id=13]
 [ext_resource path="res://Assets/Imports/skin_002.material" type="Material" id=14]
+[ext_resource path="res://Grid/Materials/GridCellSoftRed.material" type="Material" id=15]
+[ext_resource path="res://Grid/Materials/GridCellRed.material" type="Material" id=16]
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=14]
 
@@ -10371,8 +10373,11 @@ levelGridNodePath = NodePath("../LevelGrid")
 [node name="Unit" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 4 )
 
+[node name="Armature" parent="Unit" index="5"]
+transform = Transform( 1, 0, 0, 0, 1, 4.37114e-08, 0, -4.37114e-08, 1, 0, 0, 0 )
+
 [node name="BoneAttachment" parent="Unit/Armature/Skeleton" index="0"]
-transform = Transform( 0.239573, 0.0167015, -0.970734, -0.950721, 0.206716, -0.231077, 0.196807, 0.978258, 0.0654021, -0.172509, 2.3032, 0.267089 )
+transform = Transform( 0.239638, 0.0179687, -0.970695, -0.951212, 0.204483, -0.231043, 0.194339, 0.978705, 0.0660939, -0.171159, 2.30363, 0.259174 )
 
 [node name="AnimationTree" parent="Unit" index="9"]
 parameters/playback = SubResource( 14 )
@@ -10380,8 +10385,11 @@ parameters/playback = SubResource( 14 )
 [node name="Unit2" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 12 )
 
+[node name="Armature" parent="Unit2" index="5"]
+transform = Transform( 1, 0, 0, 0, 1, 4.37114e-08, 0, -4.37114e-08, 1, 0, 0, 0 )
+
 [node name="BoneAttachment" parent="Unit2/Armature/Skeleton" index="0"]
-transform = Transform( 0.239573, 0.0167015, -0.970734, -0.950721, 0.206716, -0.231077, 0.196807, 0.978258, 0.0654021, -0.172509, 2.3032, 0.267089 )
+transform = Transform( 0.239638, 0.0179687, -0.970695, -0.951212, 0.204483, -0.231043, 0.194339, 0.978705, 0.0660939, -0.171159, 2.30363, 0.259174 )
 
 [node name="characterMedium001" parent="Unit2/Armature/Skeleton" index="1"]
 material/0 = SubResource( 4 )
@@ -10405,14 +10413,28 @@ isEnemy = true
 ragdollScene = null
 unitStats = ExtResource( 12 )
 
+[node name="Idle" parent="UnitEnemy" index="0"]
+baseColorMaterial = null
+
+[node name="Move" parent="UnitEnemy" index="1"]
+baseColorMaterial = null
+
+[node name="Spin" parent="UnitEnemy" index="2"]
+baseColorMaterial = null
+
 [node name="Shoot" parent="UnitEnemy" index="3"]
+baseRangeColorMaterial = ExtResource( 16 )
+baseColorMaterial = ExtResource( 15 )
 damage = 0
 
 [node name="CollisionShape" parent="UnitEnemy/SelectorArea" index="0"]
 shape = SubResource( 18 )
 
+[node name="Armature" parent="UnitEnemy" index="5"]
+transform = Transform( 1, 0, 0, 0, 1, 4.37114e-08, 0, -4.37114e-08, 1, 0, 0, 0 )
+
 [node name="BoneAttachment" parent="UnitEnemy/Armature/Skeleton" index="0"]
-transform = Transform( 0.239573, 0.0167015, -0.970734, -0.950721, 0.206716, -0.231077, 0.196807, 0.978258, 0.0654021, -0.172509, 2.3032, 0.267089 )
+transform = Transform( 0.239638, 0.0179687, -0.970695, -0.951212, 0.204483, -0.231043, 0.194339, 0.978705, 0.0660939, -0.171159, 2.30363, 0.259174 )
 
 [node name="characterMedium001" parent="UnitEnemy/Armature/Skeleton" index="1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
@@ -10447,7 +10469,8 @@ ragdollScene = null
 unitStats = ExtResource( 12 )
 
 [node name="Shoot" parent="UnitEnemy2" index="3"]
-bulletScene = null
+baseRangeColorMaterial = ExtResource( 16 )
+baseColorMaterial = ExtResource( 15 )
 damage = 0
 
 [node name="SelectorArea" parent="UnitEnemy2" index="4"]
@@ -10457,8 +10480,11 @@ monitorable = true
 [node name="CollisionShape" parent="UnitEnemy2/SelectorArea" index="0"]
 shape = SubResource( 18 )
 
+[node name="Armature" parent="UnitEnemy2" index="5"]
+transform = Transform( 1, 0, 0, 0, 1, 4.37114e-08, 0, -4.37114e-08, 1, 0, 0, 0 )
+
 [node name="BoneAttachment" parent="UnitEnemy2/Armature/Skeleton" index="0"]
-transform = Transform( 0.239573, 0.0167015, -0.970734, -0.950721, 0.206716, -0.231077, 0.196807, 0.978258, 0.0654021, -0.172509, 2.3032, 0.267089 )
+transform = Transform( 0.239638, 0.0179687, -0.970695, -0.951212, 0.204483, -0.231043, 0.194339, 0.978705, 0.0660939, -0.171159, 2.30363, 0.259174 )
 
 [node name="characterMedium001" parent="UnitEnemy2/Armature/Skeleton" index="1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )

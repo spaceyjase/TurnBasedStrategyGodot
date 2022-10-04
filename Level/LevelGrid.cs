@@ -25,7 +25,7 @@ namespace TurnBasedStrategyCourse_godot.Level
 
       foreach (Unit.Unit unit in GetTree().GetNodesInGroup("Units"))
       {
-        unit.Connect(nameof(Unit.Unit.OnUnitMoving), this, nameof(OnUnitMoving));
+        unit.Connect(nameof(Unit.Unit.UnitMoving), this, nameof(OnUnitMoving));
         AddUnitAtGridPosition(GetGridPosition(unit.GlobalTransform.origin), unit);
       }
 
@@ -89,14 +89,27 @@ namespace TurnBasedStrategyCourse_godot.Level
     private void ShowUnitActionRange(UnitAction action)
     {
       HideAllGridPositions();
-      ShowUnitGridPositions(action.ValidPositions);
+      ShowRangeGridPositions(action.ValidRangePositions, action.RangeColour);
+      ShowUnitGridPositions(action.ValidPositions, action.Colour);
     }
 
-    private void ShowUnitGridPositions(IEnumerable<GridPosition> positions)
+    private void ShowUnitGridPositions(IEnumerable<GridPosition> positions, SpatialMaterial material)
     {
       foreach (var gridPosition in positions)
       {
-        cells[gridPosition.Z * width + gridPosition.X].Visible = true;
+        var cell = cells[gridPosition.Z * width + gridPosition.X];
+        cell.Visible = true;
+        cell.SetMaterial(material);
+      }
+    }
+    
+    private void ShowRangeGridPositions(IEnumerable<GridPosition> positions, SpatialMaterial material)
+    {
+      foreach (var gridPosition in positions)
+      {
+        var cell = cells[gridPosition.Z * width + gridPosition.X];
+        cell.Visible = true;
+        cell.SetMaterial(material);
       }
     }
 

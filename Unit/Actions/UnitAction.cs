@@ -9,7 +9,10 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
 {
   public abstract class UnitAction : Node
   {
-    public Unit Unit { get; protected set; }
+    [Export] protected SpatialMaterial baseRangeColorMaterial;
+    [Export] protected SpatialMaterial baseColorMaterial;
+    
+    public Unit Unit { get; private set; }
 
     protected Action OnEnter { get; set; }
     private Action OnExit { get; set; }
@@ -35,6 +38,9 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
       OnExit?.Invoke();
     }
 
+    public SpatialMaterial RangeColour => baseRangeColorMaterial;
+    public SpatialMaterial Colour => baseColorMaterial;
+
     public abstract void Execute(float delta);
     protected abstract IEnumerable<GridPosition> GetValidActionGridPositions();
     
@@ -42,7 +48,8 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
     {
       return GetValidActionGridPositions().Contains(position);
     }
-    
+
+    public virtual IEnumerable<GridPosition> ValidRangePositions => new List<GridPosition>();
     public IEnumerable<GridPosition> ValidPositions => GetValidActionGridPositions();
 
     public string ActionName => Name;

@@ -18,7 +18,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
     [Export] private UnitStats unitStats;
     [Export] private NodePath unitWorldUiPath;
     
-    [Signal] public delegate void OnUnitMoving(Unit selectedUnit, GridPosition oldPosition, GridPosition newPosition);
+    [Signal] public delegate void UnitMoving(Unit selectedUnit, GridPosition oldPosition, GridPosition newPosition);
     [Signal] public delegate void UnitSelected(Unit selectedUnit);
 
     private readonly Dictionary<string, UnitAction> actions = new Dictionary<string, UnitAction>();
@@ -81,7 +81,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
     public IEnumerable<UnitAction> Actions => actions.Values.Where(x => x != IdleAction);
     public int ActionPoints { get; private set; }
     public bool Busy => CurrentAction != IdleAction;
-    public Position3D CameraPosition { get; set; }
+    public Position3D CameraPosition { get; private set; }
 
     public void SetAnimation(string animationName)
     {
@@ -157,7 +157,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
 
       var oldPosition = GridPosition;
       GridPosition = newGridPosition;
-      EmitSignal(nameof(OnUnitMoving), this, oldPosition, GridPosition);
+      EmitSignal(nameof(UnitMoving), this, oldPosition, GridPosition);
     }
 
     // ReSharper disable once UnusedMember.Local
