@@ -29,7 +29,8 @@ namespace TurnBasedStrategyCourse_godot.Unit
     private Spatial selectedVisual;
     private UnitWorldUI unitWorldUi;
     private UnitAction currentAction;
-    
+    private int actionPoints;
+
     private bool IsUnitDead => unitStats.Health <= 0;
 
     public UnitAction CurrentAction
@@ -42,6 +43,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
         currentAction?.Enter();
       }
     }
+
     public UnitAction DefaultAction => IdleAction;
     private UnitAction IdleAction { get; set; }
     public LevelGrid LevelGrid { get; private set; }
@@ -79,7 +81,17 @@ namespace TurnBasedStrategyCourse_godot.Unit
     public Vector3 TargetPosition { get; private set; } = Vector3.Zero;
 
     public IEnumerable<UnitAction> Actions => actions.Values.Where(x => x != IdleAction);
-    public int ActionPoints { get; private set; }
+
+    public int ActionPoints
+    {
+      get => actionPoints;
+      private set
+      {
+        actionPoints = value;
+        unitWorldUi.UpdateUI(this);
+      }
+    }
+
     public bool Busy => CurrentAction != IdleAction;
     public Position3D CameraPosition { get; private set; }
 
@@ -111,15 +123,17 @@ namespace TurnBasedStrategyCourse_godot.Unit
 
         actions[action.Name] = action;
       }
-      
+
       CurrentAction = IdleAction;
       TargetPosition = Translation;
       CameraPosition = GetNode<Position3D>("CameraPosition3D");
-      
+
       EventBus.Instance.Connect(nameof(EventBus.TurnChanged), this, nameof(OnTurnChanged));
 
       unitWorldUi = GetNode<UnitWorldUI>(unitWorldUiPath);
       unitWorldUi.UpdateUI(this);
+      
+      ActionPoints = TotalActionPoints;
     }
 
     private void OnTurnChanged(int turn, bool isPlayerTurn)
@@ -137,14 +151,12 @@ namespace TurnBasedStrategyCourse_godot.Unit
 
       unitStats = (UnitStats)unitStats.Duplicate();
       unitStats.Initialise();
-
-      ActionPoints = TotalActionPoints;
     }
 
     public override void _Process(float delta)
     {
       base._Process(delta);
-      
+
       ProcessAction(delta);
     }
 
@@ -166,7 +178,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
     {
       if (!(@event is InputEventMouseButton eventMouseButton) || !eventMouseButton.Pressed ||
           eventMouseButton.ButtonIndex != 1) return;
-      
+
       EmitSignal(nameof(UnitSelected), this);
     }
 
@@ -182,7 +194,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
       if (!CanTakeAction(action)) return;
 
       SpendActionPoints(action.ActionPointCost);
-      
+
       ChangeAction(actions[name]);
     }
 
@@ -193,7 +205,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
         GD.PrintErr($"State {name} does not exist!");
         return;
       }
-      
+
       ChangeAction(actions[name]);
     }
 
@@ -206,14 +218,15 @@ namespace TurnBasedStrategyCourse_godot.Unit
       }
 
       CurrentAction = newAction;
-      
-      EventBus.Instance.EmitSignal(CurrentAction == IdleAction ? nameof(EventBus.UnitIdle) : nameof(EventBus.UnitBusy), this);
+
+      EventBus.Instance.EmitSignal(CurrentAction == IdleAction ? nameof(EventBus.UnitIdle) : nameof(EventBus.UnitBusy),
+        this);
     }
 
     public void DoAction(string actionName)
     {
       if (CurrentAction.Name != IdleAction.ActionName) return;
-      
+
       TryChangeAction(actionName);
     }
 
@@ -238,7 +251,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
       if (!action.IsValidGridPosition(gridPosition)) return false;
 
       TargetPosition = LevelGrid.GetWorldPosition(gridPosition);
-      
+
       return true;
     }
 
@@ -263,11 +276,11 @@ namespace TurnBasedStrategyCourse_godot.Unit
     private void SpawnRagdoll()
     {
       var ragdoll = ragdollScene.Instance<UnitRagdoll>();
-      
+
       GetTree().Root.AddChild(ragdoll);
       ragdoll.GlobalTranslation = GlobalTranslation;
       ragdoll.GlobalRotation = GlobalRotation;
-      
+
       var mesh = GetNode<MeshInstance>("Armature/Skeleton/characterMedium001");
       ragdoll.Init(mesh.GetSurfaceMaterial(0));
 
