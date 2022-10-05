@@ -11,4 +11,4 @@ maxShootDistance = 7
 movementSpeed = 4.0
 rotateSpeed = 15.0
 stoppingDistance = 0.1
-totalActionPoints = 2
+totalActionPoints = 4

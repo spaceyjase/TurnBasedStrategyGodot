@@ -22,7 +22,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
       mesh.SetSurfaceMaterial(0, material);
     }
 
-    public void StartRagdoll()
+    public void Start()
     {
       skeleton.PhysicalBonesStartSimulation();
 

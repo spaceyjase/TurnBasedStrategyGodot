@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Godot;
 using TurnBasedStrategyCourse_godot.Events;
 using TurnBasedStrategyCourse_godot.Level;
@@ -18,6 +21,9 @@ namespace TurnBasedStrategyCourse_godot.Unit
     private UnitAction selectedAction;
     private LevelGrid levelGrid;
     private bool playerTurn = true;
+    
+    private readonly List<Unit> playerUnits = new List<Unit>();
+    private readonly List<Unit> enemyUnits = new List<Unit>();
 
     public override void _Ready()
     {
@@ -25,8 +31,18 @@ namespace TurnBasedStrategyCourse_godot.Unit
 
       foreach (Unit unit in GetTree().GetNodesInGroup("Units"))
       {
-        unit.Connect(nameof(Unit.UnitSelected), this, nameof(OnUnitSelected));
+        unit.Connect(nameof(Unit.Selected), this, nameof(OnUnitSelected));
+        unit.Connect(nameof(Unit.Dead), this, nameof(OnUnitDead));
         unit.Initialise(levelGrid);
+        
+        if (unit.IsEnemy)
+        {
+          enemyUnits.Add(unit);
+        }
+        else
+        {
+          playerUnits.Add(unit);
+        }
       }
       
       EventBus.Instance.Connect(nameof(EventBus.TurnChanged), this, nameof(OnTurnChanged));
@@ -40,15 +56,23 @@ namespace TurnBasedStrategyCourse_godot.Unit
       {
         if (selectedUnit.Busy) return;
         
-        selectedUnit.Selected = false;
+        selectedUnit.IsSelected = false;
       }
 
       selectedUnit = unit;
-      selectedUnit.Selected = true;
+      selectedUnit.IsSelected = true;
 
       EmitSignal(nameof(UnitSelected), selectedUnit);
       
       selectedAction = null;
+    }
+    
+    private void OnUnitDead(Unit unit)
+    {
+      var list = unit.IsEnemy ? enemyUnits : playerUnits;
+      list.Remove(unit);
+      
+      // TODO: end game conditions
     }
 
     // ReSharper disable once UnusedMember.Local
@@ -73,13 +97,22 @@ namespace TurnBasedStrategyCourse_godot.Unit
       EmitSignal(nameof(UnitActionSelected), selectedAction);
     }
     
-    private void OnTurnChanged(int turn, bool isPlayerTurn)
+    private async void OnTurnChanged(int turn, bool isPlayerTurn)
     {
       playerTurn = isPlayerTurn;
       if (playerTurn) return;
       
       selectedAction = null;
       selectedUnit = null;
+      
+      if (enemyUnits.Count == 0 || playerUnits.Count == 0) return;
+      
+      foreach (var unit in enemyUnits)
+      {
+        await unit.TakeAiTurn();
+      }
+      
+      EventBus.Instance.EmitSignal(nameof(EventBus.FinishedAiTurn));
     }
   }
 }

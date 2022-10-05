@@ -48,52 +48,46 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
 
     public override IEnumerable<GridPosition> ValidRangePositions => GetActionRangeGridPositions();
 
-    private IEnumerable<GridPosition> GetActionRangeGridPositions()
+    private IEnumerable<GridPosition> GetAllGridPositions()
     {
-      var actionPositions = GetValidActionGridPositions().ToArray();
       for (var x = -Unit.MaxShootDistance; x <= Unit.MaxShootDistance; ++x)
       {
         for (var z = -Unit.MaxShootDistance; z <= Unit.MaxShootDistance; ++z)
         {
           var offset = new GridPosition(x, z);
-          var testPosition = Unit.GridPosition + offset;
-          
+
           var testDistance = Mathf.Abs(x) + Mathf.Abs(z);
           if (testDistance > Unit.MaxShootDistance) continue;
 
-          if (actionPositions.Contains(testPosition)) continue;
-          if (!Unit.LevelGrid.IsValidPosition(testPosition)) continue;
-          if (Unit.GridPosition == testPosition) continue;
-          if (Unit.LevelGrid.IsOccupied(testPosition)) continue;
-
-          yield return testPosition;
+          yield return Unit.GridPosition + offset;
         }
+      }
+    }
+
+    private IEnumerable<GridPosition> GetActionRangeGridPositions()
+    {
+      var actionPositions = GetValidActionGridPositions().ToArray();
+      foreach (var testPosition in GetAllGridPositions())
+      {
+        if (actionPositions.Contains(testPosition)) continue;
+        if (!Unit.LevelGrid.IsValidPosition(testPosition)) continue;
+        if (Unit.GridPosition == testPosition) continue;
+        if (Unit.LevelGrid.IsOccupied(testPosition)) continue;
+
+        yield return testPosition;
       }
     }
 
     protected override IEnumerable<GridPosition> GetValidActionGridPositions()
     {
-      for (var x = -Unit.MaxShootDistance; x <= Unit.MaxShootDistance; ++x)
-      {
-        for (var z = -Unit.MaxShootDistance; z <= Unit.MaxShootDistance; ++z)
-        {
-          var offset = new GridPosition(x, z);
-          var testPosition = Unit.GridPosition + offset;
-
-          var testDistance = Mathf.Abs(x) + Mathf.Abs(z);
-          if (testDistance > Unit.MaxShootDistance) continue;
-
-          if (!Unit.LevelGrid.IsValidPosition(testPosition)) continue;
-          if (!Unit.LevelGrid.IsOccupied(testPosition)) continue;
-
-          var targetUnit = Unit.LevelGrid.GetUnitAtPosition(testPosition);
-          if (targetUnit.IsEnemy == Unit.IsEnemy) continue; // both Units are on the same 'team'
-
-          yield return testPosition;
-        }
-      }
+      return from testPosition in GetAllGridPositions()
+        where Unit.LevelGrid.IsValidPosition(testPosition)
+        where Unit.LevelGrid.IsOccupied(testPosition)
+        let targetUnit = Unit.LevelGrid.GetUnitAtPosition(testPosition)
+        where targetUnit.IsEnemy != Unit.IsEnemy
+        select testPosition;
     }
-    
+
     private void Shoot(float delta)
     {
       timer -= delta;
@@ -111,6 +105,7 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
             canShoot = false;
             ShootTarget();
           }
+
           break;
         case State.CoolOff:
           break;
@@ -129,9 +124,9 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
       var bullet = bulletScene.Instance<Bullet.Bullet>();
 
       bullet.Init(Unit.BulletSpawnPosition, target.GlobalTranslation);
-      
+
       GetTree().Root.AddChild(bullet);
-      
+
       target.Damage(damage);
     }
 
@@ -144,7 +139,7 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
           timer = shootTime;
           break;
         case State.Shooting:
-          Unit.SetAnimation(UnitAnimations.Shooting); 
+          Unit.SetAnimation(UnitAnimations.Shooting);
           state = State.CoolOff;
           timer = coolOffTime;
           break;

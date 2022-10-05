@@ -1,21 +1,13 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://Unit/Unit.cs" type="Script" id=1]
 [ext_resource path="res://Assets/Imports/survivorFemaleA.png" type="Texture" id=2]
 [ext_resource path="res://Assets/Imports/skin_002.material" type="Material" id=3]
 [ext_resource path="res://Gun/machinegun.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Assets/Circle_Outlined.png" type="Texture" id=5]
-[ext_resource path="res://Unit/Actions/Move.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Unit/Stats/Resources/UnitStats.tres" type="Resource" id=7]
-[ext_resource path="res://Unit/Actions/Idle.tscn" type="PackedScene" id=8]
-[ext_resource path="res://Unit/Actions/Spin.tscn" type="PackedScene" id=9]
-[ext_resource path="res://Unit/Actions/Shoot.tscn" type="PackedScene" id=10]
-[ext_resource path="res://Bullet/Bullet.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Unit/UnitRagdoll.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Unit/UI/UnitWorldUI.tscn" type="PackedScene" id=13]
-[ext_resource path="res://Grid/Materials/GridCellWhite.material" type="Material" id=14]
-[ext_resource path="res://Grid/Materials/GridCellSoftRed.material" type="Material" id=15]
-[ext_resource path="res://Grid/Materials/GridCellRed.material" type="Material" id=16]
 
 [sub_resource type="CylinderShape" id=18]
 height = 3.35
@@ -3631,21 +3623,6 @@ ragdollScene = ExtResource( 12 )
 unitStats = ExtResource( 7 )
 unitWorldUiPath = NodePath("UnitWorldUI")
 
-[node name="Idle" parent="." instance=ExtResource( 8 )]
-baseColorMaterial = ExtResource( 14 )
-
-[node name="Move" parent="." instance=ExtResource( 6 )]
-baseColorMaterial = ExtResource( 14 )
-
-[node name="Spin" parent="." instance=ExtResource( 9 )]
-baseColorMaterial = ExtResource( 14 )
-
-[node name="Shoot" parent="." instance=ExtResource( 10 )]
-baseRangeColorMaterial = ExtResource( 15 )
-baseColorMaterial = ExtResource( 16 )
-bulletScene = ExtResource( 11 )
-damage = 40
-
 [node name="SelectorArea" type="Area" parent="."]
 monitoring = false
 monitorable = false
@@ -3862,7 +3839,7 @@ bones/40/name = "RightHand"
 bones/40/parent = 39
 bones/40/rest = Transform( 0.997817, 0.0660423, 0.000124726, -0.0660313, 0.997682, -0.0164227, -0.00120903, 0.0163786, 0.999865, 2.42144e-07, 0.527228, 3.21073e-06 )
 bones/40/enabled = true
-bones/40/bound_children = [ NodePath("BoneAttachment") ]
+bones/40/bound_children = [  ]
 bones/41/name = "RightHandIndex1"
 bones/41/parent = 40
 bones/41/rest = Transform( 0.987998, 0.00908436, -0.154196, 0.008493, 0.993564, 0.112953, 0.15423, -0.112907, 0.981563, -3.63216e-08, 0.1386, -9.0804e-08 )
@@ -3950,7 +3927,7 @@ bones/57/enabled = true
 bones/57/bound_children = [  ]
 
 [node name="BoneAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( 0.239924, 0.0190969, -0.970603, -0.952061, 0.200079, -0.231403, 0.189779, 0.979593, 0.0661851, -0.177194, 2.30049, 0.278501 )
+transform = Transform( 0.240164, 0.0198005, -0.97053, -0.952401, 0.198184, -0.231635, 0.187757, 0.979965, 0.0664543, -0.176476, 2.29987, 0.275877 )
 bone_name = "RightHand"
 
 [node name="machinegun" parent="Armature/Skeleton/BoneAttachment" instance=ExtResource( 4 )]

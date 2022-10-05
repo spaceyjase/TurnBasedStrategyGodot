@@ -7,19 +7,16 @@ namespace TurnBasedStrategyCourse_godot.Events
 {
   public class EventBus : Node
   {
-    [Signal]
-    public delegate void ActionStarted(UnitAction action);
-    [Signal]
-    public delegate void ActionCompleted(UnitAction action);
+    [Signal] public delegate void ActionStarted(UnitAction action);
+    [Signal] public delegate void ActionCompleted(UnitAction action);
     
-    [Signal]
-    public delegate void UnitBusy(Unit.Unit unit);
+    [Signal] public delegate void FinishedAiTurn();
+    
+    [Signal] public delegate void UnitBusy(Unit.Unit unit);
   
-    [Signal]
-    public delegate void UnitIdle(Unit.Unit unit);
+    [Signal] public delegate void UnitIdle(Unit.Unit unit);
     
-    [Signal]
-    public delegate void TurnChanged(int turn, bool isPlayerTurn);
+    [Signal] public delegate void TurnChanged(int turn, bool isPlayerTurn);
     
     public static EventBus Instance { get; } = new EventBus();
   }

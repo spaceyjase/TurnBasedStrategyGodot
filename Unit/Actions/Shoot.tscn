@@ -1,6 +1,13 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Unit/Actions/ShootAction.cs" type="Script" id=1]
+[ext_resource path="res://Grid/Materials/GridCellRed.material" type="Material" id=2]
+[ext_resource path="res://Grid/Materials/GridCellSoftRed.material" type="Material" id=3]
+[ext_resource path="res://Bullet/Bullet.tscn" type="PackedScene" id=4]
 
 [node name="Shoot" type="Node"]
 script = ExtResource( 1 )
+baseRangeColorMaterial = ExtResource( 3 )
+baseColorMaterial = ExtResource( 2 )
+bulletScene = ExtResource( 4 )
+damage = 40

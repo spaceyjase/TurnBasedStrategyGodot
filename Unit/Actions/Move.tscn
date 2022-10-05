@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Unit/Actions/MoveAction.cs" type="Script" id=1]
+[ext_resource path="res://Grid/Materials/GridCellWhite.material" type="Material" id=2]
 
 [node name="Move" type="Node"]
 script = ExtResource( 1 )
+baseColorMaterial = ExtResource( 2 )

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Godot;
 using TurnBasedStrategyCourse_godot.Events;
 using TurnBasedStrategyCourse_godot.Grid;
@@ -18,14 +19,16 @@ namespace TurnBasedStrategyCourse_godot.Unit
     [Export] private UnitStats unitStats;
     [Export] private NodePath unitWorldUiPath;
     
-    [Signal] public delegate void UnitMoving(Unit selectedUnit, GridPosition oldPosition, GridPosition newPosition);
-    [Signal] public delegate void UnitSelected(Unit selectedUnit);
+    [Signal] public delegate void Moving(Unit selectedUnit, GridPosition oldPosition, GridPosition newPosition);
+    [Signal] public delegate void Selected(Unit selectedUnit);
+    [Signal] public delegate void Dead(Unit selectedUnit);
+    [Signal] public delegate void FinishedAiTurn();
 
     private readonly Dictionary<string, UnitAction> actions = new Dictionary<string, UnitAction>();
     private AnimationNodeStateMachinePlayback animationStateMachine;
 
     private AnimationTree animationTree;
-    private bool selected;
+    private bool isSelected;
     private Spatial selectedVisual;
     private UnitWorldUI unitWorldUi;
     private UnitAction currentAction;
@@ -44,6 +47,8 @@ namespace TurnBasedStrategyCourse_godot.Unit
       }
     }
 
+    public bool IsPlayerTurn { get; private set; } = true;  // player always goes first
+
     public UnitAction DefaultAction => IdleAction;
     private UnitAction IdleAction { get; set; }
     public LevelGrid LevelGrid { get; private set; }
@@ -52,13 +57,13 @@ namespace TurnBasedStrategyCourse_godot.Unit
     public int CurrentHealth => unitStats.Health;
     public int MaxHealth => unitStats.MaxHealth;
 
-    public bool Selected
+    public bool IsSelected
     {
-      get => selected;
+      get => isSelected;
       set
       {
-        selected = value;
-        if (selected)
+        isSelected = value;
+        if (isSelected)
         {
           selectedVisual.Show();
         }
@@ -110,6 +115,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
       if (isEnemy)
       {
         GetNode<Area>("SelectorArea").QueueFree();
+        SetProcess(false);  // to avoid processing until its my turn
       }
 
       foreach (var child in GetChildren())
@@ -138,6 +144,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
 
     private void OnTurnChanged(int turn, bool isPlayerTurn)
     {
+      IsPlayerTurn = isPlayerTurn;
       if (!isEnemy) GetNode<CollisionShape>("SelectorArea/CollisionShape").Disabled = !isPlayerTurn;
       if (isEnemy == isPlayerTurn) return;
 
@@ -169,7 +176,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
 
       var oldPosition = GridPosition;
       GridPosition = newGridPosition;
-      EmitSignal(nameof(UnitMoving), this, oldPosition, GridPosition);
+      EmitSignal(nameof(Moving), this, oldPosition, GridPosition);
     }
 
     // ReSharper disable once UnusedMember.Local
@@ -179,23 +186,25 @@ namespace TurnBasedStrategyCourse_godot.Unit
       if (!(@event is InputEventMouseButton eventMouseButton) || !eventMouseButton.Pressed ||
           eventMouseButton.ButtonIndex != 1) return;
 
-      EmitSignal(nameof(UnitSelected), this);
+      EmitSignal(nameof(Selected), this);
     }
 
-    private void TryChangeAction(string name)
+    public bool TryChangeAction(string name)
     {
       if (actions.ContainsKey(name) == false)
       {
         GD.PrintErr($"State {name} does not exist!");
-        return;
+        return false;
       }
 
       var action = actions[name];
-      if (!CanTakeAction(action)) return;
+      if (!CanTakeAction(action)) return false;
 
       SpendActionPoints(action.ActionPointCost);
 
       ChangeAction(actions[name]);
+
+      return true;
     }
 
     public void ChangeAction(string name)
@@ -219,6 +228,8 @@ namespace TurnBasedStrategyCourse_godot.Unit
 
       CurrentAction = newAction;
 
+      if (IsEnemy) return;
+      
       EventBus.Instance.EmitSignal(CurrentAction == IdleAction ? nameof(EventBus.UnitIdle) : nameof(EventBus.UnitBusy),
         this);
     }
@@ -268,7 +279,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
 
     private void Die()
     {
-      LevelGrid.RemoveUnitAtGridPosition(GridPosition, this);
+      EmitSignal(nameof(Dead), this);
       SpawnRagdoll();
       QueueFree();
     }
@@ -284,7 +295,15 @@ namespace TurnBasedStrategyCourse_godot.Unit
       var mesh = GetNode<MeshInstance>("Armature/Skeleton/characterMedium001");
       ragdoll.Init(mesh.GetSurfaceMaterial(0));
 
-      ragdoll.StartRagdoll();
+      ragdoll.Start();
+    }
+
+    public async Task TakeAiTurn()
+    {
+      var awaiter = ToSignal(this, nameof(FinishedAiTurn));
+      SetProcess(true);
+      await awaiter;
+      SetProcess(false);
     }
   }
 }

@@ -1,6 +1,5 @@
-[gd_scene load_steps=60 format=2]
+[gd_scene load_steps=57 format=2]
 
-[ext_resource path="res://Unit/Unit.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Level/LevelGrid.tscn" type="PackedScene" id=2]
 [ext_resource path="res://default_env.tres" type="Environment" id=3]
 [ext_resource path="res://Unit/UnitManager.tscn" type="PackedScene" id=4]
@@ -14,17 +13,14 @@
 [ext_resource path="res://Unit/Stats/Resources/ZombieUnitStats.tres" type="Resource" id=12]
 [ext_resource path="res://Assets/Circle_Outlined.png" type="Texture" id=13]
 [ext_resource path="res://Assets/Imports/skin_002.material" type="Material" id=14]
-[ext_resource path="res://Grid/Materials/GridCellSoftRed.material" type="Material" id=15]
-[ext_resource path="res://Grid/Materials/GridCellRed.material" type="Material" id=16]
+[ext_resource path="res://Unit/PlayerUnit.tscn" type="PackedScene" id=15]
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=14]
-
-[sub_resource type="SpatialMaterial" id=4]
+[sub_resource type="SpatialMaterial" id=44]
 albedo_texture = ExtResource( 5 )
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=5]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=45]
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=46]
 resource_name = "T-Pose"
 length = 0.0666667
 loop = true
@@ -442,10 +438,11 @@ tracks/58/imported = false
 tracks/58/enabled = true
 tracks/58/keys = PoolRealArray( 0, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1, 0.0666667, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1 )
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=47]
 resource_name = "firing rifle"
 length = 0.3
 loop = true
+step = 0.01
 tracks/0/type = "transform"
 tracks/0/path = NodePath("Armature/Skeleton:LeftFootIK_end")
 tracks/0/interp = 1
@@ -860,7 +857,7 @@ tracks/58/imported = false
 tracks/58/enabled = true
 tracks/58/keys = PoolRealArray( 0, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1, 0.3, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1 )
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=48]
 resource_name = "reloading"
 length = 3.33333
 tracks/0/type = "transform"
@@ -1277,7 +1274,7 @@ tracks/58/imported = false
 tracks/58/enabled = true
 tracks/58/keys = PoolRealArray( 0, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1, 3.33333, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1 )
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=49]
 resource_name = "rifle aiming idle"
 length = 3.13333
 loop = true
@@ -1707,7 +1704,7 @@ tracks/59/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=50]
 resource_name = "rifle run"
 length = 0.766667
 loop = true
@@ -2137,7 +2134,7 @@ tracks/59/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=51]
 resource_name = "strafe"
 length = 0.7
 loop = true
@@ -2555,7 +2552,7 @@ tracks/58/imported = false
 tracks/58/enabled = true
 tracks/58/keys = PoolRealArray( 0, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1, 0.7, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1 )
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=52]
 resource_name = "strafe (2)"
 length = 0.566667
 loop = true
@@ -2973,7 +2970,7 @@ tracks/58/imported = false
 tracks/58/enabled = true
 tracks/58/keys = PoolRealArray( 0, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1, 0.566667, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1 )
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=53]
 resource_name = "walking"
 length = 1.4
 loop = true
@@ -6995,12 +6992,13 @@ tracks/58/imported = false
 tracks/58/enabled = true
 tracks/58/keys = PoolRealArray( 0, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1, 1.4, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1 )
 
-[sub_resource type="SpatialMaterial" id=36]
+[sub_resource type="SpatialMaterial" id=54]
 albedo_texture = ExtResource( 11 )
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=16]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=55]
 
-[sub_resource type="Animation" id=37]
+[sub_resource type="Animation" id=56]
+resource_name = "T-Pose"
 length = 0.0666667
 loop = true
 tracks/0/type = "transform"
@@ -7417,9 +7415,11 @@ tracks/58/imported = false
 tracks/58/enabled = true
 tracks/58/keys = PoolRealArray( 0, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1, 0.0666667, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1 )
 
-[sub_resource type="Animation" id=38]
+[sub_resource type="Animation" id=57]
+resource_name = "firing rifle"
 length = 0.3
 loop = true
+step = 0.01
 tracks/0/type = "transform"
 tracks/0/path = NodePath("Armature/Skeleton:LeftFootIK_end")
 tracks/0/interp = 1
@@ -7834,7 +7834,7 @@ tracks/58/imported = false
 tracks/58/enabled = true
 tracks/58/keys = PoolRealArray( 0, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1, 0.3, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1 )
 
-[sub_resource type="Animation" id=19]
+[sub_resource type="Animation" id=58]
 resource_name = "reloading"
 length = 3.33333
 tracks/0/type = "transform"
@@ -8251,7 +8251,8 @@ tracks/58/imported = false
 tracks/58/enabled = true
 tracks/58/keys = PoolRealArray( 0, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1, 3.33333, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1 )
 
-[sub_resource type="Animation" id=39]
+[sub_resource type="Animation" id=59]
+resource_name = "rifle aiming idle"
 length = 3.13333
 loop = true
 tracks/0/type = "transform"
@@ -8680,7 +8681,8 @@ tracks/59/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=40]
+[sub_resource type="Animation" id=60]
+resource_name = "rifle run"
 length = 0.766667
 loop = true
 tracks/0/type = "transform"
@@ -9109,7 +9111,8 @@ tracks/59/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=41]
+[sub_resource type="Animation" id=61]
+resource_name = "strafe"
 length = 0.7
 loop = true
 tracks/0/type = "transform"
@@ -9526,7 +9529,8 @@ tracks/58/imported = false
 tracks/58/enabled = true
 tracks/58/keys = PoolRealArray( 0, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1, 0.7, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1 )
 
-[sub_resource type="Animation" id=42]
+[sub_resource type="Animation" id=62]
+resource_name = "strafe (2)"
 length = 0.566667
 loop = true
 tracks/0/type = "transform"
@@ -9943,7 +9947,8 @@ tracks/58/imported = false
 tracks/58/enabled = true
 tracks/58/keys = PoolRealArray( 0, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1, 0.566667, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1 )
 
-[sub_resource type="Animation" id=43]
+[sub_resource type="Animation" id=63]
+resource_name = "walking"
 length = 1.4
 loop = true
 tracks/0/type = "transform"
@@ -10370,42 +10375,33 @@ levelGridNodePath = NodePath("../LevelGrid")
 
 [node name="TurnSystem" parent="." instance=ExtResource( 9 )]
 
-[node name="Unit" parent="." instance=ExtResource( 1 )]
+[node name="PlayerUnit" parent="." instance=ExtResource( 15 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 4 )
 
-[node name="Armature" parent="Unit" index="5"]
-transform = Transform( 1, 0, 0, 0, 1, 4.37114e-08, 0, -4.37114e-08, 1, 0, 0, 0 )
-
-[node name="BoneAttachment" parent="Unit/Armature/Skeleton" index="0"]
-transform = Transform( 0.239638, 0.0179687, -0.970695, -0.951212, 0.204483, -0.231043, 0.194339, 0.978705, 0.0660939, -0.171159, 2.30363, 0.259174 )
-
-[node name="AnimationTree" parent="Unit" index="9"]
-parameters/playback = SubResource( 14 )
-
-[node name="Unit2" parent="." instance=ExtResource( 1 )]
+[node name="PlayerUnit2" parent="." instance=ExtResource( 15 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 12 )
 
-[node name="Armature" parent="Unit2" index="5"]
-transform = Transform( 1, 0, 0, 0, 1, 4.37114e-08, 0, -4.37114e-08, 1, 0, 0, 0 )
+[node name="Skeleton" parent="PlayerUnit2/Armature" index="0"]
+bones/40/bound_children = [ NodePath("BoneAttachment") ]
 
-[node name="BoneAttachment" parent="Unit2/Armature/Skeleton" index="0"]
-transform = Transform( 0.239638, 0.0179687, -0.970695, -0.951212, 0.204483, -0.231043, 0.194339, 0.978705, 0.0660939, -0.171159, 2.30363, 0.259174 )
+[node name="BoneAttachment" parent="PlayerUnit2/Armature/Skeleton" index="0"]
+transform = Transform( 0.240122, 0.0196329, -0.970544, -0.952306, 0.19869, -0.231591, 0.188291, 0.979865, 0.0664063, -0.176666, 2.29999, 0.276718 )
 
-[node name="characterMedium001" parent="Unit2/Armature/Skeleton" index="1"]
-material/0 = SubResource( 4 )
+[node name="characterMedium001" parent="PlayerUnit2/Armature/Skeleton" index="1"]
+material/0 = SubResource( 44 )
 
-[node name="AnimationTree" parent="Unit2" index="9"]
-parameters/playback = SubResource( 5 )
+[node name="AnimationTree" parent="PlayerUnit2" index="9"]
+parameters/playback = SubResource( 45 )
 
-[node name="AnimationPlayer" parent="Unit2/AnimationTree" index="0"]
-anims/T-Pose = SubResource( 6 )
-"anims/firing rifle" = SubResource( 7 )
-anims/reloading = SubResource( 8 )
-"anims/rifle aiming idle" = SubResource( 9 )
-"anims/rifle run" = SubResource( 10 )
-anims/strafe = SubResource( 11 )
-"anims/strafe (2)" = SubResource( 12 )
-anims/walking = SubResource( 13 )
+[node name="AnimationPlayer" parent="PlayerUnit2/AnimationTree" index="0"]
+anims/T-Pose = SubResource( 46 )
+"anims/firing rifle" = SubResource( 47 )
+anims/reloading = SubResource( 48 )
+"anims/rifle aiming idle" = SubResource( 49 )
+"anims/rifle run" = SubResource( 50 )
+anims/strafe = SubResource( 51 )
+"anims/strafe (2)" = SubResource( 52 )
+anims/walking = SubResource( 53 )
 
 [node name="UnitEnemy" parent="." instance=ExtResource( 10 )]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 4, 0, 18 )
@@ -10413,42 +10409,25 @@ isEnemy = true
 ragdollScene = null
 unitStats = ExtResource( 12 )
 
-[node name="Idle" parent="UnitEnemy" index="0"]
-baseColorMaterial = null
-
-[node name="Move" parent="UnitEnemy" index="1"]
-baseColorMaterial = null
-
-[node name="Spin" parent="UnitEnemy" index="2"]
-baseColorMaterial = null
-
-[node name="Shoot" parent="UnitEnemy" index="3"]
-baseRangeColorMaterial = ExtResource( 16 )
-baseColorMaterial = ExtResource( 15 )
-damage = 0
-
 [node name="CollisionShape" parent="UnitEnemy/SelectorArea" index="0"]
 shape = SubResource( 18 )
 
-[node name="Armature" parent="UnitEnemy" index="5"]
-transform = Transform( 1, 0, 0, 0, 1, 4.37114e-08, 0, -4.37114e-08, 1, 0, 0, 0 )
-
 [node name="BoneAttachment" parent="UnitEnemy/Armature/Skeleton" index="0"]
-transform = Transform( 0.239638, 0.0179687, -0.970695, -0.951212, 0.204483, -0.231043, 0.194339, 0.978705, 0.0660939, -0.171159, 2.30363, 0.259174 )
+transform = Transform( 0.240122, 0.0196329, -0.970544, -0.952306, 0.19869, -0.231591, 0.188291, 0.979865, 0.0664063, -0.176666, 2.29999, 0.276718 )
 
 [node name="characterMedium001" parent="UnitEnemy/Armature/Skeleton" index="1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 mesh = SubResource( 1 )
 skin = SubResource( 2 )
 
-[node name="SelectedVisual" parent="UnitEnemy" index="6"]
+[node name="SelectedVisual" parent="UnitEnemy" index="5"]
 mesh = SubResource( 21 )
 material/0 = SubResource( 20 )
 
-[node name="CameraPosition3D" parent="UnitEnemy" index="8"]
+[node name="CameraPosition3D" parent="UnitEnemy" index="7"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.08507, 2.84903, -1.76571 )
 
-[node name="AnimationTree" parent="UnitEnemy" index="9"]
+[node name="AnimationTree" parent="UnitEnemy" index="8"]
 tree_root = SubResource( 15 )
 parameters/playback = SubResource( 25 )
 
@@ -10468,50 +10447,38 @@ isEnemy = true
 ragdollScene = null
 unitStats = ExtResource( 12 )
 
-[node name="Shoot" parent="UnitEnemy2" index="3"]
-baseRangeColorMaterial = ExtResource( 16 )
-baseColorMaterial = ExtResource( 15 )
-damage = 0
-
-[node name="SelectorArea" parent="UnitEnemy2" index="4"]
-monitoring = true
-monitorable = true
-
 [node name="CollisionShape" parent="UnitEnemy2/SelectorArea" index="0"]
 shape = SubResource( 18 )
 
-[node name="Armature" parent="UnitEnemy2" index="5"]
-transform = Transform( 1, 0, 0, 0, 1, 4.37114e-08, 0, -4.37114e-08, 1, 0, 0, 0 )
-
 [node name="BoneAttachment" parent="UnitEnemy2/Armature/Skeleton" index="0"]
-transform = Transform( 0.239638, 0.0179687, -0.970695, -0.951212, 0.204483, -0.231043, 0.194339, 0.978705, 0.0660939, -0.171159, 2.30363, 0.259174 )
+transform = Transform( 0.239741, 0.0178438, -0.970672, -0.951346, 0.203656, -0.231223, 0.193557, 0.97888, 0.0657999, -0.177537, 2.3017, 0.280981 )
 
 [node name="characterMedium001" parent="UnitEnemy2/Armature/Skeleton" index="1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 mesh = SubResource( 1 )
 skin = SubResource( 2 )
-material/0 = SubResource( 36 )
+material/0 = SubResource( 54 )
 
-[node name="SelectedVisual" parent="UnitEnemy2" index="6"]
+[node name="SelectedVisual" parent="UnitEnemy2" index="5"]
 mesh = SubResource( 21 )
 material/0 = SubResource( 20 )
 
-[node name="CameraPosition3D" parent="UnitEnemy2" index="8"]
+[node name="CameraPosition3D" parent="UnitEnemy2" index="7"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.08507, 2.84903, -1.76571 )
 
-[node name="AnimationTree" parent="UnitEnemy2" index="9"]
+[node name="AnimationTree" parent="UnitEnemy2" index="8"]
 tree_root = SubResource( 15 )
-parameters/playback = SubResource( 16 )
+parameters/playback = SubResource( 55 )
 
 [node name="AnimationPlayer" parent="UnitEnemy2/AnimationTree" index="0"]
-anims/T-Pose = SubResource( 37 )
-"anims/firing rifle" = SubResource( 38 )
-anims/reloading = SubResource( 19 )
-"anims/rifle aiming idle" = SubResource( 39 )
-"anims/rifle run" = SubResource( 40 )
-anims/strafe = SubResource( 41 )
-"anims/strafe (2)" = SubResource( 42 )
-anims/walking = SubResource( 43 )
+anims/T-Pose = SubResource( 56 )
+"anims/firing rifle" = SubResource( 57 )
+anims/reloading = SubResource( 58 )
+"anims/rifle aiming idle" = SubResource( 59 )
+"anims/rifle run" = SubResource( 60 )
+anims/strafe = SubResource( 61 )
+"anims/strafe (2)" = SubResource( 62 )
+anims/walking = SubResource( 63 )
 
 [node name="CameraController" parent="." instance=ExtResource( 7 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 3.03201, 15.717 )
@@ -10535,10 +10502,6 @@ shadow_color = Color( 0.258824, 0.258824, 0.258824, 1 )
 [connection signal="EndTurnPressed" from="UI" to="TurnSystem" method="_on_UI_EndTurnPressed"]
 
 [editable path="LevelGrid"]
-[editable path="Unit"]
-[editable path="Unit/Armature/Skeleton/BoneAttachment/machinegun"]
-[editable path="Unit2"]
-[editable path="Unit2/Armature/Skeleton/BoneAttachment/machinegun"]
+[editable path="PlayerUnit2"]
 [editable path="UnitEnemy"]
 [editable path="UnitEnemy2"]
-[editable path="UnitEnemy2/Armature/Skeleton/BoneAttachment/machinegun"]

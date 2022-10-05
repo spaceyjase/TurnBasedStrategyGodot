@@ -8,6 +8,13 @@ namespace TurnBasedStrategyCourse_godot.Turn
     private bool isPlayerTurn = true;
     private int turnNumber = 1;
 
+    public override void _Ready()
+    {
+      base._Ready();
+      
+      EventBus.Instance.Connect(nameof(EventBus.FinishedAiTurn), this, nameof(OnFinishedAiTurn));
+    }
+
     private void NextTurn()
     {
       isPlayerTurn = !isPlayerTurn;
@@ -15,6 +22,11 @@ namespace TurnBasedStrategyCourse_godot.Turn
     }
 
     private void _on_UI_EndTurnPressed()
+    {
+      NextTurn();
+    }
+    
+    private void OnFinishedAiTurn()
     {
       NextTurn();
     }

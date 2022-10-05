@@ -2,7 +2,6 @@ using System.Linq;
 using Godot;
 using TurnBasedStrategyCourse_godot.Events;
 using TurnBasedStrategyCourse_godot.Unit.Actions;
-using Timer = System.Timers.Timer;
 
 namespace TurnBasedStrategyCourse_godot.UI
 {
@@ -16,8 +15,6 @@ namespace TurnBasedStrategyCourse_godot.UI
     private Unit.Unit currentUnit;
     private Button endTurnButton;
     private Control enemyControls;
-
-    private readonly Timer enemyTimer = new Timer(2000);
 
     private GridContainer gridContainer;
     private Control playerControls;
@@ -66,7 +63,6 @@ namespace TurnBasedStrategyCourse_godot.UI
     {
       base._Ready();
 
-      
       EventBus.Instance.Connect(nameof(EventBus.UnitBusy), this, nameof(OnUnitBusy));
       EventBus.Instance.Connect(nameof(EventBus.UnitIdle), this, nameof(OnUnitIdle));
       EventBus.Instance.Connect(nameof(EventBus.TurnChanged), this, nameof(OnTurnChanged));
@@ -85,12 +81,6 @@ namespace TurnBasedStrategyCourse_godot.UI
       turnLabel = GetNode<Label>("TurnLabel");
 
       endTurnButton = GetNode<Button>("EndTurnButton");
-      
-      enemyTimer.Elapsed += (sender, args) =>
-      {
-        enemyTimer.Stop();
-        _on_EndTurnButton_pressed();
-      };
     }
 
     private void OnUnitBusy(Unit.Unit unit)
@@ -143,7 +133,7 @@ namespace TurnBasedStrategyCourse_godot.UI
       }
       else if (CurrentUnit != null)
       {
-        CurrentUnit.Selected = false;
+        CurrentUnit.IsSelected = false;
         CurrentUnit = null;
       }
 
@@ -156,11 +146,6 @@ namespace TurnBasedStrategyCourse_godot.UI
       playerControls.Visible = isPlayerTurn;
       enemyControls.Visible = !isPlayerTurn;
       actionPointLabel.Visible = false;
-
-      // TODO: Dummy AI
-      if (isPlayerTurn) return;
-      
-      enemyTimer.Start();
     }
 
     [Signal]

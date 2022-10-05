@@ -25,7 +25,8 @@ namespace TurnBasedStrategyCourse_godot.Level
 
       foreach (Unit.Unit unit in GetTree().GetNodesInGroup("Units"))
       {
-        unit.Connect(nameof(Unit.Unit.UnitMoving), this, nameof(OnUnitMoving));
+        unit.Connect(nameof(Unit.Unit.Moving), this, nameof(OnUnitMoving));
+        unit.Connect(nameof(Unit.Unit.Dead), this, nameof(OnUnitDead));
         AddUnitAtGridPosition(GetGridPosition(unit.GlobalTransform.origin), unit);
       }
 
@@ -56,7 +57,7 @@ namespace TurnBasedStrategyCourse_godot.Level
       gridObject.AddUnit(unit);
     }
 
-    public void RemoveUnitAtGridPosition(GridPosition gridPosition, Unit.Unit unit)
+    private void RemoveUnitAtGridPosition(GridPosition gridPosition, Unit.Unit unit)
     {
       var gridObject = gridSystem.GetGridObject(gridPosition);
       gridObject.RemoveUnit(unit);
@@ -71,6 +72,11 @@ namespace TurnBasedStrategyCourse_godot.Level
       RemoveUnitAtGridPosition(oldPosition, unit);
       AddUnitAtGridPosition(newPosition, unit);
       ShowUnitActionRange(unit.CurrentAction);
+    }
+    
+    private void OnUnitDead(Unit.Unit unit)
+    {
+      RemoveUnitAtGridPosition(unit.GridPosition, unit);
     }
 
     // ReSharper disable once UnusedMember.Local
