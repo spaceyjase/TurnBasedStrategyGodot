@@ -27,8 +27,11 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
 
     private void TakeAiAction()
     {
+      // TODO: pick the best action from the available actions on this unit
+      // TODO: execute the action
       if (Unit.TryChangeAction("Spin")) return;
 
+      // NOTE: idle and taking turn shouldn't be best; if they are, then we should end the turn
       Unit.EmitSignal(nameof(Unit.FinishedAiTurn));
 
       Unit.ChangeAction(Unit.DefaultAction.ActionName);
