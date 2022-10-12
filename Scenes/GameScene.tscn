@@ -10381,11 +10381,14 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 4 )
 [node name="PlayerUnit2" parent="." instance=ExtResource( 15 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 12 )
 
+[node name="Armature" parent="PlayerUnit2" index="5"]
+transform = Transform( 1, 0, 0, 0, 1, 4.37114e-08, 0, -4.37114e-08, 1, 0, 0, 0 )
+
 [node name="Skeleton" parent="PlayerUnit2/Armature" index="0"]
 bones/40/bound_children = [ NodePath("BoneAttachment") ]
 
 [node name="BoneAttachment" parent="PlayerUnit2/Armature/Skeleton" index="0"]
-transform = Transform( 0.240122, 0.0196329, -0.970544, -0.952306, 0.19869, -0.231591, 0.188291, 0.979865, 0.0664063, -0.176666, 2.29999, 0.276718 )
+transform = Transform( 0.239931, 0.0203461, -0.970576, -0.952828, 0.196367, -0.231427, 0.185881, 0.980319, 0.0665008, -0.174469, 2.30029, 0.266247 )
 
 [node name="characterMedium001" parent="PlayerUnit2/Armature/Skeleton" index="1"]
 material/0 = SubResource( 44 )
@@ -10412,22 +10415,25 @@ unitStats = ExtResource( 12 )
 [node name="CollisionShape" parent="UnitEnemy/SelectorArea" index="0"]
 shape = SubResource( 18 )
 
+[node name="Armature" parent="UnitEnemy" index="6"]
+transform = Transform( 1, 0, 0, 0, 1, 4.37114e-08, 0, -4.37114e-08, 1, 0, 0, 0 )
+
 [node name="BoneAttachment" parent="UnitEnemy/Armature/Skeleton" index="0"]
-transform = Transform( 0.240122, 0.0196329, -0.970544, -0.952306, 0.19869, -0.231591, 0.188291, 0.979865, 0.0664063, -0.176666, 2.29999, 0.276718 )
+transform = Transform( 0.239931, 0.0203461, -0.970576, -0.952828, 0.196367, -0.231427, 0.185881, 0.980319, 0.0665008, -0.174469, 2.30029, 0.266247 )
 
 [node name="characterMedium001" parent="UnitEnemy/Armature/Skeleton" index="1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 mesh = SubResource( 1 )
 skin = SubResource( 2 )
 
-[node name="SelectedVisual" parent="UnitEnemy" index="5"]
+[node name="SelectedVisual" parent="UnitEnemy" index="7"]
 mesh = SubResource( 21 )
 material/0 = SubResource( 20 )
 
-[node name="CameraPosition3D" parent="UnitEnemy" index="7"]
+[node name="CameraPosition3D" parent="UnitEnemy" index="9"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.08507, 2.84903, -1.76571 )
 
-[node name="AnimationTree" parent="UnitEnemy" index="8"]
+[node name="AnimationTree" parent="UnitEnemy" index="10"]
 tree_root = SubResource( 15 )
 parameters/playback = SubResource( 25 )
 
@@ -10450,8 +10456,11 @@ unitStats = ExtResource( 12 )
 [node name="CollisionShape" parent="UnitEnemy2/SelectorArea" index="0"]
 shape = SubResource( 18 )
 
+[node name="Armature" parent="UnitEnemy2" index="6"]
+transform = Transform( 1, 0, 0, 0, 1, 4.37114e-08, 0, -4.37114e-08, 1, 0, 0, 0 )
+
 [node name="BoneAttachment" parent="UnitEnemy2/Armature/Skeleton" index="0"]
-transform = Transform( 0.239741, 0.0178438, -0.970672, -0.951346, 0.203656, -0.231223, 0.193557, 0.97888, 0.0657999, -0.177537, 2.3017, 0.280981 )
+transform = Transform( 0.239931, 0.0203461, -0.970576, -0.952828, 0.196367, -0.231427, 0.185881, 0.980319, 0.0665008, -0.174469, 2.30029, 0.266247 )
 
 [node name="characterMedium001" parent="UnitEnemy2/Armature/Skeleton" index="1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
@@ -10459,14 +10468,14 @@ mesh = SubResource( 1 )
 skin = SubResource( 2 )
 material/0 = SubResource( 54 )
 
-[node name="SelectedVisual" parent="UnitEnemy2" index="5"]
+[node name="SelectedVisual" parent="UnitEnemy2" index="7"]
 mesh = SubResource( 21 )
 material/0 = SubResource( 20 )
 
-[node name="CameraPosition3D" parent="UnitEnemy2" index="7"]
+[node name="CameraPosition3D" parent="UnitEnemy2" index="9"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.08507, 2.84903, -1.76571 )
 
-[node name="AnimationTree" parent="UnitEnemy2" index="8"]
+[node name="AnimationTree" parent="UnitEnemy2" index="10"]
 tree_root = SubResource( 15 )
 parameters/playback = SubResource( 55 )
 

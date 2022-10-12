@@ -265,6 +265,15 @@ namespace TurnBasedStrategyCourse_godot.Unit
 
       return true;
     }
+    
+    public bool TrySetTargetPositionForAction(UnitAction action, GridPosition gridPosition)
+    {
+      if (!action.IsValidGridPosition(gridPosition)) return false;
+
+      TargetPosition = LevelGrid.GetWorldPosition(gridPosition);
+
+      return true;
+    }
 
     public void Damage(int damageAmount)
     {

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Godot;
 using TurnBasedStrategyCourse_godot.Grid;
+using TurnBasedStrategyCourse_godot.Unit.Ai;
 
 namespace TurnBasedStrategyCourse_godot.Unit.Actions
 {
@@ -25,6 +26,12 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
 
     protected override IEnumerable<GridPosition> GetValidActionGridPositions() =>
       new List<GridPosition>() { Unit.GridPosition };
+
+    protected override EnemyAiAction GetEnemyAiActionForPosition(GridPosition gridPosition) => new EnemyAiAction()
+    {
+      GridPosition = gridPosition,
+      Score = 0,
+    };
 
     public override int ActionPointCost => 2;
   }

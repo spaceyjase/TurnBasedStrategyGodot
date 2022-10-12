@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using TurnBasedStrategyCourse_godot.Grid;
+using TurnBasedStrategyCourse_godot.Unit.Ai;
 
 namespace TurnBasedStrategyCourse_godot.Unit.Actions
 {
@@ -87,6 +88,12 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
         where targetUnit.IsEnemy != Unit.IsEnemy
         select testPosition;
     }
+
+    protected override EnemyAiAction GetEnemyAiActionForPosition(GridPosition gridPosition) => new EnemyAiAction()
+    {
+      GridPosition = gridPosition,
+      Score = 100,
+    };
 
     private void Shoot(float delta)
     {
