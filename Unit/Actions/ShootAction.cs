@@ -89,12 +89,16 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
         select testPosition;
     }
 
-    protected override EnemyAiAction GetEnemyAiActionForPosition(GridPosition gridPosition) => new EnemyAiAction()
+    protected override EnemyAiAction GetEnemyAiActionForPosition(GridPosition gridPosition)
     {
-      GridPosition = gridPosition,
-      Score = 100,
-    };
-
+      var unit = Unit.LevelGrid.GetUnitAtPosition(gridPosition);
+      return new EnemyAiAction()
+      {
+        GridPosition = gridPosition,
+        Score = 100 + Mathf.RoundToInt((1 - unit.CurrentHealth / unit.MaxHealth) * 100f),
+      };
+    }
+    
     private void Shoot(float delta)
     {
       timer -= delta;
