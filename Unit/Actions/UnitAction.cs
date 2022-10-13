@@ -4,18 +4,29 @@ using System.Linq;
 using Godot;
 using TurnBasedStrategyCourse_godot.Events;
 using TurnBasedStrategyCourse_godot.Grid;
+using TurnBasedStrategyCourse_godot.Unit.Ai;
 
 namespace TurnBasedStrategyCourse_godot.Unit.Actions
 {
   public abstract class UnitAction : Node
   {
-    [Export] protected SpatialMaterial baseRangeColorMaterial;
     [Export] protected SpatialMaterial baseColorMaterial;
-    
+    [Export] protected SpatialMaterial baseRangeColorMaterial;
+
     public Unit Unit { get; private set; }
 
     protected Action OnEnter { get; set; }
     private Action OnExit { get; set; }
+
+    public SpatialMaterial RangeColour => baseRangeColorMaterial;
+    public SpatialMaterial Colour => baseColorMaterial;
+
+    public virtual IEnumerable<GridPosition> ValidRangePositions => new List<GridPosition>();
+    public IEnumerable<GridPosition> ValidPositions => GetValidActionGridPositions();
+
+    public string ActionName => Name;
+
+    public virtual int ActionPointCost => 1;
 
     public override void _Ready()
     {
@@ -23,7 +34,7 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
 
       Unit = Owner as Unit;
     }
-    
+
     public void Enter()
     {
       EventBus.Instance.EmitSignal(nameof(EventBus.ActionStarted), this);
@@ -38,22 +49,30 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
       OnExit?.Invoke();
     }
 
-    public SpatialMaterial RangeColour => baseRangeColorMaterial;
-    public SpatialMaterial Colour => baseColorMaterial;
 
-    public abstract void Execute(float delta);
-    protected abstract IEnumerable<GridPosition> GetValidActionGridPositions();
-    
     public bool IsValidGridPosition(GridPosition position)
     {
       return GetValidActionGridPositions().Contains(position);
     }
 
-    public virtual IEnumerable<GridPosition> ValidRangePositions => new List<GridPosition>();
-    public IEnumerable<GridPosition> ValidPositions => GetValidActionGridPositions();
+    public EnemyAiAction? GetBestEnemyAiAction()
+    {
+      var enemyAiActions = GetValidActionGridPositions().Select(GetEnemyAiActionForPosition).ToList();
 
-    public string ActionName => Name;
+      if (!enemyAiActions.Any()) return null;
+      
+      enemyAiActions.Sort((a, b) => b.Score - a.Score);
+      return enemyAiActions.First();
+    }
 
-    public virtual int ActionPointCost => 1;
+    public abstract void Execute(float delta);
+    
+    protected abstract IEnumerable<GridPosition> GetValidActionGridPositions();
+    
+    protected virtual EnemyAiAction GetEnemyAiActionForPosition(GridPosition gridPosition) => new EnemyAiAction
+    {
+      GridPosition = gridPosition,
+      Score = -1,
+    };
   }
 }

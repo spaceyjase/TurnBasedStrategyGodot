@@ -1,33 +1,47 @@
 using System.Collections.Generic;
-using Godot;
 using TurnBasedStrategyCourse_godot.Grid;
-using Timer = System.Timers.Timer;
+using TurnBasedStrategyCourse_godot.Unit.Ai;
 
 namespace TurnBasedStrategyCourse_godot.Unit.Actions
 {
   public class TakingTurn : UnitAction
   {
-    [Export] private float turnIntervalMs = 500;
-
-    private Timer enemyTimer;
-
     public override void _Ready()
     {
       base._Ready();
-
-      enemyTimer = new Timer(turnIntervalMs);
-      enemyTimer.Elapsed += (sender, args) =>
-      {
-        enemyTimer.Stop();
-        TakeAiAction();
-      };
 
       OnEnter += () => { Unit.SetAnimation(UnitAnimations.Idle); };
     }
 
     private void TakeAiAction()
     {
-      if (Unit.TryChangeAction("Spin")) return;
+      EnemyAiAction? bestAction = null;
+      UnitAction bestUnitAction = null;
+      foreach (var unitAction in Unit.Actions)
+      {
+        if (Unit.DefaultAction == unitAction) continue;
+        if (this == unitAction) continue;
+
+        if (bestAction == null)
+        {
+          bestAction = unitAction.GetBestEnemyAiAction();
+          bestUnitAction = unitAction;
+        }
+        else
+        {
+          var candidateAction = unitAction.GetBestEnemyAiAction();
+          if (candidateAction == null || candidateAction.Value.Score <= bestAction.Value.Score) continue;
+          
+          bestAction = candidateAction;
+          bestUnitAction = unitAction;
+        }
+      }
+
+      if (bestAction != null)
+      {
+        Unit.TrySetTargetPositionForAction(bestUnitAction, bestAction.Value.GridPosition);
+        if (Unit.TryChangeAction(bestUnitAction.ActionName)) return;
+      }
 
       Unit.EmitSignal(nameof(Unit.FinishedAiTurn));
 
@@ -37,9 +51,8 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
     public override void Execute(float delta)
     {
       if (Unit.IsPlayerTurn) return;
-
-      // TODO: transition to next state
-      enemyTimer.Start();
+      
+      TakeAiAction();
     }
 
     protected override IEnumerable<GridPosition> GetValidActionGridPositions() => new List<GridPosition>();

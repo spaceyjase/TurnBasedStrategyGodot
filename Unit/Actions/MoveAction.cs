@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 using TurnBasedStrategyCourse_godot.Grid;
+using TurnBasedStrategyCourse_godot.Unit.Ai;
 
 namespace TurnBasedStrategyCourse_godot.Unit.Actions
 {
@@ -10,10 +12,7 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
     {
       base._Ready();
 
-      OnEnter += () =>
-      {
-        Unit.SetAnimation(UnitAnimations.Running);
-      };
+      OnEnter += () => { Unit.SetAnimation(UnitAnimations.Running); };
     }
 
     public override void Execute(float delta)
@@ -21,25 +20,46 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
       Move(delta);
     }
 
-    protected override IEnumerable<GridPosition> GetValidActionGridPositions()
+    private IEnumerable<GridPosition> GetAllMovePositions(GridPosition gridPosition)
     {
       for (var x = -Unit.MaxMoveDistance; x <= Unit.MaxMoveDistance; ++x)
       {
         for (var z = -Unit.MaxMoveDistance; z <= Unit.MaxMoveDistance; ++z)
         {
           var offset = new GridPosition(x, z);
-          var testPosition = Unit.GridPosition + offset;
-          
+          var testPosition = gridPosition + offset;
+
           var testDistance = Mathf.Abs(x) + Mathf.Abs(z);
           if (testDistance > Unit.MaxMoveDistance) continue;
-
-          if (!Unit.LevelGrid.IsValidPosition(testPosition)) continue;
-          if (Unit.GridPosition == testPosition) continue;
-          if (Unit.LevelGrid.IsOccupied(testPosition)) continue;
 
           yield return testPosition;
         }
       }
+    }
+
+    protected override IEnumerable<GridPosition> GetValidActionGridPositions()
+    {
+      return from testPosition in GetAllMovePositions(Unit.GridPosition)
+        where Unit.LevelGrid.IsValidPosition(testPosition)
+        where Unit.GridPosition != testPosition
+        where !Unit.LevelGrid.IsOccupied(testPosition)
+        select testPosition;
+    }
+
+    protected override EnemyAiAction GetEnemyAiActionForPosition(GridPosition gridPosition)
+    {
+      var cost = (from testPosition in GetAllMovePositions(gridPosition)
+        where Unit.LevelGrid.IsValidPosition(testPosition)
+        where Unit.LevelGrid.IsOccupied(testPosition)
+        let targetUnit = Unit.LevelGrid.GetUnitAtPosition(testPosition)
+        where targetUnit.IsEnemy != Unit.IsEnemy
+        select testPosition).Count();
+
+      return new EnemyAiAction
+      {
+        GridPosition = gridPosition,
+        Score = cost * 10,  // TODO: magic number
+      };
     }
 
     private void Move(float delta)
