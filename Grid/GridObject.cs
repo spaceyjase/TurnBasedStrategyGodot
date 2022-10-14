@@ -8,9 +8,9 @@ namespace TurnBasedStrategyCourse_godot.Grid
     private readonly GridPosition gridPosition;
 
     private readonly List<Unit.Unit> units = new List<Unit.Unit>();
-    private GridSystem gridSystem;
+    private GridSystem<GridObject> gridSystem;
 
-    public GridObject(GridSystem system, GridPosition position)
+    public GridObject(GridSystem<GridObject> system, GridPosition position)
     {
       gridSystem = system;
       gridPosition = position;

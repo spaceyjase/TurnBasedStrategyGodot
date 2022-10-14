@@ -16,11 +16,11 @@ namespace TurnBasedStrategyCourse_godot.Level
     [Export] private int width = 10;
 
     private GridCell[] cells;
-    private GridSystem gridSystem;
+    private GridSystem<GridObject> gridSystem;
     
     public override void _Ready()
     {
-      gridSystem = new GridSystem(width, height, cellSize);
+      gridSystem = new GridSystem<GridObject>(width, height, cellSize, (system, position) => new GridObject(system, position));
       cells = new GridCell[width * height];
 
       foreach (Unit.Unit unit in GetTree().GetNodesInGroup("Units"))
