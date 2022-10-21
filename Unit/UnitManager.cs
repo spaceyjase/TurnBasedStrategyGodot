@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Godot;
 using TurnBasedStrategyCourse_godot.Events;
 using TurnBasedStrategyCourse_godot.Level;
@@ -28,6 +26,8 @@ namespace TurnBasedStrategyCourse_godot.Unit
     public override void _Ready()
     {
       levelGrid = GetNode<LevelGrid>(levelGridNodePath);
+      
+      levelGrid.Connect(nameof(LevelGrid.GroundClicked), this, nameof(OnGroundClicked));
 
       foreach (Unit unit in GetTree().GetNodesInGroup("Units"))
       {
@@ -75,8 +75,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
       // TODO: end game conditions
     }
 
-    // ReSharper disable once UnusedMember.Local
-    private void _on_Ground_input_event(Node camera, InputEvent @event, Vector3 position, Vector3 normal, int shape_idx)
+    private void OnGroundClicked(Node camera, InputEvent @event, Vector3 position, Vector3 normal, int shape_idx)
     {
       if (!(@event is InputEventMouseButton eventMouseButton) || !eventMouseButton.Pressed) return;
       if (!playerTurn) return;

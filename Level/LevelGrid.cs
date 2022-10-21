@@ -9,15 +9,20 @@ namespace TurnBasedStrategyCourse_godot.Level
 {
   public class LevelGrid : Node
   {
+    [Signal] public delegate void GroundClicked(Node camera, InputEvent @event, Vector3 position, Vector3 normal, int shape_idx);
+
     [Export] private PackedScene cellScene;
     [Export] private float cellSize = 2f;
-
     [Export] private int height = 10;
     [Export] private int width = 10;
-
-    private GridCell[] cells;
-    private GridSystem<GridObject> gridSystem;
     
+    private GridSystem<GridObject> gridSystem;
+    private GridCell[] cells;
+    
+    public int Width => width;
+    public int Height => height;
+    public float CellSize => cellSize;
+
     public override void _Ready()
     {
       gridSystem = new GridSystem<GridObject>(width, height, cellSize, (system, position) => new GridObject(system, position));
@@ -73,7 +78,7 @@ namespace TurnBasedStrategyCourse_godot.Level
       AddUnitAtGridPosition(newPosition, unit);
       ShowUnitActionRange(unit.CurrentAction);
     }
-    
+
     private void OnUnitDead(Unit.Unit unit)
     {
       RemoveUnitAtGridPosition(unit.GridPosition, unit);
@@ -108,7 +113,7 @@ namespace TurnBasedStrategyCourse_godot.Level
         cell.SetMaterial(material);
       }
     }
-    
+
     private void ShowRangeGridPositions(IEnumerable<GridPosition> positions, SpatialMaterial material)
     {
       foreach (var gridPosition in positions)
@@ -138,6 +143,11 @@ namespace TurnBasedStrategyCourse_godot.Level
     private void OnTurnChanged(int turn, bool isPlayerTurn)
     {
       HideAllGridPositions();
+    }
+
+    private void _on_Ground_input_event(Node camera, InputEvent @event, Vector3 position, Vector3 normal, int shape_idx)
+    {
+      EmitSignal(nameof(GroundClicked), camera, @event, position, normal, shape_idx);
     }
   }
 }

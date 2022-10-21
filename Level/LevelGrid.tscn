@@ -26,3 +26,5 @@ material = SubResource( 2 )
 [node name="CollisionShape" type="CollisionShape" parent="Ground"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.203242, 0 )
 shape = SubResource( 3 )
+
+[connection signal="input_event" from="Ground" to="." method="_on_Ground_input_event"]
