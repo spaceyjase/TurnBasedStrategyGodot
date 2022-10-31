@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
@@ -9,7 +8,6 @@ namespace TurnBasedStrategyCourse_godot.Pathfinding
 {
   public class Pathfinding : Spatial
   {
-    [Export] private NodePath levelGridNodePath;
     [Export] private bool debug;
     [Export] private PackedScene debugCellScene;
 
@@ -19,38 +17,7 @@ namespace TurnBasedStrategyCourse_godot.Pathfinding
     private GridSystem<PathNode> gridSystem;
     private LevelGrid levelGrid;
 
-    public override void _Ready()
-    {
-      base._Ready();
-
-      levelGrid = GetNode<LevelGrid>(levelGridNodePath);
-      gridSystem = new GridSystem<PathNode>(levelGrid.Width, levelGrid.Height, levelGrid.CellSize,
-        (system, position) => new PathNode(position));
-
-      var space = GetWorld().DirectSpaceState;
-      foreach (var node in gridSystem.GridObjects())
-      {
-        var position = gridSystem.GetWorldPosition(node.GridPosition);
-        var hit = space.IntersectRay(position, position + Vector3.Up * 100, null,
-          1 << 5 - 1); // TODO: layer mask (walls = 5)
-        node.IsWalkable = hit.Count <= 0;
-      }
-
-      if (!debug) return;
-
-      levelGrid.Connect(nameof(LevelGrid.GroundClicked), this, nameof(OnGroundClicked));
-      foreach (var cell in gridSystem.CreateDebugObjects(debugCellScene))
-      {
-        var gridPosition = gridSystem.GetGridPosition(cell.Translation);
-        AddChild(cell);
-
-        if (!(cell is DebugCell debugCell)) continue;
-
-        gridSystem.GetGridObject(gridPosition).DebugCell = debugCell;
-      }
-    }
-
-    private IEnumerable<GridPosition> FindPath(GridPosition start, GridPosition end)
+    public IEnumerable<GridPosition> FindPath(GridPosition start, GridPosition end)
     {
       var queue = new List<PathNode>();
       var visited = new List<PathNode>();
@@ -206,7 +173,8 @@ namespace TurnBasedStrategyCourse_godot.Pathfinding
       if (!debug) return;
       if (!(@event is InputEventMouseButton eventMouseButton) || !eventMouseButton.Pressed) return;
 
-      var path = FindPath(new GridPosition(0, 0), levelGrid.GetGridPosition(position));
+      var path = FindPath(new GridPosition(0, 0), levelGrid.GetGridPosition(position)) ??
+                 System.Array.Empty<GridPosition>();
       var gridPositions = path as GridPosition[] ?? path.ToArray();
 
       foreach (var cell in gridSystem.GridObjects())
@@ -216,5 +184,39 @@ namespace TurnBasedStrategyCourse_godot.Pathfinding
         cell.UpdateDebugCell();
       }
     }
+
+    public void Init(LevelGrid level)
+    {
+      levelGrid = level;
+
+      gridSystem = new GridSystem<PathNode>(levelGrid.Width, levelGrid.Height, levelGrid.CellSize,
+        (system, position) => new PathNode(position));
+
+      var space = GetWorld().DirectSpaceState;
+      foreach (var node in gridSystem.GridObjects())
+      {
+        var position = gridSystem.GetWorldPosition(node.GridPosition);
+        var hit = space.IntersectRay(position, position + Vector3.Up * 100, null,
+          1 << 5 - 1); // TODO: layer mask magic number (walls = 5)
+        node.IsWalkable = hit.Count <= 0;
+      }
+
+      if (!debug) return;
+
+      level.Connect(nameof(LevelGrid.GroundClicked), this, nameof(OnGroundClicked));
+      foreach (var cell in gridSystem.CreateDebugObjects(debugCellScene))
+      {
+        var gridPosition = gridSystem.GetGridPosition(cell.Translation);
+        AddChild(cell);
+
+        if (!(cell is DebugCell debugCell)) continue;
+
+        gridSystem.GetGridObject(gridPosition).DebugCell = debugCell;
+      }
+    }
+
+    public bool IsWalkable(GridPosition position) => gridSystem.GetGridObject(position).IsWalkable;
+
+    public bool HasPath(GridPosition start, GridPosition end) => FindPath(start, end) != null;
   }
 }

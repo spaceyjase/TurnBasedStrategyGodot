@@ -8,11 +8,22 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
 {
   public class MoveAction : UnitAction
   {
+    private IEnumerable<GridPosition> targetPositions;
+    private IEnumerator<GridPosition> currentTargetPosition;
+
     public override void _Ready()
     {
       base._Ready();
 
-      OnEnter += () => { Unit.SetAnimation(UnitAnimations.Running); };
+      OnEnter += () =>
+      {
+        Unit.SetAnimation(UnitAnimations.Running);
+
+        targetPositions = Unit.LevelGrid.CalculatePath(Unit.GridPosition, Unit.TargetPosition) ??
+                          System.Array.Empty<GridPosition>();
+        currentTargetPosition = targetPositions.GetEnumerator();
+        currentTargetPosition.MoveNext();
+      };
     }
 
     public override void Execute(float delta)
@@ -43,6 +54,8 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
         where Unit.LevelGrid.IsValidPosition(testPosition)
         where Unit.GridPosition != testPosition
         where !Unit.LevelGrid.IsOccupied(testPosition)
+        where Unit.LevelGrid.IsWalkable(testPosition)
+        //where Unit.LevelGrid.HasPath(Unit.GridPosition, testPosition)
         select testPosition;
     }
 
@@ -58,23 +71,28 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
       return new EnemyAiAction
       {
         GridPosition = gridPosition,
-        Score = cost * 10,  // TODO: magic number
+        Score = cost * 10, // TODO: magic number
       };
     }
 
     private void Move(float delta)
     {
-      if (Unit.Translation.DistanceTo(Unit.TargetPosition) > Unit.StoppingDistance)
+      var targetPosition = Unit.LevelGrid.GetWorldPosition(currentTargetPosition.Current);
+      if (Unit.Translation.DistanceTo(targetPosition) > Unit.StoppingDistance)
       {
-        var moveDirection = Unit.Translation.DirectionTo(Unit.TargetPosition);
+        var moveDirection = Unit.Translation.DirectionTo(targetPosition);
         Unit.Translation += moveDirection * (Unit.MovementSpeed * delta);
 
         var newTransform = Unit.Transform.LookingAt(Unit.GlobalTransform.origin - moveDirection, Vector3.Up);
         Unit.Transform = Unit.Transform.InterpolateWith(newTransform, Unit.RotateSpeed * delta);
       }
-      else
+      else if (currentTargetPosition.Current == targetPositions.Last())
       {
         Unit.ChangeAction(Unit.DefaultAction.ActionName);
+      }
+      else
+      {
+        currentTargetPosition.MoveNext();
       }
     }
   }

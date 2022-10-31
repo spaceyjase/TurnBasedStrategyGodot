@@ -9,23 +9,26 @@ namespace TurnBasedStrategyCourse_godot.Level
 {
   public class LevelGrid : Node
   {
-    [Signal] public delegate void GroundClicked(Node camera, InputEvent @event, Vector3 position, Vector3 normal, int shape_idx);
+    [Signal]
+    public delegate void GroundClicked(Node camera, InputEvent @event, Vector3 position, Vector3 normal, int shape_idx);
 
     [Export] private PackedScene cellScene;
     [Export] private float cellSize = 2f;
     [Export] private int height = 10;
     [Export] private int width = 10;
-    
+
     private GridSystem<GridObject> gridSystem;
     private GridCell[] cells;
-    
+    private Pathfinding.Pathfinding pathFinding;
+
     public int Width => width;
     public int Height => height;
     public float CellSize => cellSize;
 
     public override void _Ready()
     {
-      gridSystem = new GridSystem<GridObject>(width, height, cellSize, (system, position) => new GridObject(system, position));
+      gridSystem = new GridSystem<GridObject>(width, height, cellSize,
+        (system, position) => new GridObject(system, position));
       cells = new GridCell[width * height];
 
       foreach (Unit.Unit unit in GetTree().GetNodesInGroup("Units"))
@@ -38,6 +41,9 @@ namespace TurnBasedStrategyCourse_godot.Level
       EventBus.Instance.Connect(nameof(EventBus.TurnChanged), this, nameof(OnTurnChanged));
 
       CreateVisualElements();
+
+      pathFinding = GetNode<Pathfinding.Pathfinding>("Pathfinding");
+      pathFinding.Init(this);
     }
 
     private void CreateVisualElements()
@@ -66,7 +72,7 @@ namespace TurnBasedStrategyCourse_godot.Level
     {
       var gridObject = gridSystem.GetGridObject(gridPosition);
       gridObject.RemoveUnit(unit);
-      HideGridPositions(new []{ gridPosition });
+      HideGridPositions(new[] { gridPosition });
     }
 
     public GridPosition GetGridPosition(Vector3 worldPosition) => gridSystem.GetGridPosition(worldPosition);
@@ -76,6 +82,7 @@ namespace TurnBasedStrategyCourse_godot.Level
     {
       RemoveUnitAtGridPosition(oldPosition, unit);
       AddUnitAtGridPosition(newPosition, unit);
+      if (unit.IsEnemy) return;
       ShowUnitActionRange(unit.CurrentAction);
     }
 
@@ -100,21 +107,11 @@ namespace TurnBasedStrategyCourse_godot.Level
     private void ShowUnitActionRange(UnitAction action)
     {
       HideAllGridPositions();
-      ShowRangeGridPositions(action.ValidRangePositions, action.RangeColour);
-      ShowUnitGridPositions(action.ValidPositions, action.Colour);
+      HighlightGridPositions(action.ValidRangePositions, action.RangeColour);
+      HighlightGridPositions(action.ValidPositions, action.Colour);
     }
 
-    private void ShowUnitGridPositions(IEnumerable<GridPosition> positions, SpatialMaterial material)
-    {
-      foreach (var gridPosition in positions)
-      {
-        var cell = cells[gridPosition.Z * width + gridPosition.X];
-        cell.Visible = true;
-        cell.SetMaterial(material);
-      }
-    }
-
-    private void ShowRangeGridPositions(IEnumerable<GridPosition> positions, SpatialMaterial material)
+    private void HighlightGridPositions(IEnumerable<GridPosition> positions, SpatialMaterial material)
     {
       foreach (var gridPosition in positions)
       {
@@ -149,5 +146,13 @@ namespace TurnBasedStrategyCourse_godot.Level
     {
       EmitSignal(nameof(GroundClicked), camera, @event, position, normal, shape_idx);
     }
+
+    public IEnumerable<GridPosition> CalculatePath(GridPosition startGridPosition, Vector3 endPosition) =>
+      pathFinding.FindPath(startGridPosition, GetGridPosition(endPosition));
+
+    public bool IsWalkable(GridPosition position) =>
+      pathFinding.IsWalkable(position);
+
+    public bool HasPath(GridPosition start, GridPosition end) => pathFinding.HasPath(start, end);
   }
 }

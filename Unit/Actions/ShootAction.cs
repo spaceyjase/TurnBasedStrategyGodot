@@ -95,7 +95,7 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
       return new EnemyAiAction()
       {
         GridPosition = gridPosition,
-        Score = 100 + Mathf.RoundToInt((1 - unit.CurrentHealth / unit.MaxHealth) * 100f),
+        Score = 100 + Mathf.RoundToInt((1 - (float)unit.CurrentHealth / unit.MaxHealth) * 100f),
       };
     }
     
