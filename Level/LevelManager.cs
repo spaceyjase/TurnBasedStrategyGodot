@@ -7,7 +7,7 @@ using TurnBasedStrategyCourse_godot.Unit.Actions;
 
 namespace TurnBasedStrategyCourse_godot.Level
 {
-  public class LevelGrid : Node
+  public class LevelManager : Node
   {
     [Signal]
     public delegate void GroundClicked(Node camera, InputEvent @event, Vector3 position, Vector3 normal, int shape_idx);
@@ -20,10 +20,6 @@ namespace TurnBasedStrategyCourse_godot.Level
     private GridSystem<GridObject> gridSystem;
     private GridCell[] cells;
     private Pathfinding.Pathfinding pathFinding;
-
-    public int Width => width;
-    public int Height => height;
-    public float CellSize => cellSize;
 
     public override void _Ready()
     {
@@ -150,9 +146,7 @@ namespace TurnBasedStrategyCourse_godot.Level
     public IEnumerable<GridPosition> CalculatePath(GridPosition startGridPosition, Vector3 endPosition) =>
       pathFinding.FindPath(startGridPosition, GetGridPosition(endPosition));
 
-    public bool IsWalkable(GridPosition position) =>
-      pathFinding.IsWalkable(position);
-
-    public bool HasPath(GridPosition start, GridPosition end) => pathFinding.HasPath(start, end);
+    public bool HasPath(GridPosition start, GridPosition end, IEnumerable<GridPosition> positions) =>
+      pathFinding.HasPath(start, end, positions);
   }
 }

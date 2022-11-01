@@ -17,7 +17,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
 
     private Unit selectedUnit;
     private UnitAction selectedAction;
-    private LevelGrid levelGrid;
+    private LevelManager levelGrid;
     private bool playerTurn = true;
     
     private readonly List<Unit> playerUnits = new List<Unit>();
@@ -25,9 +25,9 @@ namespace TurnBasedStrategyCourse_godot.Unit
 
     public override void _Ready()
     {
-      levelGrid = GetNode<LevelGrid>(levelGridNodePath);
+      levelGrid = GetNode<LevelManager>(levelGridNodePath);
       
-      levelGrid.Connect(nameof(LevelGrid.GroundClicked), this, nameof(OnGroundClicked));
+      levelGrid.Connect(nameof(LevelManager.GroundClicked), this, nameof(OnGroundClicked));
 
       foreach (Unit unit in GetTree().GetNodesInGroup("Units"))
       {

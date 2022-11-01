@@ -36,8 +36,8 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
       {
         state = State.Aiming;
         timer = aimTime;
-        target = Unit.LevelGrid.GetUnitAtPosition(
-          Unit.LevelGrid.GetGridPosition(Unit.TargetPosition));
+        target = Unit.LevelManager.GetUnitAtPosition(
+          Unit.LevelManager.GetGridPosition(Unit.TargetPosition));
         canShoot = true;
       };
     }
@@ -71,9 +71,9 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
       foreach (var testPosition in GetAllGridPositions())
       {
         if (actionPositions.Contains(testPosition)) continue;
-        if (!Unit.LevelGrid.IsValidPosition(testPosition)) continue;
+        if (!Unit.LevelManager.IsValidPosition(testPosition)) continue;
         if (Unit.GridPosition == testPosition) continue;
-        if (Unit.LevelGrid.IsOccupied(testPosition)) continue;
+        if (Unit.LevelManager.IsOccupied(testPosition)) continue;
 
         yield return testPosition;
       }
@@ -82,23 +82,24 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
     protected override IEnumerable<GridPosition> GetValidActionGridPositions()
     {
       return from testPosition in GetAllGridPositions()
-        where Unit.LevelGrid.IsValidPosition(testPosition)
-        where Unit.LevelGrid.IsOccupied(testPosition)
-        let targetUnit = Unit.LevelGrid.GetUnitAtPosition(testPosition)
+        where Unit.LevelManager.IsValidPosition(testPosition)
+        where Unit.LevelManager.IsOccupied(testPosition)
+        where Unit.HasLineOfSight(testPosition)
+        let targetUnit = Unit.LevelManager.GetUnitAtPosition(testPosition)
         where targetUnit.IsEnemy != Unit.IsEnemy
         select testPosition;
     }
 
     protected override EnemyAiAction GetEnemyAiActionForPosition(GridPosition gridPosition)
     {
-      var unit = Unit.LevelGrid.GetUnitAtPosition(gridPosition);
+      var unit = Unit.LevelManager.GetUnitAtPosition(gridPosition);
       return new EnemyAiAction()
       {
         GridPosition = gridPosition,
         Score = 100 + Mathf.RoundToInt((1 - (float)unit.CurrentHealth / unit.MaxHealth) * 100f),
       };
     }
-    
+
     private void Shoot(float delta)
     {
       timer -= delta;
