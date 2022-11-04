@@ -19,6 +19,8 @@ The course is great and the principles are general enough that they apply regard
 - Camera controls and movement.
 - Bugs!
 
+Features freebie assets from kenney: https://kenney.nl/assets and Synty: https://syntystore.com/.
+
 ## TODO:
 
 - Finish the course (around 25% to go, added polish).
