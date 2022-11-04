@@ -18,8 +18,11 @@
 
 [node name="Shoot" parent="." index="3" instance=ExtResource( 3 )]
 
-[node name="BoneAttachment" parent="Armature/Skeleton" index="0"]
-transform = Transform( 0.239764, 0.0187683, -0.970649, -0.951592, 0.202602, -0.231138, 0.192317, 0.979081, 0.0664361, -0.171676, 2.30298, 0.257105 )
+[node name="Skeleton" parent="Armature" index="0"]
+bones/40/bound_children = [  ]
 
-[node name="AnimationTree" parent="." index="9"]
+[node name="BoneAttachment" parent="Armature/Skeleton" index="0"]
+transform = Transform( 0.239883, 0.0187261, -0.970621, -0.951998, 0.200368, -0.231415, 0.190148, 0.979541, 0.0658917, -0.171455, 2.30204, 0.255191 )
+
+[node name="AnimationTree" parent="." index="10"]
 parameters/playback = SubResource( 1 )

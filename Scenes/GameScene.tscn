@@ -1,7 +1,6 @@
-[gd_scene load_steps=58 format=2]
+[gd_scene load_steps=57 format=2]
 
-[ext_resource path="res://Pathfinding/Pathfinding.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Level/LevelGrid.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Level/LevelManager.tscn" type="PackedScene" id=2]
 [ext_resource path="res://default_env.tres" type="Environment" id=3]
 [ext_resource path="res://Unit/UnitManager.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Assets/Imports/survivorMaleB.png" type="Texture" id=5]
@@ -10368,35 +10367,29 @@ tracks/58/keys = PoolRealArray( 0, 1, 0, 0, 0, -2.18557e-08, 0, 0, 1, 1, 1, 1, 1
 
 [node name="GameScene" type="Spatial"]
 
-[node name="LevelGrid" parent="." instance=ExtResource( 2 )]
+[node name="LevelManager" parent="." instance=ExtResource( 2 )]
 cellScene = ExtResource( 8 )
 height = 32
 width = 27
 
 [node name="UnitManager" parent="." instance=ExtResource( 4 )]
-levelGridNodePath = NodePath("../LevelGrid")
+levelGridNodePath = NodePath("../LevelManager")
 
 [node name="TurnSystem" parent="." instance=ExtResource( 9 )]
-
-[node name="Pathfinding" parent="." instance=ExtResource( 1 )]
-levelGridNodePath = NodePath("../LevelGrid")
 
 [node name="PlayerUnit" parent="." instance=ExtResource( 15 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 4 )
 
 [node name="PlayerUnit2" parent="." instance=ExtResource( 15 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 8 )
-
-[node name="Skeleton" parent="PlayerUnit2/Armature" index="0"]
-bones/40/bound_children = [ NodePath("BoneAttachment") ]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 22 )
 
 [node name="BoneAttachment" parent="PlayerUnit2/Armature/Skeleton" index="0"]
-transform = Transform( 0.239598, 0.0175442, -0.970713, -0.951074, 0.205124, -0.231043, 0.195063, 0.978579, 0.0658327, -0.176966, 2.30217, 0.279612 )
+transform = Transform( 0.239514, 0.0174524, -0.970735, -0.95109, 0.205127, -0.230979, 0.195093, 0.978579, 0.0657291, -0.170979, 2.30362, 0.260018 )
 
 [node name="characterMedium001" parent="PlayerUnit2/Armature/Skeleton" index="1"]
 material/0 = SubResource( 44 )
 
-[node name="AnimationTree" parent="PlayerUnit2" index="9"]
+[node name="AnimationTree" parent="PlayerUnit2" index="10"]
 parameters/playback = SubResource( 45 )
 
 [node name="AnimationPlayer" parent="PlayerUnit2/AnimationTree" index="0"]
@@ -10419,7 +10412,7 @@ unitStats = ExtResource( 12 )
 shape = SubResource( 18 )
 
 [node name="BoneAttachment" parent="UnitEnemy/Armature/Skeleton" index="0"]
-transform = Transform( 0.239598, 0.0175442, -0.970713, -0.951074, 0.205124, -0.231043, 0.195063, 0.978579, 0.0658327, -0.176966, 2.30217, 0.279612 )
+transform = Transform( 0.239514, 0.0174524, -0.970735, -0.95109, 0.205127, -0.230979, 0.195093, 0.978579, 0.0657291, -0.170979, 2.30362, 0.260018 )
 
 [node name="characterMedium001" parent="UnitEnemy/Armature/Skeleton" index="1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
@@ -10433,7 +10426,7 @@ material/0 = SubResource( 20 )
 [node name="CameraPosition3D" parent="UnitEnemy" index="9"]
 transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -1.08507, 2.84903, -1.76571 )
 
-[node name="AnimationTree" parent="UnitEnemy" index="10"]
+[node name="AnimationTree" parent="UnitEnemy" index="11"]
 tree_root = SubResource( 15 )
 parameters/playback = SubResource( 25 )
 
@@ -10448,7 +10441,7 @@ anims/strafe = SubResource( 33 )
 anims/walking = SubResource( 35 )
 
 [node name="UnitEnemy2" parent="." instance=ExtResource( 10 )]
-transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 8, 0, 16 )
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 10, 0, 16 )
 isEnemy = true
 ragdollScene = null
 unitStats = ExtResource( 12 )
@@ -10457,7 +10450,7 @@ unitStats = ExtResource( 12 )
 shape = SubResource( 18 )
 
 [node name="BoneAttachment" parent="UnitEnemy2/Armature/Skeleton" index="0"]
-transform = Transform( 0.239598, 0.0175442, -0.970713, -0.951074, 0.205124, -0.231043, 0.195063, 0.978579, 0.0658327, -0.176966, 2.30217, 0.279612 )
+transform = Transform( 0.239514, 0.0174524, -0.970735, -0.95109, 0.205127, -0.230979, 0.195093, 0.978579, 0.0657291, -0.170979, 2.30362, 0.260018 )
 
 [node name="characterMedium001" parent="UnitEnemy2/Armature/Skeleton" index="1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
@@ -10472,7 +10465,7 @@ material/0 = SubResource( 20 )
 [node name="CameraPosition3D" parent="UnitEnemy2" index="9"]
 transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -1.08507, 2.84903, -1.76571 )
 
-[node name="AnimationTree" parent="UnitEnemy2" index="10"]
+[node name="AnimationTree" parent="UnitEnemy2" index="11"]
 tree_root = SubResource( 15 )
 parameters/playback = SubResource( 55 )
 
@@ -10500,8 +10493,8 @@ shadow_color = Color( 0.258824, 0.258824, 0.258824, 1 )
 
 [node name="UI" parent="." instance=ExtResource( 6 )]
 
-[connection signal="UnitActionSelected" from="UnitManager" to="LevelGrid" method="OnUnitManagerActionSelected"]
-[connection signal="UnitSelected" from="UnitManager" to="LevelGrid" method="OnUnitManagerUnitSelected"]
+[connection signal="UnitActionSelected" from="UnitManager" to="LevelManager" method="OnUnitManagerActionSelected"]
+[connection signal="UnitSelected" from="UnitManager" to="LevelManager" method="OnUnitManagerUnitSelected"]
 [connection signal="UnitSelected" from="UnitManager" to="UI" method="_on_UnitManager_UnitSelected"]
 [connection signal="ActionSelected" from="UI" to="UnitManager" method="_on_UI_ActionSelected"]
 [connection signal="EndTurnPressed" from="UI" to="TurnSystem" method="_on_UI_EndTurnPressed"]

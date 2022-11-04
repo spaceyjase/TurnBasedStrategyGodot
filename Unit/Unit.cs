@@ -18,11 +18,19 @@ namespace TurnBasedStrategyCourse_godot.Unit
     [Export] private PackedScene ragdollScene;
     [Export] private UnitStats unitStats;
     [Export] private NodePath unitWorldUiPath;
-    
-    [Signal] public delegate void Moving(Unit selectedUnit, GridPosition oldPosition, GridPosition newPosition);
-    [Signal] public delegate void Selected(Unit selectedUnit);
-    [Signal] public delegate void Dead(Unit selectedUnit);
-    [Signal] public delegate void FinishedAiTurn();
+    [Export] private NodePath unitLineOfSightPath;
+
+    [Signal]
+    public delegate void Moving(Unit selectedUnit, GridPosition oldPosition, GridPosition newPosition);
+
+    [Signal]
+    public delegate void Selected(Unit selectedUnit);
+
+    [Signal]
+    public delegate void Dead(Unit selectedUnit);
+
+    [Signal]
+    public delegate void FinishedAiTurn();
 
     private readonly Dictionary<string, UnitAction> actions = new Dictionary<string, UnitAction>();
     private AnimationNodeStateMachinePlayback animationStateMachine;
@@ -33,6 +41,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
     private UnitWorldUI unitWorldUi;
     private UnitAction currentAction;
     private int actionPoints;
+    private Position3D unitLineOfSight;
 
     private bool IsUnitDead => unitStats.Health <= 0;
 
@@ -47,11 +56,11 @@ namespace TurnBasedStrategyCourse_godot.Unit
       }
     }
 
-    public bool IsPlayerTurn { get; private set; } = true;  // player always goes first
+    public bool IsPlayerTurn { get; private set; } = true; // player always goes first
 
     public UnitAction DefaultAction => IdleAction;
     private UnitAction IdleAction { get; set; }
-    public LevelGrid LevelGrid { get; private set; }
+    public LevelManager LevelManager { get; private set; }
     public GridPosition GridPosition { get; private set; }
     public bool IsEnemy => isEnemy;
     public int CurrentHealth => unitStats.Health;
@@ -115,7 +124,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
       if (isEnemy)
       {
         GetNode<Area>("SelectorArea").QueueFree();
-        SetProcess(false);  // to avoid processing until its my turn
+        SetProcess(false); // to avoid processing until its my turn
       }
 
       foreach (var child in GetChildren())
@@ -138,7 +147,9 @@ namespace TurnBasedStrategyCourse_godot.Unit
 
       unitWorldUi = GetNode<UnitWorldUI>(unitWorldUiPath);
       unitWorldUi.UpdateUI(this);
-      
+
+      unitLineOfSight = GetNode<Position3D>(unitLineOfSightPath);
+
       ActionPoints = TotalActionPoints;
     }
 
@@ -151,10 +162,10 @@ namespace TurnBasedStrategyCourse_godot.Unit
       ResetActionPoints();
     }
 
-    public void Initialise(LevelGrid levelGrid)
+    public void Initialise(LevelManager levelGrid)
     {
-      LevelGrid = levelGrid;
-      GridPosition = LevelGrid.GetGridPosition(Translation);
+      LevelManager = levelGrid;
+      GridPosition = LevelManager.GetGridPosition(Translation);
 
       unitStats = (UnitStats)unitStats.Duplicate();
       unitStats.Initialise();
@@ -171,7 +182,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
     {
       CurrentAction.Execute(delta);
 
-      var newGridPosition = LevelGrid.GetGridPosition(Translation);
+      var newGridPosition = LevelManager.GetGridPosition(Translation);
       if (newGridPosition == GridPosition) return;
 
       var oldPosition = GridPosition;
@@ -229,7 +240,7 @@ namespace TurnBasedStrategyCourse_godot.Unit
       CurrentAction = newAction;
 
       if (IsEnemy) return;
-      
+
       EventBus.Instance.EmitSignal(CurrentAction == IdleAction ? nameof(EventBus.UnitIdle) : nameof(EventBus.UnitBusy),
         this);
     }
@@ -258,19 +269,19 @@ namespace TurnBasedStrategyCourse_godot.Unit
 
     public bool TrySetTargetPositionForAction(UnitAction action, Vector3 position)
     {
-      var gridPosition = LevelGrid.GetGridPosition(position);
+      var gridPosition = LevelManager.GetGridPosition(position);
       if (!action.IsValidGridPosition(gridPosition)) return false;
 
-      TargetPosition = LevelGrid.GetWorldPosition(gridPosition);
+      TargetPosition = LevelManager.GetWorldPosition(gridPosition);
 
       return true;
     }
-    
+
     public bool TrySetTargetPositionForAction(UnitAction action, GridPosition gridPosition)
     {
       if (!action.IsValidGridPosition(gridPosition)) return false;
 
-      TargetPosition = LevelGrid.GetWorldPosition(gridPosition);
+      TargetPosition = LevelManager.GetWorldPosition(gridPosition);
 
       return true;
     }
@@ -313,6 +324,15 @@ namespace TurnBasedStrategyCourse_godot.Unit
       SetProcess(true);
       await awaiter;
       SetProcess(false);
+    }
+
+    public bool HasLineOfSight(GridPosition position)
+    {
+      var space = GetWorld().DirectSpaceState;
+      var collisions = space.IntersectRay(unitLineOfSight.GlobalTranslation, LevelManager.GetWorldPosition(position),
+        null,
+        1 << 5 - 1 /* TODO: walls layer */);
+      return collisions.Count == 0;
     }
   }
 }
