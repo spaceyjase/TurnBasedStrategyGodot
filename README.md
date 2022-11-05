@@ -15,11 +15,17 @@ The course is great and the principles are general enough that they apply regard
 - Shooting.
 - State machines.
 - Pathfinding via navigation.
+- Zombies (with guns!).
+- Ragdolls.
 - Enemy AI.
 - Camera controls and movement.
 - Bugs!
 
 Features freebie assets from kenney: https://kenney.nl/assets and Synty: https://syntystore.com/.
+
+## Controls
+
+Running the game, use WASD to move the camera around, Q and E to rotate. + and - (keypad) move up and down. Select a unit, move them around and shoot zombies.
 
 ## TODO:
 
