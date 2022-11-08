@@ -18,6 +18,8 @@ namespace TurnBasedStrategyCourse_godot.Events
     
     [Signal] public delegate void TurnChanged(int turn, bool isPlayerTurn);
     
+    [Signal] public delegate void CameraShake(float intensity = 0.7f);
+    
     public static EventBus Instance { get; } = new EventBus();
   }
 }
