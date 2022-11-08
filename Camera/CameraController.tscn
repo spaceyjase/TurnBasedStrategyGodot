@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
+[ext_resource path="res://Camera/CameraShake.cs" type="Script" id=1]
 [ext_resource path="res://Camera/CameraController.cs" type="Script" id=2]
+[ext_resource path="res://Camera/camera_noise.tres" type="OpenSimplexNoise" id=3]
 
 [node name="CameraController" type="Spatial"]
 script = ExtResource( 2 )
@@ -12,3 +14,5 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 8 )
 
 [node name="Camera" type="Camera" parent="GimbalIn/Mount"]
 current = true
+script = ExtResource( 1 )
+noiseResource = ExtResource( 3 )

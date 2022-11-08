@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using TurnBasedStrategyCourse_godot.Events;
 using TurnBasedStrategyCourse_godot.Grid;
 using TurnBasedStrategyCourse_godot.Unit.Ai;
 
@@ -11,6 +12,7 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
   {
     [Export] private PackedScene bulletScene;
     [Export] private int damage;
+    [Export] private float shakeIntensity = 0.7f;
 
     private const float aimTime = 1f;
     private const float shootTime = 0.5f;
@@ -140,6 +142,7 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions
       GetTree().Root.AddChild(bullet);
 
       target.Damage(damage);
+      EventBus.Instance.EmitSignal(nameof(EventBus.CameraShake), shakeIntensity);
     }
 
     private void NextState()
