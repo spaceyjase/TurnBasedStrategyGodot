@@ -11,6 +11,8 @@ The course is great and the principles are general enough that they apply regard
 
 ## Features
 
+![Action](Assets/turn-based.gif)
+
 - Turns!
 - Shooting.
 - State machines.
