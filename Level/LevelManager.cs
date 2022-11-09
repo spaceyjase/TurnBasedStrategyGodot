@@ -5,8 +5,8 @@ using TurnBasedStrategyCourse_godot.Events;
 using TurnBasedStrategyCourse_godot.Grid;
 using TurnBasedStrategyCourse_godot.Unit.Actions;
 
-namespace TurnBasedStrategyCourse_godot.Level
-{
+namespace TurnBasedStrategyCourse_godot.Level;
+
   public class LevelManager : Node
   {
     [Signal]
@@ -149,4 +149,3 @@ namespace TurnBasedStrategyCourse_godot.Level
     public bool HasPath(GridPosition start, GridPosition end, IEnumerable<GridPosition> positions) =>
       pathFinding.HasPath(start, end, positions);
   }
-}

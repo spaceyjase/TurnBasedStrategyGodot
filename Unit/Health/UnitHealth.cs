@@ -1,24 +1,23 @@
 using Godot;
 
-namespace TurnBasedStrategyCourse_godot.Unit.Health
+namespace TurnBasedStrategyCourse_godot.Unit.Health;
+
+public class UnitHealth : Resource
 {
-  public class UnitHealth : Resource
+  [Export] private int maxHealth = 100;
+
+  public int CurrentHealth { get; private set; }
+  public int MaxHealth { get; private set; }
+
+  public void Initialise()
   {
-    [Export] private int maxHealth = 100;
+    CurrentHealth = (int)Get(nameof(maxHealth));
+    MaxHealth = (int)Get(nameof(maxHealth));
+  }
 
-    public int CurrentHealth { get; private set; }
-    public int MaxHealth { get; private set; }
-
-    public void Initialise()
-    {
-      CurrentHealth = (int)Get(nameof(maxHealth));
-      MaxHealth = (int)Get(nameof(maxHealth));
-    }
-
-    public void TakeDamage(int damage)
-    {
-      CurrentHealth -= damage;
-      if (CurrentHealth < 0) CurrentHealth = 0;
-    }
+  public void TakeDamage(int damage)
+  {
+    CurrentHealth -= damage;
+    if (CurrentHealth < 0) CurrentHealth = 0;
   }
 }

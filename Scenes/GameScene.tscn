@@ -10387,7 +10387,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 22 )
 bones/40/bound_children = [ NodePath("BoneAttachment") ]
 
 [node name="BoneAttachment" parent="PlayerUnit2/Armature/Skeleton" index="0"]
-transform = Transform( 0.240284, 0.0198618, -0.970499, -0.952319, 0.198478, -0.231721, 0.18802, 0.979904, 0.0666056, -0.170963, 2.30085, 0.255671 )
+transform = Transform( 0.239589, 0.0167231, -0.97073, -0.950734, 0.206642, -0.231094, 0.196729, 0.978274, 0.0654081, -0.172415, 2.30321, 0.266834 )
 
 [node name="characterMedium001" parent="PlayerUnit2/Armature/Skeleton" index="1"]
 material/0 = SubResource( 44 )
@@ -10415,7 +10415,7 @@ unitStats = ExtResource( 12 )
 shape = SubResource( 18 )
 
 [node name="BoneAttachment" parent="UnitEnemy/Armature/Skeleton" index="0"]
-transform = Transform( 0.240284, 0.0198618, -0.970499, -0.952319, 0.198478, -0.231721, 0.18802, 0.979904, 0.0666056, -0.170963, 2.30085, 0.255671 )
+transform = Transform( 0.239589, 0.0167231, -0.97073, -0.950734, 0.206642, -0.231094, 0.196729, 0.978274, 0.0654081, -0.172415, 2.30321, 0.266834 )
 
 [node name="characterMedium001" parent="UnitEnemy/Armature/Skeleton" index="1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
@@ -10453,7 +10453,7 @@ unitStats = ExtResource( 12 )
 shape = SubResource( 18 )
 
 [node name="BoneAttachment" parent="UnitEnemy2/Armature/Skeleton" index="0"]
-transform = Transform( 0.240284, 0.0198618, -0.970499, -0.952319, 0.198478, -0.231721, 0.18802, 0.979904, 0.0666056, -0.170963, 2.30085, 0.255671 )
+transform = Transform( 0.239589, 0.0167231, -0.97073, -0.950734, 0.206642, -0.231094, 0.196729, 0.978274, 0.0654081, -0.172415, 2.30321, 0.266834 )
 
 [node name="characterMedium001" parent="UnitEnemy2/Armature/Skeleton" index="1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )

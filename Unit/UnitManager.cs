@@ -4,114 +4,113 @@ using TurnBasedStrategyCourse_godot.Events;
 using TurnBasedStrategyCourse_godot.Level;
 using TurnBasedStrategyCourse_godot.Unit.Actions;
 
-namespace TurnBasedStrategyCourse_godot.Unit
+namespace TurnBasedStrategyCourse_godot.Unit;
+
+public class UnitManager : Node
 {
-  public class UnitManager : Node
+  [Signal]
+  public delegate void UnitSelected(Unit unit);
+  [Signal]
+  public delegate void UnitActionSelected(UnitAction action);
+
+  [Export] private NodePath levelGridNodePath;
+
+  private Unit selectedUnit;
+  private UnitAction selectedAction;
+  private LevelManager levelGrid;
+  private bool playerTurn = true;
+    
+  private readonly List<Unit> playerUnits = new();
+  private readonly List<Unit> enemyUnits = new();
+
+  public override void _Ready()
   {
-    [Signal]
-    public delegate void UnitSelected(Unit unit);
-    [Signal]
-    public delegate void UnitActionSelected(UnitAction action);
-
-    [Export] private NodePath levelGridNodePath;
-
-    private Unit selectedUnit;
-    private UnitAction selectedAction;
-    private LevelManager levelGrid;
-    private bool playerTurn = true;
-    
-    private readonly List<Unit> playerUnits = new List<Unit>();
-    private readonly List<Unit> enemyUnits = new List<Unit>();
-
-    public override void _Ready()
-    {
-      levelGrid = GetNode<LevelManager>(levelGridNodePath);
+    levelGrid = GetNode<LevelManager>(levelGridNodePath);
       
-      levelGrid.Connect(nameof(LevelManager.GroundClicked), this, nameof(OnGroundClicked));
+    levelGrid.Connect(nameof(LevelManager.GroundClicked), this, nameof(OnGroundClicked));
 
-      foreach (Unit unit in GetTree().GetNodesInGroup("Units"))
-      {
-        unit.Connect(nameof(Unit.Selected), this, nameof(OnUnitSelected));
-        unit.Connect(nameof(Unit.Dead), this, nameof(OnUnitDead));
-        unit.Initialise(levelGrid);
+    foreach (Unit unit in GetTree().GetNodesInGroup("Units"))
+    {
+      unit.Connect(nameof(Unit.Selected), this, nameof(OnUnitSelected));
+      unit.Connect(nameof(Unit.Dead), this, nameof(OnUnitDead));
+      unit.Initialise(levelGrid);
         
-        if (unit.IsEnemy)
-        {
-          enemyUnits.Add(unit);
-        }
-        else
-        {
-          playerUnits.Add(unit);
-        }
-      }
-      
-      EventBus.Instance.Connect(nameof(EventBus.TurnChanged), this, nameof(OnTurnChanged));
-    }
-
-    private void OnUnitSelected(Unit unit)
-    {
-      if (!playerTurn) return;
-      if (selectedUnit == unit) return;
-      if (selectedUnit != null)
+      if (unit.IsEnemy)
       {
-        if (selectedUnit.Busy) return;
-        
-        selectedUnit.IsSelected = false;
+        enemyUnits.Add(unit);
       }
-
-      selectedUnit = unit;
-      selectedUnit.IsSelected = true;
-
-      EmitSignal(nameof(UnitSelected), selectedUnit);
-      
-      selectedAction = null;
+      else
+      {
+        playerUnits.Add(unit);
+      }
     }
-    
-    private void OnUnitDead(Unit unit)
-    {
-      var list = unit.IsEnemy ? enemyUnits : playerUnits;
-      list.Remove(unit);
       
-      // TODO: end game conditions
-    }
+    EventBus.Instance.Connect(nameof(EventBus.TurnChanged), this, nameof(OnTurnChanged));
+  }
 
-    private void OnGroundClicked(Node camera, InputEvent @event, Vector3 position, Vector3 normal, int shape_idx)
+  private void OnUnitSelected(Unit unit)
+  {
+    if (!playerTurn) return;
+    if (selectedUnit == unit) return;
+    if (selectedUnit != null)
     {
-      if (!(@event is InputEventMouseButton eventMouseButton) || !eventMouseButton.Pressed) return;
-      if (!playerTurn) return;
-      if (selectedUnit == null) return;
       if (selectedUnit.Busy) return;
-
-      if (selectedAction == null) return;
-      if (!selectedUnit.TrySetTargetPositionForAction(selectedAction, position)) return;
-      
-      selectedUnit.DoAction(selectedAction.ActionName);
+        
+      selectedUnit.IsSelected = false;
     }
 
-    // ReSharper disable once UnusedMember.Local
-    private void _on_UI_ActionSelected(UnitAction action)
-    {
-      selectedAction = action;
+    selectedUnit = unit;
+    selectedUnit.IsSelected = true;
+
+    EmitSignal(nameof(UnitSelected), selectedUnit);
       
-      EmitSignal(nameof(UnitActionSelected), selectedAction);
-    }
+    selectedAction = null;
+  }
     
-    private async void OnTurnChanged(int turn, bool isPlayerTurn)
+  private void OnUnitDead(Unit unit)
+  {
+    var list = unit.IsEnemy ? enemyUnits : playerUnits;
+    list.Remove(unit);
+      
+    // TODO: end game conditions
+  }
+
+  private void OnGroundClicked(Node camera, InputEvent @event, Vector3 position, Vector3 normal, int shape_idx)
+  {
+    if (@event is not InputEventMouseButton { Pressed: true }) return;
+    if (!playerTurn) return;
+    if (selectedUnit == null) return;
+    if (selectedUnit.Busy) return;
+
+    if (selectedAction == null) return;
+    if (!selectedUnit.TrySetTargetPositionForAction(selectedAction, position)) return;
+      
+    selectedUnit.DoAction(selectedAction.ActionName);
+  }
+
+  // ReSharper disable once UnusedMember.Local
+  private void _on_UI_ActionSelected(UnitAction action)
+  {
+    selectedAction = action;
+      
+    EmitSignal(nameof(UnitActionSelected), selectedAction);
+  }
+    
+  private async void OnTurnChanged(int turn, bool isPlayerTurn)
+  {
+    playerTurn = isPlayerTurn;
+    if (playerTurn) return;
+      
+    selectedAction = null;
+    selectedUnit = null;
+      
+    if (enemyUnits.Count == 0 || playerUnits.Count == 0) return;
+      
+    foreach (var unit in enemyUnits)
     {
-      playerTurn = isPlayerTurn;
-      if (playerTurn) return;
-      
-      selectedAction = null;
-      selectedUnit = null;
-      
-      if (enemyUnits.Count == 0 || playerUnits.Count == 0) return;
-      
-      foreach (var unit in enemyUnits)
-      {
-        await unit.TakeAiTurn();
-      }
-      
-      EventBus.Instance.EmitSignal(nameof(EventBus.FinishedAiTurn));
+      await unit.TakeAiTurn();
     }
+      
+    EventBus.Instance.EmitSignal(nameof(EventBus.FinishedAiTurn));
   }
 }

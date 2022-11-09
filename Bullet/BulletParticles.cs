@@ -1,20 +1,19 @@
 using Godot;
 
-namespace TurnBasedStrategyCourse_godot.Bullet
+namespace TurnBasedStrategyCourse_godot.Bullet;
+
+public class BulletParticles : CPUParticles
 {
-  public class BulletParticles : CPUParticles
+  private const float lifetimeExtension = 0.1f;
+
+  public override void _Ready()
   {
-    private const float lifetimeExtension = 0.1f;
+    GetTree().CreateTimer(Lifetime + lifetimeExtension).Connect("timeout", this, nameof(OnTimerTimeout));
+    Emitting = true;
+  }
 
-    public override void _Ready()
-    {
-      GetTree().CreateTimer(Lifetime + lifetimeExtension).Connect("timeout", this, nameof(OnTimerTimeout));
-      Emitting = true;
-    }
-
-    private void OnTimerTimeout()
-    {
-      QueueFree();
-    }
+  private void OnTimerTimeout()
+  {
+    QueueFree();
   }
 }
