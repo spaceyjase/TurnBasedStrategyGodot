@@ -8,6 +8,7 @@ script = ExtResource( 1 )
 health = ExtResource( 2 )
 maxMoveDistance = 4
 maxShootDistance = 7
+maxThrowDistance = 7
 movementSpeed = 4.0
 rotateSpeed = 15.0
 stoppingDistance = 0.1

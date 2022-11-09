@@ -88,6 +88,7 @@ public class Unit : Spatial
   public float RotateSpeed => unitStats.RotateSpeed;
   public int MaxMoveDistance => unitStats.MaxMoveDistance;
   public int MaxShootDistance => unitStats.MaxShootDistance;
+  public int MaxThrowDistance => unitStats.MaxThrowDistance;
   public int TotalActionPoints => unitStats.TotalActionPoints;
 
   public Vector3 BulletSpawnPosition => GetNode<Position3D>(bulletSpawnPositionPath).GlobalTranslation;

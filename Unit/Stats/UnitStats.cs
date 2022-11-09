@@ -8,6 +8,7 @@ public class UnitStats : Resource
   [Export] private UnitHealth health;
   [Export] private int maxMoveDistance = 4;
   [Export] private int maxShootDistance = 7;
+  [Export] private int maxThrowDistance = 7;
   [Export] private float movementSpeed = 4f;
   [Export] private float rotateSpeed = 15f;
   [Export] private float stoppingDistance = .1f;
@@ -18,6 +19,7 @@ public class UnitStats : Resource
   public float StoppingDistance { get; private set; }
   public int MaxMoveDistance { get; private set; }
   public int MaxShootDistance { get; private set; }
+  public int MaxThrowDistance { get; private set; }
   public int TotalActionPoints { get; private set; }
 
   public int Health => health.CurrentHealth;
@@ -32,6 +34,7 @@ public class UnitStats : Resource
     StoppingDistance = (float)Get(nameof(stoppingDistance));
     MaxMoveDistance = (int)Get(nameof(maxMoveDistance));
     MaxShootDistance = (int)Get(nameof(maxShootDistance));
+    MaxThrowDistance = (int)Get(nameof(maxThrowDistance));
     TotalActionPoints = (int)Get(nameof(totalActionPoints));
 
     health = (UnitHealth)health.Duplicate();

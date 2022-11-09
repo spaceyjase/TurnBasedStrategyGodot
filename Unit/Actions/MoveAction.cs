@@ -81,9 +81,9 @@ public class MoveAction : UnitAction
     var targetPosition = Unit.LevelManager.GetWorldPosition(currentTargetPosition.Current);
     if (Unit.Translation.DistanceTo(targetPosition) > Unit.StoppingDistance)
     {
-      var moveDirection = Unit.Translation.DirectionTo(targetPosition);
-      Unit.Translation += moveDirection * (Unit.MovementSpeed * delta);
+      Unit.Translation = Unit.Translation.MoveToward(targetPosition, Unit.MovementSpeed * delta);
 
+      var moveDirection = Unit.Translation.DirectionTo(targetPosition);
       var newTransform = Unit.Transform.LookingAt(Unit.GlobalTransform.origin - moveDirection, Vector3.Up);
       Unit.Transform = Unit.Transform.InterpolateWith(newTransform, Unit.RotateSpeed * delta);
     }
