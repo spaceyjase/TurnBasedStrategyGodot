@@ -15,13 +15,17 @@ The course is great and the principles are general enough that they apply regard
 
 - Turns!
 - Shooting.
+- Grenades.
 - State machines.
 - Pathfinding via navigation.
 - Zombies (with guns!).
 - Ragdolls.
 - Enemy AI.
 - Camera controls and movement.
+- Custom resources.
 - Bugs!
+ 
+![Action](Assets/turn-based-grenade.gif)
 
 Features freebie assets from kenney: https://kenney.nl/assets and Synty: https://syntystore.com/.
 

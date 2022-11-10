@@ -11,6 +11,7 @@ namespace TurnBasedStrategyCourse_godot.Unit.Actions;
 public class GrenadeAction : UnitAction
 {
   [Export] private PackedScene grenadeProjectileScene;
+  [Export] private PackedScene grenadeParticlesScene;
   [Export] private float shakeIntensity = 1f;
 
   private enum State
@@ -36,23 +37,33 @@ public class GrenadeAction : UnitAction
       case State.Idle:
         break;
       case State.Throwing:
-        break;
-      case State.Aiming:
         var projectile = grenadeProjectileScene.Instance<GrenadeProjectile>();
-        projectile.Init(Unit.TargetPosition);
+        projectile.Init(Unit.GlobalTranslation, Unit.TargetPosition);
         projectile.Connect(nameof(GrenadeProjectile.Hit), this, nameof(OnGrenadeHit));
         AddChild(projectile);
-        state = State.Throwing;
+        state = State.Idle;
+        break;
+      case State.Aiming:
+        var aimDirection = Unit.Translation.DirectionTo(Unit.TargetPosition);
+        var newTransform = Unit.Transform.LookingAt(Unit.GlobalTransform.origin - aimDirection, Vector3.Up);
+        Unit.Transform = Unit.Transform.InterpolateWith(newTransform, Unit.RotateSpeed * delta);
+        if (Unit.Transform.IsEqualApprox(newTransform))
+        {
+          state = State.Throwing;
+        }
         break;
       default:
         throw new ArgumentOutOfRangeException();
     }
   }
 
-  private void OnGrenadeHit()
+  private void OnGrenadeHit(Vector3 position)
   {
     state = State.Idle;
     EventBus.Instance.EmitSignal(nameof(EventBus.CameraShake), shakeIntensity);
+    var particles = grenadeParticlesScene.Instance<CPUParticles>();
+    GetTree().Root.AddChild(particles);
+    particles.GlobalTranslation = position;
     Unit.ChangeAction(Unit.DefaultAction.ActionName);
   }
 

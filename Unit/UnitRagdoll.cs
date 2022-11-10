@@ -29,7 +29,7 @@ public class UnitRagdoll : Spatial
     var direction = GlobalTransform.origin.DirectionTo(GlobalTransform.origin + Vector3.Forward + -Vector3.Up);
     foreach (var collider in GetNode<Skeleton>("Armature/Skeleton").GetChildren())
     {
-      if (!(collider is PhysicalBone bone)) continue;
+      if (collider is not PhysicalBone bone) continue;
 
       bone.ApplyCentralImpulse(explosiveForce * -direction);
     }

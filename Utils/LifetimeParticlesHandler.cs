@@ -1,8 +1,8 @@
 using Godot;
 
-namespace TurnBasedStrategyCourse_godot.Bullet;
+namespace TurnBasedStrategyCourse_godot.Utils;
 
-public class BulletParticles : CPUParticles
+public class LifetimeParticlesHandler : CPUParticles
 {
   private const float lifetimeExtension = 0.1f;
 

@@ -43,7 +43,7 @@ public class Bullet : Spatial
       
     GlobalTranslation = destination;
       
-    var particles = bulletParticlesScene.Instance<BulletParticles>();
+    var particles = bulletParticlesScene.Instance<CPUParticles>();
     GetTree().Root.AddChild(particles);
     particles.GlobalTranslation = destination;
 
