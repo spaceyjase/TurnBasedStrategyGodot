@@ -1,5 +1,6 @@
 using Godot;
 using Godot.Collections;
+using TurnBasedStrategyCourse_godot.Destroyable;
 
 namespace TurnBasedStrategyCourse_godot.Grenade;
 
@@ -53,10 +54,10 @@ public class GrenadeProjectile : Area
 
     foreach (Dictionary result in results)
     {
-      if (result["collider"] is not Spatial { Owner: Unit.Unit unit }) continue;
+      if (result["collider"] is not Spatial { Owner: IDestroyable destroyable }) continue;
       
       // Note any unit here; players can damage themselves!
-      unit.Damage(damage);
+      destroyable.Damage(damage);
     }
 
     EmitSignal(nameof(Hit), GlobalTranslation);

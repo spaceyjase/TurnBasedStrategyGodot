@@ -33,7 +33,7 @@ namespace TurnBasedStrategyCourse_godot.Level;
         unit.Connect(nameof(Unit.Unit.Dead), this, nameof(OnUnitDead));
         AddUnitAtGridPosition(GetGridPosition(unit.GlobalTransform.origin), unit);
       }
-
+      
       EventBus.Instance.Connect(nameof(EventBus.TurnChanged), this, nameof(OnTurnChanged));
 
       CreateVisualElements();
@@ -41,7 +41,7 @@ namespace TurnBasedStrategyCourse_godot.Level;
       pathFinding = GetNode<Pathfinding.Pathfinding>("Pathfinding");
       pathFinding.Init(this);
     }
-
+    
     private void CreateVisualElements()
     {
       for (var x = 0; x < width; ++x)

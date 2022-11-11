@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Godot;
+using TurnBasedStrategyCourse_godot.Destroyable;
 using TurnBasedStrategyCourse_godot.Events;
 using TurnBasedStrategyCourse_godot.Grid;
 using TurnBasedStrategyCourse_godot.Level;
@@ -11,7 +12,7 @@ using TurnBasedStrategyCourse_godot.Unit.UI;
 
 namespace TurnBasedStrategyCourse_godot.Unit;
 
-public class Unit : Spatial
+public class Unit : Spatial, IDestroyable
 {
   [Export] private NodePath bulletSpawnPositionPath;
   [Export] private bool isEnemy;

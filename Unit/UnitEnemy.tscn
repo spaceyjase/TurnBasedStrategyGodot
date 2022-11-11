@@ -41,8 +41,14 @@ input_ray_pickable = false
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65, 0 )
 shape = SubResource( 3 )
 
+[node name="Armature" parent="." index="8"]
+transform = Transform( 1, 0, 0, 0, 1, 4.37114e-08, 0, -4.37114e-08, 1, 0, 0, 0 )
+
+[node name="Skeleton" parent="Armature" index="0"]
+bones/40/bound_children = [  ]
+
 [node name="BoneAttachment" parent="Armature/Skeleton" index="0"]
-transform = Transform( 0.23954, 0.016688, -0.970743, -0.950688, 0.206915, -0.231034, 0.197005, 0.978217, 0.0654293, -0.172808, 2.30315, 0.267928 )
+transform = Transform( 0.239498, 0.0170599, -0.970747, -0.95067, 0.207146, -0.230904, 0.197147, 0.978161, 0.0658291, -0.174934, 2.30293, 0.274078 )
 
 [node name="characterMedium001" parent="Armature/Skeleton" index="1"]
 material/0 = SubResource( 1 )
