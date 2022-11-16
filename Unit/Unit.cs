@@ -43,6 +43,8 @@ public class Unit : Spatial, IDestroyable
   private UnitAction currentAction;
   private int actionPoints;
   private Position3D unitLineOfSight;
+  private Spatial currentMeleeWeapon;
+  private Spatial currentGunWeapon;
 
   private bool IsUnitDead => unitStats.Health <= 0;
 
@@ -55,6 +57,18 @@ public class Unit : Spatial, IDestroyable
       currentAction = value;
       currentAction?.Enter();
     }
+  }
+
+  public void ChangeToMeleeWeapon()
+  {
+    currentMeleeWeapon.Visible = true;
+    currentGunWeapon.Visible = false;
+  }
+
+  public void ChangeToGunWeapon()
+  {
+    currentMeleeWeapon.Visible = false;
+    currentGunWeapon.Visible = true;
   }
 
   public bool IsPlayerTurn { get; private set; } = true; // player always goes first
@@ -90,6 +104,7 @@ public class Unit : Spatial, IDestroyable
   public int MaxMoveDistance => unitStats.MaxMoveDistance;
   public int MaxShootDistance => unitStats.MaxShootDistance;
   public int MaxThrowDistance => unitStats.MaxThrowDistance;
+  public int MaxMeleeDistance => unitStats.MaxMeleeDistance;
   public int TotalActionPoints => unitStats.TotalActionPoints;
 
   public Vector3 BulletSpawnPosition => GetNode<Position3D>(bulletSpawnPositionPath).GlobalTranslation;
@@ -122,6 +137,9 @@ public class Unit : Spatial, IDestroyable
     animationStateMachine = animationTree.Get("parameters/playback") as AnimationNodeStateMachinePlayback;
     selectedVisual = GetNode<Spatial>("SelectedVisual");
     selectedVisual.Hide();
+
+    currentMeleeWeapon = GetNode<Spatial>("Armature/Skeleton/BoneAttachment/Sword");
+    currentGunWeapon = GetNode<Spatial>("Armature/Skeleton/BoneAttachment/machinegun");
 
     if (isEnemy)
     {
@@ -196,8 +214,7 @@ public class Unit : Spatial, IDestroyable
   private void _on_SelectorArea_input_event(Node camera, InputEvent @event, Vector3 position, Vector3 normal,
     int shape_idx)
   {
-    if (!(@event is InputEventMouseButton eventMouseButton) || !eventMouseButton.Pressed ||
-        eventMouseButton.ButtonIndex != 1) return;
+    if (@event is not InputEventMouseButton { Pressed: true, ButtonIndex: 1 }) return;
 
     EmitSignal(nameof(Selected), this);
   }
@@ -335,5 +352,10 @@ public class Unit : Spatial, IDestroyable
       null,
       1 << 5 - 1 /* TODO: walls layer */);
     return collisions.Count == 0;
+  }
+
+  public void ChangeToDefaultWeapon()
+  {
+    ChangeToGunWeapon();
   }
 }

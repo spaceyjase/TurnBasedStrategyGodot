@@ -1,11 +1,13 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://Unit/Unit.cs" type="Script" id=1]
 [ext_resource path="res://Assets/Imports/survivorFemaleA.png" type="Texture" id=2]
 [ext_resource path="res://Assets/Imports/skin_002.material" type="Material" id=3]
 [ext_resource path="res://Gun/machinegun.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Assets/Circle_Outlined.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Imports/slash_animation.tres" type="Animation" id=6]
 [ext_resource path="res://Unit/Stats/Resources/UnitStats.tres" type="Resource" id=7]
+[ext_resource path="res://Sword/Sword.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Unit/UnitRagdoll.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Unit/UI/UnitWorldUI.tscn" type="PackedScene" id=13]
 
@@ -227,6 +229,9 @@ animation = "rifle aiming idle"
 [sub_resource type="AnimationNodeAnimation" id=13]
 animation = "rifle run"
 
+[sub_resource type="AnimationNodeAnimation" id=25]
+animation = "slash_animation"
+
 [sub_resource type="AnimationNodeStateMachineTransition" id=14]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=17]
@@ -235,14 +240,20 @@ animation = "rifle run"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=24]
 
+[sub_resource type="AnimationNodeStateMachineTransition" id=26]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=27]
+
 [sub_resource type="AnimationNodeStateMachine" id=15]
 "states/firing rifle/node" = SubResource( 22 )
-"states/firing rifle/position" = Vector2( 110, 155.46 )
+"states/firing rifle/position" = Vector2( 58, 167.46 )
 "states/rifle aiming idle/node" = SubResource( 12 )
-"states/rifle aiming idle/position" = Vector2( 110, 22.74 )
+"states/rifle aiming idle/position" = Vector2( 248.7, 21.98 )
 "states/rifle run/node" = SubResource( 13 )
-"states/rifle run/position" = Vector2( 416.2, 22.98 )
-transitions = [ "rifle aiming idle", "rifle run", SubResource( 14 ), "rifle run", "rifle aiming idle", SubResource( 17 ), "rifle aiming idle", "firing rifle", SubResource( 23 ), "firing rifle", "rifle aiming idle", SubResource( 24 ) ]
+"states/rifle run/position" = Vector2( 439.2, 167.46 )
+states/slash_animation/node = SubResource( 25 )
+states/slash_animation/position = Vector2( 556.7, 21.98 )
+transitions = [ "rifle aiming idle", "rifle run", SubResource( 14 ), "rifle run", "rifle aiming idle", SubResource( 17 ), "rifle aiming idle", "firing rifle", SubResource( 23 ), "firing rifle", "rifle aiming idle", SubResource( 24 ), "rifle aiming idle", "slash_animation", SubResource( 26 ), "slash_animation", "rifle aiming idle", SubResource( 27 ) ]
 start_node = "rifle aiming idle"
 graph_offset = Vector2( -57.3, -24.54 )
 
@@ -3840,7 +3851,7 @@ bones/40/name = "RightHand"
 bones/40/parent = 39
 bones/40/rest = Transform( 0.997817, 0.0660423, 0.000124726, -0.0660313, 0.997682, -0.0164227, -0.00120903, 0.0163786, 0.999865, 2.42144e-07, 0.527228, 3.21073e-06 )
 bones/40/enabled = true
-bones/40/bound_children = [ NodePath("BoneAttachment") ]
+bones/40/bound_children = [  ]
 bones/41/name = "RightHandIndex1"
 bones/41/parent = 40
 bones/41/rest = Transform( 0.987998, 0.00908436, -0.154196, 0.008493, 0.993564, 0.112953, 0.15423, -0.112907, 0.981563, -3.63216e-08, 0.1386, -9.0804e-08 )
@@ -3928,7 +3939,7 @@ bones/57/enabled = true
 bones/57/bound_children = [  ]
 
 [node name="BoneAttachment" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( 0.23988, 0.0189354, -0.970617, -0.95201, 0.200358, -0.231372, 0.19009, 0.979539, 0.0660885, -0.177311, 2.3006, 0.279011 )
+transform = Transform( 0.239861, 0.0187255, -0.970626, -0.951894, 0.200929, -0.231356, 0.190694, 0.979427, 0.0660196, -0.171645, 2.30234, 0.255488 )
 bone_name = "RightHand"
 
 [node name="machinegun" parent="Armature/Skeleton/BoneAttachment" instance=ExtResource( 4 )]
@@ -3936,6 +3947,10 @@ transform = Transform( 0.474009, -1.88422, 0.47439, 0.00601088, 0.489722, 1.9391
 
 [node name="BulletSpawnPosition3D" type="Position3D" parent="Armature/Skeleton/BoneAttachment/machinegun"]
 transform = Transform( 0.499998, 5.08791e-05, 0.000786135, -4.69729e-05, 0.499994, -0.00241099, -0.000786376, 0.00241091, 0.499993, 0.00177445, 0.171227, 0.312627 )
+
+[node name="Sword" parent="Armature/Skeleton/BoneAttachment" instance=ExtResource( 8 )]
+transform = Transform( 1.16541, -1.62537, -1.93715e-07, 1.62537, 1.16541, -3.57628e-07, 3.27826e-07, -5.96046e-08, 2, 0.1064, 0.0691705, -0.0404518 )
+visible = false
 
 [node name="characterMedium001" type="MeshInstance" parent="Armature/Skeleton"]
 transform = Transform( 1, 0, 0, 0, 1, 3.55271e-15, 0, -3.55271e-15, 1, 0, 0, 0 )
@@ -3970,6 +3985,7 @@ anims/T-Pose = SubResource( 3 )
 anims/reloading = SubResource( 5 )
 "anims/rifle aiming idle" = SubResource( 6 )
 "anims/rifle run" = SubResource( 7 )
+anims/slash_animation = ExtResource( 6 )
 anims/strafe = SubResource( 8 )
 "anims/strafe (2)" = SubResource( 9 )
 anims/walking = SubResource( 10 )

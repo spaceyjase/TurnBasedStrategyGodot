@@ -76,7 +76,7 @@ public class GrenadeAction : UnitAction
         var offset = new GridPosition(x, z);
 
         var testDistance = Mathf.Abs(x) + Mathf.Abs(z);
-        if (testDistance > Unit.MaxShootDistance) continue;
+        if (testDistance > Unit.MaxThrowDistance) continue;
 
         yield return Unit.GridPosition + offset;
       }

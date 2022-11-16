@@ -7,7 +7,7 @@
 [ext_resource path="res://Unit/Actions/Spin.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Unit/Actions/Move.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Unit/Actions/Shoot.tscn" type="PackedScene" id=7]
-[ext_resource path="res://Unit/Actions/Grenade.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Unit/Actions/Sword.tscn" type="PackedScene" id=9]
 
 [sub_resource type="CylinderShape" id=3]
 height = 3.35
@@ -30,7 +30,7 @@ albedo_texture = ExtResource( 2 )
 
 [node name="Shoot" parent="." index="4" instance=ExtResource( 7 )]
 
-[node name="Grenade" parent="." index="5" instance=ExtResource( 8 )]
+[node name="Sword" parent="." index="5" instance=ExtResource( 9 )]
 
 [node name="ImpactArea" type="Area" parent="." index="7"]
 collision_layer = 2
@@ -41,14 +41,11 @@ input_ray_pickable = false
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65, 0 )
 shape = SubResource( 3 )
 
-[node name="Armature" parent="." index="8"]
-transform = Transform( 1, 0, 0, 0, 1, 4.37114e-08, 0, -4.37114e-08, 1, 0, 0, 0 )
-
 [node name="Skeleton" parent="Armature" index="0"]
 bones/40/bound_children = [  ]
 
 [node name="BoneAttachment" parent="Armature/Skeleton" index="0"]
-transform = Transform( 0.239498, 0.0170599, -0.970747, -0.95067, 0.207146, -0.230904, 0.197147, 0.978161, 0.0658291, -0.174934, 2.30293, 0.274078 )
+transform = Transform( 0.239931, 0.020338, -0.970576, -0.952832, 0.196344, -0.231429, 0.18586, 0.980324, 0.0664874, -0.174207, 2.30026, 0.265539 )
 
 [node name="characterMedium001" parent="Armature/Skeleton" index="1"]
 material/0 = SubResource( 1 )

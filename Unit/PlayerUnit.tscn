@@ -1,11 +1,13 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Unit/Unit.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Unit/Actions/Spin.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Grid/Materials/GridCellSoftBlue.material" type="Material" id=2]
 [ext_resource path="res://Unit/Actions/Shoot.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Unit/Actions/Move.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Unit/Actions/Idle.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Unit/Actions/Grenade.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Unit/Actions/Sword.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Grid/Materials/GridCellBlue.material" type="Material" id=8]
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=1]
 
@@ -15,17 +17,16 @@
 
 [node name="Move" parent="." index="1" instance=ExtResource( 4 )]
 
-[node name="Spin" parent="." index="2" instance=ExtResource( 2 )]
+[node name="Shoot" parent="." index="2" instance=ExtResource( 3 )]
 
-[node name="Shoot" parent="." index="3" instance=ExtResource( 3 )]
+[node name="Grenade" parent="." index="3" instance=ExtResource( 6 )]
 
-[node name="Grenade" parent="." index="4" instance=ExtResource( 6 )]
-
-[node name="Skeleton" parent="Armature" index="0"]
-bones/40/bound_children = [  ]
+[node name="Sword" parent="." index="4" instance=ExtResource( 7 )]
+baseColorMaterial = ExtResource( 8 )
+baseRangeColorMaterial = ExtResource( 2 )
 
 [node name="BoneAttachment" parent="Armature/Skeleton" index="0"]
-transform = Transform( 0.239717, 0.0177831, -0.970679, -0.951273, 0.204038, -0.231186, 0.193944, 0.978801, 0.0658278, -0.177405, 2.30183, 0.280708 )
+transform = Transform( 0.342046, 0.42743, -0.836843, -0.868094, -0.197206, -0.455545, -0.359745, 0.882277, 0.303596, -0.208211, 1.47659, 0.895182 )
 
 [node name="AnimationTree" parent="." index="11"]
 parameters/playback = SubResource( 1 )

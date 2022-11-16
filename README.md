@@ -20,6 +20,8 @@ The course is great and the principles are general enough that they apply regard
 - Pathfinding via navigation.
 - Zombies (with guns!).
 - Ragdolls.
+- Crates!
+- Melee attacks.
 - Enemy AI.
 - Camera controls and movement.
 - Custom resources.

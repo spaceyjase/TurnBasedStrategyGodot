@@ -16,7 +16,7 @@ public abstract class UnitAction : Node
   public Unit Unit { get; private set; }
 
   protected Action OnEnter { get; set; }
-  private Action OnExit { get; set; }
+  protected Action OnExit { get; set; }
 
   public SpatialMaterial RangeColour => baseRangeColorMaterial;
   public SpatialMaterial Colour => baseColorMaterial;

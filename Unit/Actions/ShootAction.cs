@@ -41,6 +41,12 @@ public class ShootAction : UnitAction
       target = Unit.LevelManager.GetUnitAtPosition(
         Unit.LevelManager.GetGridPosition(Unit.TargetPosition));
       canShoot = true;
+      Unit.ChangeToGunWeapon();
+    };
+    
+    OnExit += () =>
+    {
+      Unit.ChangeToDefaultWeapon();
     };
   }
 
@@ -119,7 +125,6 @@ public class ShootAction : UnitAction
           canShoot = false;
           ShootTarget();
         }
-
         break;
       case State.CoolOff:
         break;
