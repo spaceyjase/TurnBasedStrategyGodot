@@ -1,4 +1,4 @@
-[gd_scene load_steps=68 format=2]
+[gd_scene load_steps=60 format=2]
 
 [ext_resource path="res://Assets/Imports/humanFemaleA.png" type="Texture" id=1]
 [ext_resource path="res://Level/LevelManager.tscn" type="PackedScene" id=2]
@@ -6968,34 +6968,6 @@ flags_unshaded = true
 albedo_color = Color( 0.172549, 0.788235, 0.180392, 1 )
 albedo_texture = ExtResource( 13 )
 
-[sub_resource type="AnimationNodeAnimation" id=22]
-animation = "firing rifle"
-
-[sub_resource type="AnimationNodeAnimation" id=26]
-animation = "rifle aiming idle"
-
-[sub_resource type="AnimationNodeAnimation" id=27]
-animation = "rifle run"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=28]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=17]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=23]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=24]
-
-[sub_resource type="AnimationNodeStateMachine" id=15]
-"states/firing rifle/node" = SubResource( 22 )
-"states/firing rifle/position" = Vector2( 110, 155.46 )
-"states/rifle aiming idle/node" = SubResource( 26 )
-"states/rifle aiming idle/position" = Vector2( 110, 22.74 )
-"states/rifle run/node" = SubResource( 27 )
-"states/rifle run/position" = Vector2( 416.2, 22.98 )
-transitions = [ "rifle aiming idle", "rifle run", SubResource( 28 ), "rifle run", "rifle aiming idle", SubResource( 17 ), "rifle aiming idle", "firing rifle", SubResource( 23 ), "firing rifle", "rifle aiming idle", SubResource( 24 ) ]
-start_node = "rifle aiming idle"
-graph_offset = Vector2( -57.3, -24.54 )
-
 [sub_resource type="AnimationNodeStateMachinePlayback" id=25]
 
 [sub_resource type="Animation" id=3]
@@ -13757,14 +13729,11 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 4 )
 [node name="PlayerUnit2" parent="." instance=ExtResource( 15 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 22 )
 
-[node name="Armature" parent="PlayerUnit2" index="6"]
-transform = Transform( 1, 0, 0, 0, 1, 4.37114e-08, 0, -4.37114e-08, 1, 0, 0, 0 )
-
 [node name="Skeleton" parent="PlayerUnit2/Armature" index="0"]
-bones/40/bound_children = [  ]
+bones/40/bound_children = [ NodePath("BoneAttachment") ]
 
 [node name="BoneAttachment" parent="PlayerUnit2/Armature/Skeleton" index="0"]
-transform = Transform( 0.240272, 0.0198425, -0.970502, -0.952334, 0.198411, -0.231717, 0.187961, 0.979918, 0.0665692, -0.171031, 2.30083, 0.255809 )
+transform = Transform( 0.239564, 0.0169827, -0.970731, -0.950633, 0.207231, -0.230979, 0.197243, 0.978144, 0.0657891, -0.174135, 2.30296, 0.271753 )
 
 [node name="characterMedium001" parent="PlayerUnit2/Armature/Skeleton" index="1"]
 material/0 = SubResource( 44 )
@@ -13785,14 +13754,11 @@ anims/walking = SubResource( 53 )
 [node name="PlayerUnit3" parent="." instance=ExtResource( 15 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 16 )
 
-[node name="Armature" parent="PlayerUnit3" index="6"]
-transform = Transform( 1, 0, 0, 0, 1, 4.37114e-08, 0, -4.37114e-08, 1, 0, 0, 0 )
-
 [node name="Skeleton" parent="PlayerUnit3/Armature" index="0"]
-bones/40/bound_children = [  ]
+bones/40/bound_children = [ NodePath("BoneAttachment") ]
 
 [node name="BoneAttachment" parent="PlayerUnit3/Armature/Skeleton" index="0"]
-transform = Transform( 0.240272, 0.0198425, -0.970502, -0.952334, 0.198411, -0.231717, 0.187961, 0.979918, 0.0665692, -0.171031, 2.30083, 0.255809 )
+transform = Transform( 0.239564, 0.0169827, -0.970731, -0.950633, 0.207231, -0.230979, 0.197243, 0.978144, 0.0657891, -0.174135, 2.30296, 0.271753 )
 
 [node name="characterMedium001" parent="PlayerUnit3/Armature/Skeleton" index="1"]
 material/0 = SubResource( 73 )
@@ -13819,11 +13785,8 @@ unitStats = ExtResource( 12 )
 [node name="CollisionShape" parent="UnitEnemy/SelectorArea" index="0"]
 shape = SubResource( 18 )
 
-[node name="Armature" parent="UnitEnemy" index="8"]
-transform = Transform( 1, 0, 0, 0, 1, 4.37114e-08, 0, -4.37114e-08, 1, 0, 0, 0 )
-
 [node name="BoneAttachment" parent="UnitEnemy/Armature/Skeleton" index="0"]
-transform = Transform( 0.240272, 0.0198425, -0.970502, -0.952334, 0.198411, -0.231717, 0.187961, 0.979918, 0.0665692, -0.171031, 2.30083, 0.255809 )
+transform = Transform( 0.239564, 0.0169827, -0.970731, -0.950633, 0.207231, -0.230979, 0.197243, 0.978144, 0.0657891, -0.174135, 2.30296, 0.271753 )
 
 [node name="characterMedium001" parent="UnitEnemy/Armature/Skeleton" index="1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
@@ -13838,7 +13801,6 @@ material/0 = SubResource( 20 )
 transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -1.08507, 2.84903, -1.76571 )
 
 [node name="AnimationTree" parent="UnitEnemy" index="13"]
-tree_root = SubResource( 15 )
 parameters/playback = SubResource( 25 )
 
 [node name="AnimationPlayer" parent="UnitEnemy/AnimationTree" index="0"]
@@ -13860,11 +13822,8 @@ unitStats = ExtResource( 12 )
 [node name="CollisionShape" parent="UnitEnemy2/SelectorArea" index="0"]
 shape = SubResource( 18 )
 
-[node name="Armature" parent="UnitEnemy2" index="8"]
-transform = Transform( 1, 0, 0, 0, 1, 4.37114e-08, 0, -4.37114e-08, 1, 0, 0, 0 )
-
 [node name="BoneAttachment" parent="UnitEnemy2/Armature/Skeleton" index="0"]
-transform = Transform( 0.240272, 0.0198425, -0.970502, -0.952334, 0.198411, -0.231717, 0.187961, 0.979918, 0.0665692, -0.171031, 2.30083, 0.255809 )
+transform = Transform( 0.239564, 0.0169827, -0.970731, -0.950633, 0.207231, -0.230979, 0.197243, 0.978144, 0.0657891, -0.174135, 2.30296, 0.271753 )
 
 [node name="characterMedium001" parent="UnitEnemy2/Armature/Skeleton" index="1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
@@ -13880,7 +13839,6 @@ material/0 = SubResource( 20 )
 transform = Transform( -1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -1.08507, 2.84903, -1.76571 )
 
 [node name="AnimationTree" parent="UnitEnemy2" index="13"]
-tree_root = SubResource( 15 )
 parameters/playback = SubResource( 55 )
 
 [node name="AnimationPlayer" parent="UnitEnemy2/AnimationTree" index="0"]
