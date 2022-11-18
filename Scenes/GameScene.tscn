@@ -13729,16 +13729,19 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 4 )
 [node name="PlayerUnit2" parent="." instance=ExtResource( 15 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 22 )
 
+[node name="Armature" parent="PlayerUnit2" index="7"]
+transform = Transform( 1, 0, 0, 0, 1, 4.37114e-08, 0, -4.37114e-08, 1, 0, 0, 0 )
+
 [node name="Skeleton" parent="PlayerUnit2/Armature" index="0"]
-bones/40/bound_children = [ NodePath("BoneAttachment") ]
+bones/40/bound_children = [  ]
 
 [node name="BoneAttachment" parent="PlayerUnit2/Armature/Skeleton" index="0"]
-transform = Transform( 0.239564, 0.0169827, -0.970731, -0.950633, 0.207231, -0.230979, 0.197243, 0.978144, 0.0657891, -0.174135, 2.30296, 0.271753 )
+transform = Transform( 0.239865, 0.0189802, -0.97062, -0.952093, 0.199957, -0.231376, 0.189691, 0.979621, 0.0660335, -0.171043, 2.30172, 0.254621 )
 
 [node name="characterMedium001" parent="PlayerUnit2/Armature/Skeleton" index="1"]
 material/0 = SubResource( 44 )
 
-[node name="AnimationTree" parent="PlayerUnit2" index="11"]
+[node name="AnimationTree" parent="PlayerUnit2" index="12"]
 parameters/playback = SubResource( 45 )
 
 [node name="AnimationPlayer" parent="PlayerUnit2/AnimationTree" index="0"]
@@ -13754,16 +13757,19 @@ anims/walking = SubResource( 53 )
 [node name="PlayerUnit3" parent="." instance=ExtResource( 15 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 16 )
 
+[node name="Armature" parent="PlayerUnit3" index="7"]
+transform = Transform( 1, 0, 0, 0, 1, 4.37114e-08, 0, -4.37114e-08, 1, 0, 0, 0 )
+
 [node name="Skeleton" parent="PlayerUnit3/Armature" index="0"]
-bones/40/bound_children = [ NodePath("BoneAttachment") ]
+bones/40/bound_children = [  ]
 
 [node name="BoneAttachment" parent="PlayerUnit3/Armature/Skeleton" index="0"]
-transform = Transform( 0.239564, 0.0169827, -0.970731, -0.950633, 0.207231, -0.230979, 0.197243, 0.978144, 0.0657891, -0.174135, 2.30296, 0.271753 )
+transform = Transform( 0.239865, 0.0189802, -0.97062, -0.952093, 0.199957, -0.231376, 0.189691, 0.979621, 0.0660335, -0.171043, 2.30172, 0.254621 )
 
 [node name="characterMedium001" parent="PlayerUnit3/Armature/Skeleton" index="1"]
 material/0 = SubResource( 73 )
 
-[node name="AnimationTree" parent="PlayerUnit3" index="11"]
+[node name="AnimationTree" parent="PlayerUnit3" index="12"]
 parameters/playback = SubResource( 64 )
 
 [node name="AnimationPlayer" parent="PlayerUnit3/AnimationTree" index="0"]
@@ -13785,8 +13791,11 @@ unitStats = ExtResource( 12 )
 [node name="CollisionShape" parent="UnitEnemy/SelectorArea" index="0"]
 shape = SubResource( 18 )
 
+[node name="Armature" parent="UnitEnemy" index="8"]
+transform = Transform( 1, 0, 0, 0, 1, 4.37114e-08, 0, -4.37114e-08, 1, 0, 0, 0 )
+
 [node name="BoneAttachment" parent="UnitEnemy/Armature/Skeleton" index="0"]
-transform = Transform( 0.239564, 0.0169827, -0.970731, -0.950633, 0.207231, -0.230979, 0.197243, 0.978144, 0.0657891, -0.174135, 2.30296, 0.271753 )
+transform = Transform( 0.239865, 0.0189802, -0.97062, -0.952093, 0.199957, -0.231376, 0.189691, 0.979621, 0.0660335, -0.171043, 2.30172, 0.254621 )
 
 [node name="characterMedium001" parent="UnitEnemy/Armature/Skeleton" index="1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
@@ -13822,8 +13831,11 @@ unitStats = ExtResource( 12 )
 [node name="CollisionShape" parent="UnitEnemy2/SelectorArea" index="0"]
 shape = SubResource( 18 )
 
+[node name="Armature" parent="UnitEnemy2" index="8"]
+transform = Transform( 1, 0, 0, 0, 1, 4.37114e-08, 0, -4.37114e-08, 1, 0, 0, 0 )
+
 [node name="BoneAttachment" parent="UnitEnemy2/Armature/Skeleton" index="0"]
-transform = Transform( 0.239564, 0.0169827, -0.970731, -0.950633, 0.207231, -0.230979, 0.197243, 0.978144, 0.0657891, -0.174135, 2.30296, 0.271753 )
+transform = Transform( 0.239865, 0.0189802, -0.97062, -0.952093, 0.199957, -0.231376, 0.189691, 0.979621, 0.0660335, -0.171043, 2.30172, 0.254621 )
 
 [node name="characterMedium001" parent="UnitEnemy2/Armature/Skeleton" index="1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )

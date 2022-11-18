@@ -27,9 +27,9 @@ public class GridSystem<TGridObject>
 
   private float CellSize { get; }
 
-  public int Height { get; }
+  private int Height { get; }
 
-  public int Width { get; }
+  private int Width { get; }
 
   public IEnumerable<Spatial> CreateDebugObjects(PackedScene cellScene)
   {

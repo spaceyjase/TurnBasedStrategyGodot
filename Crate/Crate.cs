@@ -14,7 +14,7 @@ public class Crate : Spatial, IDestroyable
     GetTree().Root.AddChild(crateDestroyed);
     crateDestroyed.GlobalTranslation = GlobalTranslation;
     
-    EventBus.Instance.EmitSignal(nameof(EventBus.ObstacleDestroyed), this);
+    EventBus.Instance.EmitSignal(nameof(EventBus.NavigationChange));
     QueueFree();
   }
 }

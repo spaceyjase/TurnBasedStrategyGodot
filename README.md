@@ -22,12 +22,14 @@ The course is great and the principles are general enough that they apply regard
 - Ragdolls.
 - Crates!
 - Melee attacks.
+- Doors.
 - Enemy AI.
 - Camera controls and movement.
 - Custom resources.
 - Bugs!
  
 ![Action](Assets/turn-based-grenade.gif)
+![Action](Assets/door.gif)
 
 Features freebie assets from kenney: https://kenney.nl/assets and Synty: https://syntystore.com/.
 

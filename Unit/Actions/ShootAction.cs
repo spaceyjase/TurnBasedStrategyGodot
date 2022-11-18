@@ -94,6 +94,7 @@ public class ShootAction : UnitAction
       where Unit.LevelManager.IsOccupied(testPosition)
       where Unit.HasLineOfSight(testPosition)
       let targetUnit = Unit.LevelManager.GetUnitAtPosition(testPosition)
+      where targetUnit != null
       where targetUnit.IsEnemy != Unit.IsEnemy
       select testPosition;
   }

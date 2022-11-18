@@ -8,13 +8,13 @@ public class GridObject
   private readonly GridPosition gridPosition;
 
   private readonly List<Unit.Unit> units = new();
-  private GridSystem<GridObject> gridSystem;
 
-  public GridObject(GridSystem<GridObject> system, GridPosition position)
+  public GridObject(GridPosition position)
   {
-    gridSystem = system;
     gridPosition = position;
   }
+
+  public Door.Door Door { get; set; }  // TODO: is there a unit here? ignore (or throw?)
 
   public void AddUnit(Unit.Unit unit)
   {
@@ -30,5 +30,5 @@ public class GridObject
 
   public override string ToString() => $"{gridPosition}\n{string.Join("\n", units.Select(u => u.Name))}";
 
-  public bool IsEmpty() => units.Count == 0;
+  public bool IsEmpty() => (units.Count == 0 && Door == null) || Door?.IsOpen == true;
 }

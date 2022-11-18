@@ -12,27 +12,24 @@ namespace TurnBasedStrategyCourse_godot.Level;
     [Signal]
     public delegate void GroundClicked(Node camera, InputEvent @event, Vector3 position, Vector3 normal, int shape_idx);
 
+    private GridCell[] cells;
+
     [Export] private PackedScene cellScene;
     [Export] private float cellSize = 2f;
-    [Export] private int height = 10;
-    [Export] private int width = 10;
 
     private GridSystem<GridObject> gridSystem;
-    private GridCell[] cells;
+    [Export] private int height = 10;
     private Pathfinding.Pathfinding pathFinding;
+    [Export] private int width = 10;
 
     public override void _Ready()
     {
       gridSystem = new GridSystem<GridObject>(width, height, cellSize,
-        (system, position) => new GridObject(system, position));
+        (system, position) => new GridObject(position));
       cells = new GridCell[width * height];
 
-      foreach (Unit.Unit unit in GetTree().GetNodesInGroup("Units"))
-      {
-        unit.Connect(nameof(Unit.Unit.Moving), this, nameof(OnUnitMoving));
-        unit.Connect(nameof(Unit.Unit.Dead), this, nameof(OnUnitDead));
-        AddUnitAtGridPosition(GetGridPosition(unit.GlobalTransform.origin), unit);
-      }
+      ConfigureUnits();
+      ConfigureDoors();
       
       EventBus.Instance.Connect(nameof(EventBus.TurnChanged), this, nameof(OnTurnChanged));
 
@@ -41,7 +38,25 @@ namespace TurnBasedStrategyCourse_godot.Level;
       pathFinding = GetNode<Pathfinding.Pathfinding>("Pathfinding");
       pathFinding.Init(this);
     }
-    
+
+    private void ConfigureDoors()
+    {
+      foreach (Door.Door door in GetTree().GetNodesInGroup("Doors"))
+      {
+        AddDoorAtGridPosition(GetGridPosition(door.GlobalTransform.origin), door);
+      }
+    }
+
+    private void ConfigureUnits()
+    {
+      foreach (Unit.Unit unit in GetTree().GetNodesInGroup("Units"))
+      {
+        unit.Connect(nameof(Unit.Unit.Moving), this, nameof(OnUnitMoving));
+        unit.Connect(nameof(Unit.Unit.Dead), this, nameof(OnUnitDead));
+        AddUnitAtGridPosition(GetGridPosition(unit.GlobalTransform.origin), unit);
+      }
+    }
+
     private void CreateVisualElements()
     {
       for (var x = 0; x < width; ++x)
@@ -98,7 +113,7 @@ namespace TurnBasedStrategyCourse_godot.Level;
     public bool IsOccupied(GridPosition position) => !gridSystem.GetGridObject(position).IsEmpty();
 
     public Unit.Unit GetUnitAtPosition(GridPosition position) =>
-      gridSystem.GetGridObject(position).GetUnitList().First();
+      gridSystem.GetGridObject(position).GetUnitList().FirstOrDefault();
 
     private void ShowUnitActionRange(UnitAction action)
     {
@@ -148,4 +163,19 @@ namespace TurnBasedStrategyCourse_godot.Level;
 
     public bool HasPath(GridPosition start, GridPosition end, IEnumerable<GridPosition> positions) =>
       pathFinding.HasPath(start, end, positions);
+
+    private Door.Door GetDoorAtGridPosition(GridPosition gridPosition) => gridSystem?.GetGridObject(gridPosition).Door;
+
+    private void AddDoorAtGridPosition(GridPosition gridPosition, Door.Door door)
+    {
+      var gridObject = gridSystem.GetGridObject(gridPosition);
+      gridObject.Door = door;
+    }
+
+    public bool IsDoorAtPosition(GridPosition testPosition) => GetDoorAtGridPosition(testPosition) != null;
+
+    public void Interact(Vector3 position)
+    {
+      GetDoorAtGridPosition(GetGridPosition(position))?.Interact();
+    }
   }

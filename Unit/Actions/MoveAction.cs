@@ -66,6 +66,7 @@ public class MoveAction : UnitAction
       where Unit.LevelManager.IsValidPosition(testPosition)
       where Unit.LevelManager.IsOccupied(testPosition)
       let targetUnit = Unit.LevelManager.GetUnitAtPosition(testPosition)
+      where targetUnit != null
       where targetUnit.IsEnemy != Unit.IsEnemy
       select testPosition).Count();
 

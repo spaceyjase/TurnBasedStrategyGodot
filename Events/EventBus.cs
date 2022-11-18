@@ -1,5 +1,4 @@
 ﻿using Godot;
-using TurnBasedStrategyCourse_godot.Destroyable;
 using TurnBasedStrategyCourse_godot.Unit.Actions;
 
 // Event bus for distant nodes to communicate using signals, avoiding
@@ -21,7 +20,7 @@ public class EventBus : Node
     
   [Signal] public delegate void CameraShake(float intensity = 0.7f);
   
-  [Signal] public delegate void ObstacleDestroyed(Node obstacle);
+  [Signal] public delegate void NavigationChange();
     
   public static EventBus Instance { get; } = new();
 }

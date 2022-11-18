@@ -14,7 +14,7 @@ namespace TurnBasedStrategyCourse_godot.Pathfinding
     private NavigationMeshInstance navigationMeshInstance;
     private bool bake;
 
-    private void OnObstacleDestroyed(Spatial destroyable)
+    private void OnNavigationChange()
     {
       bake = true;
     }
@@ -31,7 +31,7 @@ namespace TurnBasedStrategyCourse_godot.Pathfinding
     {
       base._Ready();
       
-      EventBus.Instance.Connect(nameof(EventBus.ObstacleDestroyed), this, nameof(OnObstacleDestroyed));
+      EventBus.Instance.Connect(nameof(EventBus.NavigationChange), this, nameof(OnNavigationChange));
       EventBus.Instance.Connect(nameof(EventBus.ActionCompleted), this, nameof(OnActionCompleted));
       
       navigationMeshInstance = GetNode<NavigationMeshInstance>("NavigationMeshInstance");

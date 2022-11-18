@@ -136,13 +136,12 @@ public class SwordAction : UnitAction
     }
   }
 
-  protected override IEnumerable<GridPosition> GetValidActionGridPositions()
-  {
-    return from testPosition in GetAllGridPositions()
-      where Unit.LevelManager.IsValidPosition(testPosition)
-      where Unit.LevelManager.IsOccupied(testPosition)
-      let targetUnit = Unit.LevelManager.GetUnitAtPosition(testPosition)
-      where targetUnit.IsEnemy != Unit.IsEnemy
-      select testPosition;
-  }
+  protected override IEnumerable<GridPosition> GetValidActionGridPositions() =>
+    from testPosition in GetAllGridPositions()
+    where Unit.LevelManager.IsValidPosition(testPosition)
+    where Unit.LevelManager.IsOccupied(testPosition)
+    let targetUnit = Unit.LevelManager.GetUnitAtPosition(testPosition)
+    where targetUnit != null
+    where targetUnit.IsEnemy != Unit.IsEnemy
+    select testPosition;
 }
