@@ -48,4 +48,4 @@ Running the game, use WASD to move the camera around, Q and E to rotate. + and -
 - The course heavily relies on the Singleton pattern: https://en.wikipedia.org/wiki/Singleton_pattern. Here, less so (only the EventBus is a singleton).
 - Properties rather than methods.
 - Node-based state machine for actions - the course defines these in code, essentially duplicating the data in the tree.
-- Raycasts - a few remain for line of sight although mostly unnecessary in godot: https://docs.godotengine.org/en/stable/tutorials/physics/ray-casting.html#d-ray-casting-from-screen (tl;dr - colliders  report mouse clicks).
+- Raycasts - a few remain for line of sight although mostly unnecessary in godot: https://docs.godotengine.org/en/stable/tutorials/physics/ray-casting.html#d-ray-casting-from-screen (tl;dr - colliders report mouse clicks).
